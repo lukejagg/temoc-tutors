@@ -1,6 +1,7 @@
 ## Installation
 ### Git Install
 `npm install`
+
 `cd client`
 `npm install`
 
@@ -11,5 +12,13 @@
 `cd client`
 `npm start`
 
-## Tailwind
-(Tailwind)[https://tailwindcss.com/docs/guides/create-react-app]
+## Tech stack
+React
+
+Node
+
+Express
+
+[Tailwind](https://tailwindcss.com/docs/guides/create-react-app)
+
+Postgres or Mongo (GraphQL)
