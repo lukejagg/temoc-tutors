@@ -23,4 +23,4 @@ Express
 
 Postgres or Mongo (GraphQL)
 
-Kian wuz heir
+Kianlakoogaming wuz heir
