@@ -21,4 +21,4 @@ Express
 
 [Tailwind](https://tailwindcss.com/docs/guides/create-react-app)
 
-Postgres or Mongo (GraphQL) t
+Postgres or Mongo (GraphQL)
