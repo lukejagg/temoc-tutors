@@ -39,6 +39,18 @@ const users = [
     name: 'Juan Doe',
     email: 'juan@example.com',
     password: 'juan123'
+    },
+    {
+    id: 3,
+    name: 'Akilan Gnanavel',
+    email: 'akilan.vel@hotmail.com',
+    password: 'kianishot69'
+    },
+    {
+    id: 4,
+    name: 'Kian Lak',
+    email: 'kian.lak@gmail.com',
+    password: 'akilanishot69'
     }
 ];
 
