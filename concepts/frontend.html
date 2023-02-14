@@ -1,49 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Login Page</title>
-  <style>
-    .login-container {
-      width: 500px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    input[type="text"], input[type="password"] {
-      width: 60%;
-      padding: 10px;
-      margin: 10px auto;
-      display: block;
-      border-radius: 3px;
-      border: 1px solid #ccc;
-    }
-    input[type="submit"] {
-      width: 20%;
-      padding: 10px;
-      margin: 10px auto;
-      display: block;
-      border-radius: 3px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    input[type="submit"]:hover {
-      background-color: #3e8e41;
-    }
-  </style>
+	<title>Login Page</title>
+	<script>
+		function checkLogin() {
+			var username = document.getElementById("username").value;
+			var password = document.getElementById("password").value;
+
+			if (username == "user" && password == "pass") {
+				window.location.href = "welcome.html";
+			} else {
+				alert("Incorrect username or password. Please try again.");
+			}
+		}
+	</script>
 </head>
 <body>
-  <div class="login-container">
-    <form action="">
-      <h2>Login</h2>
-      <input type="text" placeholder="Username" required>
-      <input type="password" placeholder="Password" required>
-      <a href="C:\Users\lakki\Repositories\UTD-Scheduling-Website\comet-classroom\concepts\welcome.html">
-        <input type="submit" value="Submit">
-      </a>
-      
-    </form>
-  </div>
+	<h1>Login</h1>
+	<form>
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username"><br><br>
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password"><br><br>
+		<input type="button" value="Login" onclick="checkLogin()">
+	</form>
 </body>
 </html>

@@ -9,9 +9,48 @@
       margin: 0 auto;
       text-align: center;
     }
+    
+    /* Set the width of the sidebar to 250px */
+		.sidebar {
+			height: 100%;
+			width: 250px;
+			position: fixed;
+			z-index: 1;
+			top: 0;
+			left: 0;
+			background-color: #111;
+			overflow-x: hidden;
+			padding-top: 20px;
+		}
+
+		/* Style the sidebar links */
+		.sidebar a {
+			padding: 6px 8px 6px 16px;
+			text-decoration: none;
+			font-size: 20px;
+			color: #818181;
+			display: block;
+		}
+
+		/* Style the sidebar links on mouse-over */
+		.sidebar a:hover {
+			color: #f1f1f1;
+		}
+
+		/* Style the main content */
+		.main {
+			margin-left: 250px; /* Set the margin to match the width of the sidebar */
+			padding: 20px;
+		}
   </style>
 </head>
 <body>
+  <div class="sidebar">
+		<a href="#">Appointments</a>
+		<a href="#">Tutors</a>
+		<a href="#">Profile</a>
+	</div>
+
   <div class="welcome-container">
     <h2>Welcome!</h2>
     <p>You are now logged in.</p>
