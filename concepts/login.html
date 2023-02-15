@@ -1,28 +1,74 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Login Page</title>
-	<script>
-		function checkLogin() {
-			var username = document.getElementById("username").value;
-			var password = document.getElementById("password").value;
+	<head>
+		<title>Login Page</title>
+		<script>
+			function checkLogin() {
+				var username = document.getElementById("username").value;
+				var password = document.getElementById("password").value;
 
-			if (username == "user" && password == "pass") {
-				window.location.href = "welcome.html";
-			} else {
-				alert("Incorrect username or password. Please try again.");
+				if (username == "user" && password == "pass") {
+					window.location.href = "welcome.html";
+				} else {
+					alert("Incorrect username or password. Please try again.");
+				}
 			}
-		}
-	</script>
-</head>
-<body>
-	<h1>Login</h1>
-	<form>
-		<label for="username">Username:</label>
-		<input type="text" id="username" name="username"><br><br>
-		<label for="password">Password:</label>
-		<input type="password" id="password" name="password"><br><br>
-		<input type="button" value="Login" onclick="checkLogin()">
-	</form>
-</body>
+		</script>
+		<style>
+			body {
+				background-color: #f2f2f2;
+			}
+			
+			h1 {
+				text-align: center;
+				margin-top: 50px;
+				color: #444;
+			}
+			
+			.login {
+				width: 300px;
+				margin: 0 auto;
+				background-color: #fff;
+				padding: 20px;
+				border-radius: 5px;
+				box-shadow: 0 0 10px rgba(0,0,0,0.2);
+			}
+			
+			input[type="text"], input[type="password"] {
+				width: 100%;
+				padding: 12px 20px;
+				margin: 8px 0;
+				box-sizing: border-box;
+				border: 2px solid #ccc;
+				border-radius: 4px;
+			}
+			
+			input[type="submit"] {
+				background-color: #4CAF50;
+				color: white;
+				padding: 12px 20px;
+				border: none;
+				border-radius: 4px;
+				cursor: pointer;
+				width: 100%;
+			}
+			
+			input[type="submit"]:hover {
+				background-color: #45a049;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<h1>Login Page</h1>
+		<div class="login">
+			<form>
+				<label for="username">Username</label>
+				<input type="text" id="username" name="username" placeholder="Enter your username">
+				<label for="password">Password</label>
+				<input type="password" id="password" name="password" placeholder="Enter your password">
+				<input type="button" value="Login" onclick="checkLogin()">
+			</form>
+		</div>
+	</body>
 </html>
