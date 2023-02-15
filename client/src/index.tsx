@@ -1,15 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './index.css';
+
+import App from './App';
+import SampleCalendarApp from './components/calendar/calendar';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const customEvents = [
+  {
+    title: 'Custom Event 1',
+    start: '2023-03-01',
+    end: '2023-03-03'
+  },
+  {
+    title: 'Custom Event 2',
+    start: '2023-03-07',
+    end: '2023-03-09'
+  }
+];
+
 root.render(
   <React.StrictMode>
-    <App />
+    <div className="container">
+      <div className="app">
+        <App />
+      </div>
+      <SampleCalendarApp events={customEvents} />
+    </div>
   </React.StrictMode>
 );
 
