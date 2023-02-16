@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./css/welcome.css" />
+
+    <meta charset="UTF-8" />
+    <title>Welcome Page</title>
+  </head>
+  <body>
+    <div class="welcome-container">
+      <h2>Tutor List</h2>
+      <form>
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="search">
+        <input type="submit" value="Submit">
+      </form>
+      <ul class="tutors-list">
+        <li>
+          <div class="session">
+            <img class="session-tutor-pic" src="img/tutor1.png" />
+            <p class="session-tutor-name">Norman Gongor</p>
+            <p class="session-date">About me:<br>People say that my hair looks weird</p>
+            <p class="session-time">Subject: Computer Science</p>
+            <!--<button class="session-cancel-button" type="button">❌</button> /-->
+          </div>
+        </li>
+        <li>
+          <div class="session">
+            <img class="session-tutor-pic" src="img/tutor4.jpg" />
+            <p class="session-tutor-name">Scarlett Johanssen</p>
+            <p class="session-date">About me:<br>I want to be an actress some day</p>
+            <p class="session-time">Subject: Theater</p>
+            <!--<button class="session-cancel-button" type="button">❌</button> /-->
+          </div>
+        </li>
+        <li>
+          <div class="session">
+            <img class="session-tutor-pic" src="img/tutor3.png" />
+            <p class="session-tutor-name">Henry Jamba</p>
+            <p class="session-date">About me:<br>I am too old to be doing this</p>
+            <p class="session-time">Subject: Calculus</p>
+            <!--<button class="session-cancel-button" type="button">❌</button> /-->
+          </div>
+        </li>
+        <li>
+          <div class="session">
+            <img class="session-tutor-pic" src="img/tutor2.png" />
+            <p class="session-tutor-name">Omair Hula</p>
+            <p class="session-date">About me:<br>I am a convicted felon</p>
+            <p class="session-time">Subject: Government</p>
+            <!--<button class="session-cancel-button" type="button">❌</button> /-->
+          </div>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
+
+<script>
+    const form = document.querySelector('form');
+    const tutorsList = document.querySelector('.tutors-list');
+    const tutorNames = document.querySelectorAll('.session-tutor-name');
+  
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const query = document.querySelector('#search').value.toLowerCase();
+      tutorNames.forEach(function(name) {
+        if (name.textContent.toLowerCase().includes(query)) {
+          name.parentElement.parentElement.style.display = '';
+        } else {
+          name.parentElement.parentElement.style.display = 'none';
+        }
+      });
+    });
+  </script>

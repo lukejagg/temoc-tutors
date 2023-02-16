@@ -1,0 +1,99 @@
+body {
+    background-color: #f2f2f2;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  .welcome-container {
+    width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  /* Set the width of the sidebar to 250px */
+  .sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  
+  /* Style the sidebar links */
+  .sidebar a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+  }
+  
+  /* Style the sidebar links on mouse-over */
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
+  
+  /* Style the main content */
+  .main {
+    margin-left: 250px; /* Set the margin to match the width of the sidebar */
+    padding: 20px;
+  }
+  
+  .tutors-list {
+    list-style: none;
+    padding: 0px;
+    width: 100%;
+  }
+  
+  .session {
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(185, 197, 203);
+    padding: 20px;
+    margin-top: 25px;
+    width: 95%;
+    border-radius: 15px;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  .session-tutor-pic {
+    border-radius: 15px;
+    width: 100px;
+  }
+  .session-tutor-name {
+    width: 200px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .session-date {
+    width: 150px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .session-time {
+    width: 250px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .session-cancel-button {
+    width: 60px;
+    height: 60px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: transparent;
+    border: dashed;
+    border-color: transparent;
+    border-radius: 4px;
+    border-width: 2px;
+    font-size: 24px;
+  }
+  .session-cancel-button:hover {
+    border-color: red;
+  }
+  .session-cancel-button:active {
+    background-color: red;
+  }
+  
