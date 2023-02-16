@@ -5,9 +5,47 @@
 
     <meta charset="UTF-8" />
     <title>Welcome Page</title>
+
+    <style>
+      /* Style the navbar */
+      .unlist {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+        border-radius: 25px;
+      }
+      
+      /* Style the links */
+      .list-thin {
+        float: left;
+      }
+      
+      .list-thin a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+      
+      .list-thin a:hover {
+        background-color: #111;
+      }
+    </style>
   </head>
   <body>
+    
+    <ul class="unlist">
+      <li class="list-thin"><a href="#home">Home</a></li>
+      <li class="list-thin"><a href="#about">About</a></li>
+      <li class="list-thin"><a href="#services">Services</a></li>
+      <li class="list-thin"><a href="#contact">Contact</a></li>
+    </ul>
+
     <div class="welcome-container">
+
       <h1>Welcome!</h1>
       <p>You are now logged in.</p>
 
