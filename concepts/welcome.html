@@ -1,59 +1,61 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Welcome Page</title>
-  <style>
-    .welcome-container {
-      width: 500px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    
-    /* Set the width of the sidebar to 250px */
-		.sidebar {
-			height: 100%;
-			width: 250px;
-			position: fixed;
-			z-index: 1;
-			top: 0;
-			left: 0;
-			background-color: #111;
-			overflow-x: hidden;
-			padding-top: 20px;
-		}
+  <head>
+    <link rel="stylesheet" href="./css/welcome.css" />
 
-		/* Style the sidebar links */
-		.sidebar a {
-			padding: 6px 8px 6px 16px;
-			text-decoration: none;
-			font-size: 20px;
-			color: #818181;
-			display: block;
-		}
+    <meta charset="UTF-8" />
+    <title>Welcome Page</title>
+  </head>
+  <body>
+    <div class="sidebar">
+      <a href="#">Appointments</a>
+      <a href="#">Tutors</a>
+      <a href="#">Profile</a>
+    </div>
 
-		/* Style the sidebar links on mouse-over */
-		.sidebar a:hover {
-			color: #f1f1f1;
-		}
+    <div class="welcome-container">
+      <h1>Welcome!</h1>
+      <p>You are now logged in.</p>
 
-		/* Style the main content */
-		.main {
-			margin-left: 250px; /* Set the margin to match the width of the sidebar */
-			padding: 20px;
-		}
-  </style>
-</head>
-<body>
-  <div class="sidebar">
-		<a href="#">Appointments</a>
-		<a href="#">Tutors</a>
-		<a href="#">Profile</a>
-	</div>
-
-  <div class="welcome-container">
-    <h2>Welcome!</h2>
-    <p>You are now logged in.</p>
-  </div>
-</body>
+      <h2>Upcoming Sessions</h2>
+      <ul class="tutors-list">
+        <li>
+          <div class="session">
+            <img class="session-tutor-pic" src="img/tutor1.png" />
+            <p class="session-tutor-name">Norman Gongor</p>
+            <p class="session-date">3/2/2023</p>
+            <p class="session-time">1:30AM - 2:00AM</p>
+            <button class="session-cancel-button" type="button">❌</button>
+          </div>
+        </li>
+        <li>
+          <div class="session">
+            <img class="session-tutor-pic" src="img/tutor1.png" />
+            <p class="session-tutor-name">Norman Gongor</p>
+            <p class="session-date">3/2/2023</p>
+            <p class="session-time">2:00AM - 2:30AM</p>
+            <button class="session-cancel-button" type="button">❌</button>
+          </div>
+        </li>
+        <li>
+          <div class="session">
+            <img class="session-tutor-pic" src="img/tutor3.png" />
+            <p class="session-tutor-name">Henry Jamba</p>
+            <p class="session-date">4/14/2023</p>
+            <p class="session-time">7:30PM - 8:30PM</p>
+            <button class="session-cancel-button" type="button">❌</button>
+          </div>
+        </li>
+        <li>
+          <div class="session">
+            <img class="session-tutor-pic" src="img/tutor2.png" />
+            <p class="session-tutor-name">Omair Hula</p>
+            <p class="session-date">4/17/2023</p>
+            <p class="session-time">5:00PM - 6:30PM</p>
+            <button class="session-cancel-button" type="button">❌</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </body>
 </html>
