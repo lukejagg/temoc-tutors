@@ -1,16 +1,19 @@
 body {
   background-color: #f2f2f2;
+  font-family: 'Roboto', sans-serif;
+  background-image: url("../img/seamless-vector-pattern-background-notebooks-pens-pencils-glasses-books-checkered-paper-hand-sketch-drawing-imitation-68230931.png");
+  background-repeat: repeat;
 }
 
 h1 {
   text-align: center;
-  margin-top: 50px;
+  margin-top: 5px;
   color: #444;
 }
 
 .login {
   width: 300px;
-  margin: 0 auto;
+  margin: 10% auto 0;
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;

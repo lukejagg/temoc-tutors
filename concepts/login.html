@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="./css/login.css">
 
 		<title>Login Page</title>
@@ -18,14 +19,15 @@
 		</script>
 	</head>
 
-	<body>
-		<h1>Login Page</h1>
+	<body class="tiled-bg">
 		<div class="login">
+			<h1>Login Page</h1>
 			<form>
 				<label for="username">Username</label>
 				<input type="text" id="username" name="username" placeholder="Enter your username">
 				<label for="password">Password</label>
 				<input type="password" id="password" name="password" placeholder="Enter your password">
+				<p><a href="#">Forgot Password?</a></p>
 				<input class="login-btn" type="button" value="Login" onclick="checkLogin()">
 			</form>
 		</div>
