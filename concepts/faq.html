@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FAQ Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        .title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        .toggleable {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .toggleable .question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        .toggleable .question h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .toggleable .question .toggle-icon {
+            font-size: 20px;
+            color: #666;
+            transition: transform 0.3s ease;
+        }
+        .toggleable.open .question .toggle-icon {
+            transform: rotate(45deg);
+        }
+        .toggleable .answer {
+            padding: 10px;
+            background-color: #fff;
+            color: #666;
+            font-size: 16px;
+        }
+        .toggleable .answer p {
+            margin-bottom: 10px;
+        }
+        .toggleable .answer img {
+            max-width: 100%;
+        }
+
+        .toggleable .answer {
+            display: none;
+        }
+        .toggleable.open .answer {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="faq-container">
+    <div class="title">Frequently Asked Questions</div>
+    <div class="toggleable">
+        <div class="question">
+            <h3>What is Lorem Ipsum?</h3>
+            <span class="toggle-icon">+</span>
+        </div>
+        <div class="answer">
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+        </div>
+    </div>
+
+    <div class="toggleable">
+        <div class="question">
+            <h3>How do I reset my password?</h3>
+            <span class="toggle-icon">+</span>
+        </div>
+        <div class="answer">
+            <p>To reset your password, go to the login page and click on the "Forgot Password" link. Follow the instructions to reset your password. If you have any issues, please contact customer support.</p>
+            <img src="reset-password.png" alt="reset password instructions">
+        </div>
+    </div>
+
+    <div class="toggleable">
+        <div class="question">
+            <h3>What payment methods do you accept?</h3>
+            <span class="toggle-icon">+</span>
+        </div>
+        <div class="answer">
+            <p>We accept all major credit cards and PayPal. You can also pay with your bank account if you have a PayPal account.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const toggleables = document.querySelectorAll('.toggleable');
+    toggleables.forEach(toggleable => {
+        const question = toggleable.querySelector('.question');
+        question.addEventListener('click', () => {
+            toggleable.classList.toggle('open');
+        });
+    });
+</script>
+</body>
+</html>
