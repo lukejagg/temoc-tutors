@@ -69,3 +69,8 @@ body {
 .toggleable.open .answer {
   display: block;
 }
+
+footer {
+  position: absolute;
+  right: 0;bottom:0;left:0;
+}
