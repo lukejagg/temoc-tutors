@@ -3,79 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>FAQ Page</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        .title {
-            text-align: center;
-            font-size: 36px;
-            font-weight: bold;
-            margin-top: 20px;
-            margin-bottom: 30px;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f2f2f2;
-        }
-        .toggleable {
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        .toggleable .question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background-color: #f9f9f9;
-            cursor: pointer;
-        }
-        .toggleable .question h3 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-        }
-        .toggleable .question .toggle-icon {
-            font-size: 20px;
-            color: #666;
-            transition: transform 0.3s ease;
-        }
-        .toggleable.open .question .toggle-icon {
-            transform: rotate(45deg);
-        }
-        .toggleable .answer {
-            padding: 10px;
-            background-color: #fff;
-            color: #666;
-            font-size: 16px;
-        }
-        .toggleable .answer p {
-            margin-bottom: 10px;
-        }
-        .toggleable .answer img {
-            max-width: 100%;
-        }
-
-        .toggleable .answer {
-            display: none;
-        }
-        .toggleable.open .answer {
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/faq.css" />
+    <link rel="stylesheet" href="./css/navbar.css" />
 </head>
 <body>
+    <ul class="unlist">
+        <li class="list-thin"><a href="./welcome.html">Appointments</a></li>
+        <li class="list-thin"><a href="./tutor.html">Tutor</a></li>
+        <li class="list-thin"><a href="./profile.html">Profile</a></li>
+        <li class="list-thin"><a href="./faq.html">FAQ</a></li>
+      </ul>
 <div class="faq-container">
     <div class="title">Frequently Asked Questions</div>
     <div class="toggleable">
