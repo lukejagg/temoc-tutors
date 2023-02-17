@@ -78,22 +78,52 @@ body {
     padding-left: 10px;
     padding-right: 10px;
   }
-  .session-cancel-button {
-    width: 60px;
-    height: 60px;
-    padding-left: 10px;
-    padding-right: 10px;
-    background-color: transparent;
-    border: dashed;
-    border-color: transparent;
-    border-radius: 4px;
-    border-width: 2px;
-    font-size: 24px;
+  #welcome-container {
+    text-align: center;
+    padding: 20px;
   }
-  .session-cancel-button:hover {
-    border-color: red;
+  
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
   }
-  .session-cancel-button:active {
-    background-color: red;
+  
+  input[type="text"] {
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    margin-right: 10px;
   }
+  
+  input[type="text"]::placeholder {
+    color: gray;
+  }
+  
+  button[type="submit"] {
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 20px;
+  }
+
+  input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 30px;
+    background-color: #f5f5f5;
+    font-size: 1.2rem;
+    color: #555;
+    text-align: center;
+  }
+  
+  
+
+
+  
   
