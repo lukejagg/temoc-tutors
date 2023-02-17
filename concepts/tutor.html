@@ -3,50 +3,8 @@
   <head>
     <link rel="stylesheet" href="./css/tutor.css" />
     <link rel="stylesheet" href="./css/navbar.css" />
-
     <meta charset="UTF-8" />
-    <title>Welcome Page</title>     
-    <style>
-        form {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-  
-        label {
-          display: none;
-        }
-  
-        input[type="text"] {
-          flex: 1;
-          padding: 10px;
-          border: none;
-          border-radius: 30px;
-          background-color: #f5f5f5;
-          font-size: 1.2rem;
-          color: #555;
-          text-align: center;
-        }
-  
-        input[type="text"]::placeholder {
-          color: #aaa;
-        }
-  
-        input[type="submit"] {
-          padding: 12px 24px;
-          border: none;
-          border-radius: 30px;
-          background-color: #68c30d;
-          font-size: 1.2rem;
-          color: #fff;
-          cursor: pointer;
-          transition: background-color 0.2s ease-in-out;
-        }
-  
-        input[type="submit"]:hover {
-          background-color: #4d910a;
-        }
-    </style>      
+    <title>Welcome Page</title>           
   </head>
   <body>
     <ul class="unlist">
@@ -59,7 +17,9 @@
       <h2>Tutor List</h2>
       <form>
         <label for="search">Search:</label>
-        <input type="text" id="search" name="search">
+        <input type="text" id="search" name="search" style="
+            border: solid;
+        ">
         <input type="submit" value="Submit">
       </form>
       <ul class="tutors-list">
