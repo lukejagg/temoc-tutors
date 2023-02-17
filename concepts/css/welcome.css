@@ -9,9 +9,8 @@ body {
   text-align: center;
 }
 
-/* Style the main content */
 .main {
-  margin-left: 250px; /* Set the margin to match the width of the sidebar */
+  margin-left: 250px; 
   padding: 20px;
 }
 
