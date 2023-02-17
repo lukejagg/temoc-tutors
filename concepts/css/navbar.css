@@ -1,0 +1,26 @@
+/* Style the navbar */
+.unlist {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  border-radius: 25px;
+}
+
+/* Style the links */
+.list-thin {
+  float: left;
+}
+
+.list-thin a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.list-thin a:hover {
+  background-color: #111;
+}
