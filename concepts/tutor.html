@@ -5,7 +5,48 @@
     <link rel="stylesheet" href="./css/navbar.css" />
 
     <meta charset="UTF-8" />
-    <title>Welcome Page</title>
+    <title>Welcome Page</title>     
+    <style>
+        form {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+  
+        label {
+          display: none;
+        }
+  
+        input[type="text"] {
+          flex: 1;
+          padding: 10px;
+          border: none;
+          border-radius: 30px;
+          background-color: #f5f5f5;
+          font-size: 1.2rem;
+          color: #555;
+          text-align: center;
+        }
+  
+        input[type="text"]::placeholder {
+          color: #aaa;
+        }
+  
+        input[type="submit"] {
+          padding: 12px 24px;
+          border: none;
+          border-radius: 30px;
+          background-color: #68c30d;
+          font-size: 1.2rem;
+          color: #fff;
+          cursor: pointer;
+          transition: background-color 0.2s ease-in-out;
+        }
+  
+        input[type="submit"]:hover {
+          background-color: #4d910a;
+        }
+    </style>      
   </head>
   <body>
     <ul class="unlist">
@@ -26,9 +67,8 @@
           <div class="session">
             <img class="session-tutor-pic" src="img/tutor1.png" />
             <p class="session-tutor-name">Norman Gongor</p>
-            <p class="session-date">About me:<br>People say that my hair looks weird</p>
+            <p class="session-date">About me:<br>People say that my hair looks weird!</p>
             <p class="session-time">Subject: Computer Science</p>
-            <!--<button class="session-cancel-button" type="button">❌</button> /-->
           </div>
         </li>
         <li>
@@ -37,7 +77,6 @@
             <p class="session-tutor-name">Scarlett Johanssen</p>
             <p class="session-date">About me:<br>I want to be an actress some day</p>
             <p class="session-time">Subject: Theater</p>
-            <!--<button class="session-cancel-button" type="button">❌</button> /-->
           </div>
         </li>
         <li>
@@ -46,7 +85,6 @@
             <p class="session-tutor-name">Henry Jamba</p>
             <p class="session-date">About me:<br>I am too old to be doing this</p>
             <p class="session-time">Subject: Calculus</p>
-            <!--<button class="session-cancel-button" type="button">❌</button> /-->
           </div>
         </li>
         <li>
@@ -55,7 +93,6 @@
             <p class="session-tutor-name">Omair Hula</p>
             <p class="session-date">About me:<br>I am a convicted felon</p>
             <p class="session-time">Subject: Government</p>
-            <!--<button class="session-cancel-button" type="button">❌</button> /-->
           </div>
         </li>
       </ul>
@@ -79,4 +116,4 @@
         }
       });
     });
-  </script>
+</script>
