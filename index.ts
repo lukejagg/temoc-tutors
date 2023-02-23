@@ -7,6 +7,38 @@ dotenv.config();
 
 const app: Express = express();
 
+/** FROM CHATGPT when we need to start connecting PostgreSQL
+ * const express = require('express');
+const { Pool } = require('pg');
+
+const app = express();
+
+// Create a pool of database connections
+const pool = new Pool({
+  user: 'your_database_user',
+  host: 'your_database_host',
+  database: 'your_database_name',
+  password: 'your_database_password',
+  port: 5432,
+});
+
+// Define a GET endpoint for retrieving data from the database
+app.get('/api/data', async (req, res) => {
+  try {
+    const { rows } = await pool.query('SELECT * FROM your_table_name');
+    res.send(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+// Start the server
+app.listen(3001, () => {
+  console.log('Server started on port 3001');
+});
+ */
+
 app.use(express.json());
 app.use(cors());
 
