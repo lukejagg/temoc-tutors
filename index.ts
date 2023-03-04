@@ -25,7 +25,11 @@ client.query(`SELECT EXISTS (
   else {
     console.log('subject_enum already exists')
   }
-})
+}).catch ((err) => {
+  console.log('created subject_enum')
+  client.query(`CREATE TYPE subject_enum AS ENUM ('Math', 'Science', 'History', 'English', 'Art', 'Music');`)
+
+});
 
 client.query(`
 CREATE TABLE IF NOT EXISTS tutor (
