@@ -1,0 +1,51 @@
+/* App.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.form {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.form label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form input[type='text'],
+.form input[type='password'],
+.form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #d2d6dc;
+  border-radius: 0.25rem;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form input[type='text']:focus,
+.form input[type='password']:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: #4f46e5;
+}
+
+.form button[type='submit'] {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #4f46e5;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.form button[type='submit']:hover {
+  background-color: #4338ca;
+}
