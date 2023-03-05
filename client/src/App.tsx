@@ -1,24 +1,24 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 
-import { Student, StudentCreationRequest } from './components/database/types';
+import { Student, StudentCreationRequest } from "./database/types";
 
-import './App.css';
+import "./App.css";
 
 // Create a request to test the backend-database endpoint
 
 const newStudent: StudentCreationRequest = {
-  username: 'johndoe',
-  email: 'johndoe@example.com',
-  password: 'mypassword',
+  username: "johndoe",
+  email: "johndoe@example.com",
+  password: "mypassword",
 };
 
 const requestOptions = {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify(newStudent),
 };
 
-fetch('http://localhost:8000/students/create', requestOptions)
+fetch("http://localhost:8000/students/create", requestOptions)
   .then((response) => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -26,13 +26,11 @@ fetch('http://localhost:8000/students/create', requestOptions)
     return response.json();
   })
   .then((data) => {
-    console.log('Student created:', data);
+    console.log("Student created:", data);
   })
   .catch((err) => {
-    console.error('Error creating tutor:', err);
+    console.error("Error creating tutor:", err);
   });
-
-
 
 const App: React.FC = () => {
   const [tutors, setTutors] = useState<Student[]>([]);
@@ -48,6 +46,5 @@ const App: React.FC = () => {
     </div>
   );
 };
-
 
 export default App;
