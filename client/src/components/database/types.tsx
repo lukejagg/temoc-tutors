@@ -44,3 +44,12 @@ export interface AppointmentRequest {
     tutorId: number;
 }
 
+
+
+
+
+export interface StudentCreationRequest {
+    username: string;
+    email: string;
+    password: string;
+}

@@ -1,31 +1,53 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 
-import TutorForm from './components/database/tutor-form';
-import { Tutor } from './components/database/types';
+import { Student, StudentCreationRequest } from './components/database/types';
 
 import './App.css';
 
-const App: React.FC = () => {
-  const [tutors, setTutors] = useState<Tutor[]>([]);
+// Create a request to test the backend-database endpoint
 
-  const handleCreateTutor = (tutor: Tutor) => {
+const newStudent: StudentCreationRequest = {
+  username: 'johndoe',
+  email: 'johndoe@example.com',
+  password: 'mypassword',
+};
+
+const requestOptions = {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(newStudent),
+};
+
+fetch('http://localhost:8000/students/create', requestOptions)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then((data) => {
+    console.log('Student created:', data);
+  })
+  .catch((err) => {
+    console.error('Error creating tutor:', err);
+  });
+
+
+
+const App: React.FC = () => {
+  const [tutors, setTutors] = useState<Student[]>([]);
+
+  const handleCreateTutor = (tutor: Student) => {
     setTutors((prevTutors) => [...prevTutors, tutor]);
   };
 
   return (
     <div>
-      <h1>Tutor List</h1>
-      <ul>
-        {tutors.map((tutor) => (
-          <li key={tutor.id}>
-            {tutor.id}: {tutor.aboutMe}
-          </li>
-        ))}
-      </ul>
-      <h2>Create Tutor</h2>
-      <TutorForm onSubmit={handleCreateTutor} />
+      <h1>this react component doesn't do anything</h1>
+      <h2>Check console for db output</h2>
     </div>
   );
 };
+
 
 export default App;
