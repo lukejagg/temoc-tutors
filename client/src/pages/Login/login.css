@@ -15,7 +15,7 @@
 }
 
 .loginTextfield {
-  width: 90%;
+  width: 100%;
 }
 
 .loginHeader {
@@ -23,4 +23,15 @@
   font-weight: bold;
   text-transform: uppercase;
   color: #333;
+}
+
+.loginWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+}
+
+.loginButtonWrapperRow {
+  display: flex;
+  gap: 25px;
 }

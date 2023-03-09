@@ -18,42 +18,42 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div>
-      <Box className="loginBackground" style={{ backgroundImage: `url(${backgroundImage})` }}>
-        <Paper className="loginPaper" elevation={20} sx={{ borderRadius: 10 }}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <h1 className="loginHeader">Welcome</h1>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                className="loginTextfield"
-                label="Username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                className="loginTextfield"
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </Grid>
-            <Grid item xs={7}>
+    <Box className="loginBackground" style={{ backgroundImage: `url(${backgroundImage})` }}>
+      <Paper className="loginPaper" elevation={20} sx={{ borderRadius: 5 }}>
+        <div className="loginWrapper">
+          <Grid item xs={12}>
+            <h1 className="loginHeader">Welcome</h1>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              className="loginTextfield"
+              label="Username"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              className="loginTextfield"
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </Grid>
+          <div className="loginButtonWrapperRow">
+            <Grid item xs={8}>
               <Button variant="contained" color="primary" onClick={handleLogin}>
                 Login
               </Button>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={4}>
               <a href="#">Forgot Password?</a>
             </Grid>
-            {error && <p>{error}</p>}
-          </Grid>
-        </Paper>
-      </Box>
-    </div>
+          </div>
+          {error && <p>{error}</p>}
+        </div>
+      </Paper>
+    </Box>
   );
 };
