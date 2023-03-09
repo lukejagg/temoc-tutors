@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Container, TextField, Grid, Button  } from '@mui/material';
-import styles from "./login.module.css"
+import { Box, Paper, TextField, Button, Grid } from '@mui/material';
+import "../Login/login.css";
+import backgroundImage from "../img/BackgroundImage.png";
 
 export const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -18,21 +19,41 @@ export const Login: React.FC = () => {
 
   return (
     <div>
-      <TextField
-        label="Username"
-        value={username}
-        onChange={(event) => setUsername(event.target.value)}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-      />
-      <Button variant="contained" color="primary" onClick={handleLogin}>
-        Login
-      </Button>
-      {error && <p>{error}</p>}
+      <Box className="loginBackground" style={{ backgroundImage: `url(${backgroundImage})` }}>
+        <Paper className="loginPaper" elevation={20} sx={{ borderRadius: 10 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <h1 className="loginHeader">Welcome</h1>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                className="loginTextfield"
+                label="Username"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                className="loginTextfield"
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Button variant="contained" color="primary" onClick={handleLogin}>
+                Login
+              </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <a href="#">Forgot Passowrd?</a>
+            </Grid>
+            {error && <p>{error}</p>}
+          </Grid>
+        </Paper>
+      </Box>
     </div>
   );
 };
