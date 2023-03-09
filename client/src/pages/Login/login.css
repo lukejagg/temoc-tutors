@@ -8,14 +8,14 @@
 
 .loginPaper {
   background-color: #fff;
-  padding: 50px 40px 50px 40px;
+  padding: 50px 75px 50px 75px;
   height: 500px;
-  width: 650px;
+  width: 600px;
   position: fixed;
 }
 
 .loginTextfield {
-  width: 75%;
+  width: 90%;
 }
 
 .loginHeader {

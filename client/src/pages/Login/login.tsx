@@ -42,13 +42,13 @@ export const Login: React.FC = () => {
                 onChange={(event) => setPassword(event.target.value)}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={7}>
               <Button variant="contained" color="primary" onClick={handleLogin}>
                 Login
               </Button>
             </Grid>
-            <Grid item xs={6}>
-              <a href="#">Forgot Passowrd?</a>
+            <Grid item xs={5}>
+              <a href="#">Forgot Password?</a>
             </Grid>
             {error && <p>{error}</p>}
           </Grid>
