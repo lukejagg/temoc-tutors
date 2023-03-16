@@ -1,6 +1,7 @@
 # README
 ## Installation
 ### Git Install
+`cd server`
 `npm install`
 
 `cd client`
@@ -8,6 +9,7 @@
 
 ## Execution
 ### Server
+`cd server`
 `npm run dev`
 ### Client
 `cd client`
