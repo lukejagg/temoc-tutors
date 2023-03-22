@@ -19,7 +19,7 @@ client.connect();
 
 
 // Initialize Database Schema
-import { setupDatabase } from "./database";
+import { setupDatabase } from "./db";
 setupDatabase(client);
 
 
@@ -38,23 +38,23 @@ TODO:
 0. Update each api endpoint as needed
 1. Make if the insert auto-sets the id value
 */
-app.post('/tutors/create', async (req: Request, res: Response) => {
-  console.log("hey")
-  const { subjects, aboutMe, availableHours, profilePicture } = req.body;
+// app.post('/tutors/create', async (req: Request, res: Response) => {
+//   console.log("hey")
+//   const { subjects, aboutMe, availableHours, profilePicture } = req.body;
 
-  try {
-    const result = await client.query(
-      'INSERT INTO tutor (subjects, about_me, available_hours, profile_picture) VALUES ($1, $2, $3, $4) RETURNING *',
-      [subjects, aboutMe, availableHours, profilePicture]
-    );
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error('Error creating tutor:', err);
-    res.status(500).send('Error creating tutor');
-  }
-});
+//   try {
+//     const result = await client.query(
+//       'INSERT INTO tutor (subjects, about_me, available_hours, profile_picture) VALUES ($1, $2, $3, $4) RETURNING *',
+//       [subjects, aboutMe, availableHours, profilePicture]
+//     );
+//     res.status(201).json(result.rows[0]);
+//   } catch (err) {
+//     console.error('Error creating tutor:', err);
+//     res.status(500).send('Error creating tutor');
+//   }
+// });
 
-app.post('/tutors/login', async (req: Request, res: Response) => {
+app.post('/login', async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   try {
@@ -73,80 +73,80 @@ app.post('/tutors/login', async (req: Request, res: Response) => {
   }
 });
 
-app.post('/students/create', async (req: Request, res: Response) => {
-  const { username, email, password } = req.body;
+// app.post('/students/create', async (req: Request, res: Response) => {
+//   const { username, email, password } = req.body;
 
-  try {
-    const result = await client.query(
-      'INSERT INTO student (username, email, password) VALUES ($1, $2, $3) RETURNING *',
-      [username, email, password]
-    );
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error('Error creating student:', err);
-    res.status(500).send('Error creating student');
-  }
-});
+//   try {
+//     const result = await client.query(
+//       'INSERT INTO student (username, email, password) VALUES ($1, $2, $3) RETURNING *',
+//       [username, email, password]
+//     );
+//     res.status(201).json(result.rows[0]);
+//   } catch (err) {
+//     console.error('Error creating student:', err);
+//     res.status(500).send('Error creating student');
+//   }
+// });
 
-app.post('/favorites', async (req: Request, res: Response) => {
-  const { studentId, tutorId } = req.body;
+// app.post('/favorites', async (req: Request, res: Response) => {
+//   const { studentId, tutorId } = req.body;
 
-  try {
-    const result = await client.query(
-      'INSERT INTO favorite (student_id, tutor_id) VALUES ($1, $2) RETURNING *',
-      [studentId, tutorId]
-    );
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error('Error creating favorite:', err);
-    res.status(500).send('Error creating favorite');
-  }
-});
+//   try {
+//     const result = await client.query(
+//       'INSERT INTO favorite (student_id, tutor_id) VALUES ($1, $2) RETURNING *',
+//       [studentId, tutorId]
+//     );
+//     res.status(201).json(result.rows[0]);
+//   } catch (err) {
+//     console.error('Error creating favorite:', err);
+//     res.status(500).send('Error creating favorite');
+//   }
+// });
 
-app.get('/favorites/:studentId', async (req: Request, res: Response) => {
-  const studentId = parseInt(req.params.studentId);
+// app.get('/favorites/:studentId', async (req: Request, res: Response) => {
+//   const studentId = parseInt(req.params.studentId);
 
-  try {
-    const result = await client.query(
-      'SELECT * FROM favorite WHERE student_id = $1',
-      [studentId]
-    );
-    res.status(200).json(result.rows);
-  } catch (err) {
-    console.error('Error getting favorites:', err);
-    res.status(500).send('Error getting favorites');
-  }
-});
+//   try {
+//     const result = await client.query(
+//       'SELECT * FROM favorite WHERE student_id = $1',
+//       [studentId]
+//     );
+//     res.status(200).json(result.rows);
+//   } catch (err) {
+//     console.error('Error getting favorites:', err);
+//     res.status(500).send('Error getting favorites');
+//   }
+// });
 
-app.get('/appointments/:userId', async (req: Request, res: Response) => {
-  const userId = parseInt(req.params.userId);
+// app.get('/appointments/:userId', async (req: Request, res: Response) => {
+//   const userId = parseInt(req.params.userId);
 
-  try {
-    const result = await client.query(
-      'SELECT * FROM appointment WHERE student_id = $1 OR tutor_id = $1',
-      [userId]
-    );
-    res.status(200).json(result.rows);
-  } catch (err) {
-    console.error('Error getting appointments:', err);
-    res.status(500).send('Error getting appointments');
-  }
-});
+//   try {
+//     const result = await client.query(
+//       'SELECT * FROM appointment WHERE student_id = $1 OR tutor_id = $1',
+//       [userId]
+//     );
+//     res.status(200).json(result.rows);
+//   } catch (err) {
+//     console.error('Error getting appointments:', err);
+//     res.status(500).send('Error getting appointments');
+//   }
+// });
 
-app.post('/appointments', async (req: Request, res: Response) => {
-  const { date, time, studentId, tutorId } = req.body;
+// app.post('/appointments', async (req: Request, res: Response) => {
+//   const { date, time, studentId, tutorId } = req.body;
 
-  try {
-    const result = await client.query(
-      'INSERT INTO appointment (date, time, student_id, tutor_id) VALUES ($1, $2, $3, $4) RETURNING *',
-      [date, time, studentId, tutorId]
-    );
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error('Error creating appointment:', err);
-    res.status(500).send('Error creating appointment');
-  }
-});
+//   try {
+//     const result = await client.query(
+//       'INSERT INTO appointment (date, time, student_id, tutor_id) VALUES ($1, $2, $3, $4) RETURNING *',
+//       [date, time, studentId, tutorId]
+//     );
+//     res.status(201).json(result.rows[0]);
+//   } catch (err) {
+//     console.error('Error creating appointment:', err);
+//     res.status(500).send('Error creating appointment');
+//   }
+// });
 
 
 const port = process.env.PORT || 8000;

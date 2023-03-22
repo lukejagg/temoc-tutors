@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Student, StudentCreationRequest } from "../database/types";
+import { Student, StudentCreationRequest } from "./dbEndpointTypes";
 
 export const createStudent = (student: StudentCreationRequest) => {    
     const createRequestOptions = {
@@ -8,7 +7,7 @@ export const createStudent = (student: StudentCreationRequest) => {
       body: JSON.stringify(student),
     };
     
-    fetch("http://localhost:8000/students/create", createRequestOptions)
+    fetch("http://localhost:8000/login", createRequestOptions)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

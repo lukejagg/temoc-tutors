@@ -1,3 +1,8 @@
+export interface LoginRequest {
+    email: string;
+    password: string;
+}
+
 // Interfaces for tutor-related endpoints
 export interface Tutor {
     id: number;
@@ -7,10 +12,6 @@ export interface Tutor {
     profilePicture: Uint8Array | null;
 }
 
-export interface LoginRequest {
-    email: string;
-    password: string;
-}
 
 // Interfaces for student-related endpoints
 export interface Student {

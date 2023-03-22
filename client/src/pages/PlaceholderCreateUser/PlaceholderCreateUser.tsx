@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { StudentCreationRequest } from "../../database/types";
-import { createStudent } from "../../hooks/databaseOperations";
+import { StudentCreationRequest } from "../../api/dbEndpointTypes";
+import { createStudent } from "../../api/endpointRequests";
 
 export const PlaceholderCreateUser: React.FC = () => {
   const [newUsername, setNewUsername] = useState<string>("");
