@@ -1,10 +1,8 @@
 import express, { Express, Request, Response } from "express";
 import path from "path";
 import cors from "cors";
-
-
-// Initialize .env file
 import dotenv from "dotenv";
+
 dotenv.config();
 
 // Initialize Postgres Database
