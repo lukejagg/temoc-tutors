@@ -1,23 +1,26 @@
-import { Student, StudentCreationRequest } from "./dbEndpointTypes";
+import { 
+  LoginRequest, 
+} from "./dbEndpointTypes";
 
-export const createStudent = (student: StudentCreationRequest) => {    
-    const createRequestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(student),
-    };
-    
-    fetch("http://localhost:8000/login", createRequestOptions)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Student created:", data);
-    })
-    .catch((err) => {
-      console.error("Error creating tutor:", err);
-    });
+// Login Requests
+export const checkLoginRequest = (loginRequest: LoginRequest) => {    
+  const createRequestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(loginRequest),
+  };
+  
+  fetch("http://localhost:8000/login", createRequestOptions)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then((data) => {
+    console.log("Logged In", data);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 };

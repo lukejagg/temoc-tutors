@@ -1,6 +1,12 @@
+// Interface for user logging on
 export interface LoginRequest {
     email: string;
     password: string;
+}
+
+// Interface for getting the session ID
+export interface SessionData {
+    sessionId: string;
 }
 
 // Interfaces for tutor-related endpoints

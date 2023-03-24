@@ -1,4 +1,6 @@
 import express, { Express, Request, Response } from "express";
+import { setupDatabase } from "./db";
+import { createSessionID } from "./sessionAuthentication";
 import path from "path";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -19,7 +21,6 @@ client.connect();
 
 
 // Initialize Database Schema
-import { setupDatabase } from "./db";
 setupDatabase(client);
 
 
@@ -54,12 +55,13 @@ TODO:
 //   }
 // });
 
+// Login Request
 app.post('/login', async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   try {
     const result = await client.query(
-      'SELECT * FROM tutor WHERE email = $1 AND password = $2',
+      'SELECT * FROM student WHERE email = $1 AND password = $2',
       [email, password]
     );
     if (result.rows.length > 0) {
@@ -71,6 +73,14 @@ app.post('/login', async (req: Request, res: Response) => {
     console.error('Error logging in tutor:', err);
     res.status(500).send('Error logging in tutor');
   }
+});
+
+// Session ID generation
+app.post('/session', (req, res) => {
+  // Call your function and return its return value
+  const result = createSessionID();
+
+  res.json(result);
 });
 
 // app.post('/students/create', async (req: Request, res: Response) => {

@@ -1,14 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Paper, TextField, Button, Alert } from '@mui/material';
-import "../Login/login.css";
+import { LoginRequest } from '../../api/dbEndpointTypes';
+import { checkLoginRequest } from '../../api/endpointRequests';
 import backgroundImage from "./img/LoginBackground.png";
 
+import "../Login/login.css";
+import { requestSessionID } from '../../api/sessionRequest';
+
 export const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showErrorMessage, setShowErrorMessage] = useState(false);
 
+  // API Calls
+  const sendLoginRequest = () => {
+    const newLoginRequest: LoginRequest = {
+      email: email,
+      password: password
+    };
+
+    checkLoginRequest(newLoginRequest);
+  };
+
+  // Event Handlers
+  const handleLogin = () => {
+    const hasEmptyEmail = email.trim() === '';
+    const hasEmptyPassword = password.trim() === '';
+  
+    const errorMessage = 
+      hasEmptyEmail && hasEmptyPassword?
+        'Please enter email and password':
+      hasEmptyEmail? 
+        'Please enter email': 
+      hasEmptyPassword?
+        'Please enter password': '';
+  
+    setError(errorMessage);
+    setShowErrorMessage(errorMessage !== '');
+  
+    if (!errorMessage) {
+      sendLoginRequest();
+      requestSessionID();
+    }
+
+    console.log(localStorage.getItem('sessionID'));
+  };
+  
+  // Effects
   useEffect(() => {
     let timer: string | number | NodeJS.Timeout | undefined;
     if (showErrorMessage) {
@@ -20,16 +59,7 @@ export const Login: React.FC = () => {
     return () => clearTimeout(timer);
   }, [showErrorMessage]);
 
-  const handleLogin = () => {
-    if (username.trim() === '' || password.trim() === '') {
-      setError('Please enter username and password');
-      setShowErrorMessage(true);
-    } else {
-      // handle login logic here
-      console.log(`Logged in with username: ${username} and password: ${password}`);
-    }
-  };
-
+  // Login Page rendered
   return (
     <Box className="login-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <Paper className="login-paper" elevation={20} sx={{ borderRadius: 5 }}>
@@ -37,9 +67,9 @@ export const Login: React.FC = () => {
           <h3 className="login-header">Welcome</h3>
           <TextField
             className="login-textfield"
-            label="Username"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
+            label="Email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
           <div>
             <TextField

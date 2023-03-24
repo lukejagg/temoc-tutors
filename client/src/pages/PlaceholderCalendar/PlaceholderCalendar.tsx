@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { StudentCreationRequest } from "../../api/dbEndpointTypes";
-import { createStudent } from "../../api/endpointRequests";
+// import { createStudent } from "../../api/endpointRequests";
 import SampleCalendarApp from "../../components/calendar/calendar";
 
 export const PlaceholderCalendar: React.FC = () => {

@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { StudentCreationRequest } from "../../api/dbEndpointTypes";
-import { createStudent } from "../../api/endpointRequests";
+// import { createStudent } from "../../api/endpointRequests";
 
 export const PlaceholderCreateUser: React.FC = () => {
   const [newUsername, setNewUsername] = useState<string>("");
@@ -14,7 +14,7 @@ export const PlaceholderCreateUser: React.FC = () => {
       password: newPassword,
     };
 
-    createStudent(newStudent);
+    // createStudent(newStudent);
   };
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) =>
