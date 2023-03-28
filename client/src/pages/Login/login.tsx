@@ -12,15 +12,15 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showErrorMessage, setShowErrorMessage] = useState(false);
-
+ 
   // API Calls
-  const sendLoginRequest = () => {
+  const sendLoginRequest = async () => {
     const newLoginRequest: LoginRequest = {
       email: email,
       password: password
     };
 
-    checkLoginRequest(newLoginRequest);
+    return await checkLoginRequest(newLoginRequest);
   };
 
   // Event Handlers
@@ -28,25 +28,32 @@ export const Login: React.FC = () => {
     const hasEmptyEmail = email.trim() === '';
     const hasEmptyPassword = password.trim() === '';
   
-    const errorMessage = 
-      hasEmptyEmail && hasEmptyPassword?
-        'Please enter email and password':
-      hasEmptyEmail? 
-        'Please enter email': 
-      hasEmptyPassword?
-        'Please enter password': '';
-  
+    const errorMessage =
+    hasEmptyEmail && hasEmptyPassword
+        ? 'Please enter email and password'
+        : hasEmptyEmail
+        ? 'Please enter email'
+        : hasEmptyPassword
+        ? 'Please enter password'
+        : '';
+        
     setError(errorMessage);
     setShowErrorMessage(errorMessage !== '');
   
     if (!errorMessage) {
-      sendLoginRequest();
-      requestSessionID();
+      sendLoginRequest().then((result) => {
+        if(result !== undefined) {
+          requestSessionID();
+        }
+        else {
+          const loginError = "Wrong email or password";
+          setError(loginError);
+          setShowErrorMessage(true);
+        }
+      });
     }
-
-    console.log(localStorage.getItem('sessionID'));
   };
-  
+
   // Effects
   useEffect(() => {
     let timer: string | number | NodeJS.Timeout | undefined;

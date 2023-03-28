@@ -2,25 +2,23 @@ import {
   LoginRequest, 
 } from "./dbEndpointTypes";
 
-// Login Requests
-export const checkLoginRequest = (loginRequest: LoginRequest) => {    
+export const checkLoginRequest = async (loginRequest: LoginRequest) => {    
   const createRequestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(loginRequest),
   };
   
-  fetch("http://localhost:8000/login", createRequestOptions)
-  .then((response) => {
+  try {
+    const response = await fetch("http://localhost:8000/login", createRequestOptions);
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`Status ${response.status}`);
     }
-    return response.json();
-  })
-  .then((data) => {
-    console.log("Logged In", data);
-  })
-  .catch((err) => {
+
+    console.log("Logged In");
+    return await response.json();
+  } catch (err) {
     console.error(err);
-  });
+  }
 };

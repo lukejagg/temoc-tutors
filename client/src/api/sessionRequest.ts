@@ -6,5 +6,5 @@ export async function requestSessionID() {
   })
     .then((response) => response.json())
     .then((data) => localStorage.setItem('sessionID', data))
-    .then(() => console.log("Session ID Created"));
+    .then(() => console.log("Session ID Generated"));
   }
