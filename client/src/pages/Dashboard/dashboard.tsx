@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import  { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
-import "./profile.css";
+import "./dashboard.css";
 import backgroundImage from "../../img/background.png";
 import { Navbar } from "../../components/navbar/navbar";
 
