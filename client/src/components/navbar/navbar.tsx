@@ -13,8 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 //import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['Profile', 'Calendar' ,'Make a Reservation'];
-const settings = ['Settings','Logout'];
+const pages = ['Home', 'Dashboard','Make a Reservation', 'Sign-up', 'Log-out'];
+const settings = ['Account','Logout'];
 
 export const Navbar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
