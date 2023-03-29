@@ -1,0 +1,15 @@
+.home-background {
+    background-attachment: fixed;
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+.home-paper{
+    background: black;
+    opacity: 0.8;
+    padding: 50px 75px 10px 75px;
+    height: 500px;
+    width: 800px;
+    position:fixed;
+}
