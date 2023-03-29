@@ -28,14 +28,13 @@ export const Login: React.FC = () => {
     const hasEmptyEmail = email.trim() === '';
     const hasEmptyPassword = password.trim() === '';
   
-    const errorMessage =
-    hasEmptyEmail && hasEmptyPassword
-        ? 'Please enter email and password'
-        : hasEmptyEmail
-        ? 'Please enter email'
-        : hasEmptyPassword
-        ? 'Please enter password'
-        : '';
+    const errorMessage = hasEmptyEmail && hasEmptyPassword
+      ? 'Please enter email and password'
+      : hasEmptyEmail
+      ? 'Please enter email'
+      : hasEmptyPassword
+      ? 'Please enter password'
+      : '';
         
     setError(errorMessage);
     setShowErrorMessage(errorMessage !== '');
@@ -53,18 +52,6 @@ export const Login: React.FC = () => {
       });
     }
   };
-
-  // Effects
-  useEffect(() => {
-    let timer: string | number | NodeJS.Timeout | undefined;
-    if (showErrorMessage) {
-      timer = setTimeout(() => {
-        setError('');
-        setShowErrorMessage(false);
-      }, 5000);
-    }
-    return () => clearTimeout(timer);
-  }, [showErrorMessage]);
 
   // Login Page rendered
   return (
@@ -98,7 +85,7 @@ export const Login: React.FC = () => {
               Login
             </Button>
           </div>
-          {showErrorMessage && <Alert variant="filled" severity="error">{error}</Alert>}
+          {showErrorMessage && (<Alert variant="filled" severity="error">{error}</Alert>)}
         </div>
       </Paper>
     </Box>
