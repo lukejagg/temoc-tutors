@@ -1,10 +1,23 @@
 export async function requestSessionID() {
-  fetch('http://localhost:8000/session', {
+  const url = 'http://localhost:8000/session';
+  const options = {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({ sessionID: '' }),
-  })
-    .then((response) => response.json())
-    .then((data) => localStorage.setItem('sessionID', data))
-    .then(() => console.log("Session ID Generated"));
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch session ID: ${response.status}`);
+    }
+
+    const data = await response.json();
+    localStorage.setItem('sessionID', data);
+  } catch (error) {
+    console.error(error);
   }
+}

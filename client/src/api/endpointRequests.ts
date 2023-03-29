@@ -1,24 +1,23 @@
-import { 
-  LoginRequest, 
-} from "./dbEndpointTypes";
+import { LoginRequest } from "./dbEndpointTypes";
 
-export const checkLoginRequest = async (loginRequest: LoginRequest) => {    
-  const createRequestOptions = {
+const API_BASE_URL = "http://localhost:8000";
+
+export const checkLoginRequest = async (loginRequest: LoginRequest) => {
+  const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(loginRequest),
   };
-  
+
   try {
-    const response = await fetch("http://localhost:8000/login", createRequestOptions);
+    const response = await fetch(`${API_BASE_URL}/login`, requestOptions);
 
     if (!response.ok) {
-      throw new Error(`Status ${response.status}`);
+      throw new Error(`Request failed with status code ${response.status}`);
     }
 
-    console.log("Logged In");
     return await response.json();
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
   }
 };

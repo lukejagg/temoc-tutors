@@ -13,13 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const db_1 = require("./db");
-const sessionAuthentication_1 = require("./sessionAuthentication");
+const pg_1 = require("pg");
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const db_1 = require("./db");
+const sessionAuthentication_1 = require("./sessionAuthentication");
 dotenv_1.default.config();
 // Initialize Postgres Database
-const pg_1 = require("pg");
 const client = new pg_1.Client({
     user: process.env.PG_USER,
     host: process.env.PG_HOST,
@@ -36,6 +36,32 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.get('/', (req, res) => {
     res.send('<h1>Hello World From the Typescript Server!</h1>');
+});
+// Login Request
+app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    try {
+        const result = yield client.query('SELECT * FROM student WHERE email = $1 AND password = $2', [email, password]);
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows[0]);
+        }
+        else {
+            res.status(401).send('Invalid email or password');
+        }
+    }
+    catch (err) {
+        console.error('Error logging in:', err);
+        res.status(500).send('Error logging in');
+    }
+}));
+// Session ID generation
+app.post('/session', (req, res) => {
+    const result = (0, sessionAuthentication_1.createSessionID)();
+    res.json(result);
+});
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
 });
 /*
 TODO:
@@ -56,29 +82,6 @@ TODO:
 //     res.status(500).send('Error creating tutor');
 //   }
 // });
-// Login Request
-app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
-    try {
-        const result = yield client.query('SELECT * FROM student WHERE email = $1 AND password = $2', [email, password]);
-        if (result.rows.length > 0) {
-            res.status(200).json(result.rows[0]);
-        }
-        else {
-            res.status(401).send('Invalid email or password');
-        }
-    }
-    catch (err) {
-        console.error('Error logging in tutor:', err);
-        res.status(500).send('Error logging in tutor');
-    }
-}));
-// Session ID generation
-app.post('/session', (req, res) => {
-    // Call your function and return its return value
-    const result = (0, sessionAuthentication_1.createSessionID)();
-    res.json(result);
-});
 // app.post('/students/create', async (req: Request, res: Response) => {
 //   const { username, email, password } = req.body;
 //   try {
@@ -144,7 +147,3 @@ app.post('/session', (req, res) => {
 //     res.status(500).send('Error creating appointment');
 //   }
 // });
-const port = process.env.PORT || 8000;
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-});
