@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Paper, TextField, Button, Alert } from '@mui/material';
 import { LoginRequest } from '../../api/dbEndpointTypes';
 import { checkLoginRequest } from '../../api/endpointRequests';
-import backgroundImage from "./img/LoginBackground.png";
+import backgroundImage from "../../img/background.png";
 
 import "../Login/login.css";
 import { requestSessionID } from '../../api/sessionRequest';
