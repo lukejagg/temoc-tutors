@@ -6,8 +6,13 @@ import "./signup.css";
 import { requestSessionID } from '../../api/sessionRequest';
 
 export const SignUp: React.FC = () => {
+    
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [schoolname, setSchool] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [retypePassword, setRetypePassword] = useState('');
     const [error, setError] = useState('');
     const [showErrorMessage, setShowErrorMessage] = useState(false);
     
@@ -40,19 +45,43 @@ export const SignUp: React.FC = () => {
             <h3 className="signup-header">Sign Up</h3>
             <TextField
                 className="signup-textfield"
+                label="First Name"
+                value={firstName}
+                onChange={(event) => setFirstName(event.target.value)}
+            />
+            <TextField
+                className="signup-textfield"
+                label="Last Name"
+                value={lastName}
+                onChange={(event) => setLastName(event.target.value)}
+            />
+            <TextField
+                className="signup-textfield"
+                label="School Name"
+                value={schoolname}
+                onChange={(event) => setSchool(event.target.value)}
+            />
+            <TextField
+                className="signup-textfield"
                 label="Email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
             />
+            <TextField
+                className="signup-textfield"
+                label="Password"
+                type ="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+            />
             <div>
                 <TextField
                 className="signup-textfield"
-                label="Password"
+                label="Re-type Password"
                 type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                value={retypePassword}
+                onChange={(event) => setRetypePassword(event.target.value)}
                 />
-                <p>Forgot password?</p>
             </div>
 
             <div className="signup-button-wrapper">
