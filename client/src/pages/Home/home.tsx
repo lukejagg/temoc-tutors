@@ -3,7 +3,7 @@ import "../Home/home.css";
 import backgroundImage from "../../img/background.png";
 import * as React from 'react';
 import { Box, Paper} from '@mui/material';
-import { Navbar } from "../../components/navbar/navbar";
+import { Navbar2 } from "../../components/navbar/navbar2";
 
 export const Home: React.FC = () => {
     const navigate = useNavigate();
@@ -11,7 +11,7 @@ export const Home: React.FC = () => {
     // const handleClickSignUp = () => navigate('/signup');
     return(
         <div>
-            <Navbar/>
+            <Navbar2/>
             <Box className="home-background" style={{ backgroundImage: `url(${backgroundImage})`}}>
                 <Paper className='home-paper' elevation={20} sx={{ borderRadius: 5 }} style={{background: 'black'}}>
                     <div className='home-paper-wrapper' 

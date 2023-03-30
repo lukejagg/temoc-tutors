@@ -16,7 +16,13 @@ export const Navbar2: React.FC = () => {
     return(
         <AppBar sx={{height: '10vh', background: 'black'}}>
             <Toolbar>
-                <Typography> Check</Typography>
+                <Typography> Temoc Tutors</Typography>
+                <Typography> 
+                    <Button> Check </Button>
+                </Typography>
+                <Typography> 
+                    <Button> Check </Button>
+                </Typography>
             </Toolbar>
         </AppBar>
     );
