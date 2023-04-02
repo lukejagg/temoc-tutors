@@ -1,163 +1,56 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-//import AdbIcon from '@mui/icons-material/Adb';
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-const pages = ['Home', 'Dashboard','Make a Reservation', 'Sign-up', 'Log-out'];
-const settings = ['Account','Logout'];
+interface NavbarProps {
+  sessionId?: string;
+}
 
-export const Navbar: React.FC = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp }) => {
+  const [sessionId, setSessionId] = useState<string | undefined>(sessionIdProp);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  useEffect(() => {
+    const storedSessionId = localStorage.getItem('sessionID');
+    if (storedSessionId) {
+      setSessionId(storedSessionId);
+    }
+  }, []);
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  // Button Handlers
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleLogOut = () => {
+    localStorage.removeItem('sessionID');
+    window.location.reload();
   };
 
   return (
-      <AppBar position="static" sx={{height: '10vh', background: 'black' ,opacity: 0.90}}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
-            <img src='../../img/icon.png'/>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: 'none', md: 'flex' },
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-              >
-              TemocTutors
-            </Typography>
+    <Box>
+      <AppBar position="fixed" sx={{ backgroundColor: '#fff', color: '#333' }}>
+        <Toolbar>
+          <Box sx={{ marginLeft: '16px' }}>
+            <img src={require('../../img/icon.png')} alt="TemocTutor" width={50} height={50} />
+          </Box>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            TemocTutors
+          </Typography>
 
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: 'block', md: 'none' },
-                }}
-              >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
+          {
+            /* First part is if user is logged in and authenticated.
+            Second half is if the user is not logged in */
+          }
+          {sessionId ? ( 
+            <Box sx={{ paddingLeft: '16px' }}>
+              <Button sx={{ marginRight: '10px' }} variant='contained' color="error" onClick={handleLogOut}>Log Out</Button>
             </Box>
-            {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
-            <img src='../../img/icon.png'/>
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: 'flex', md: 'none' },
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              TemocTutors
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              ))}
+          ) : (
+            <Box sx={{ paddingLeft: '16px' }}>
+              <Link to="/login"><Button sx={{ marginRight: '10px' }} variant='outlined' color="inherit">Log In</Button></Link>
+              <Link to="/signup"><Button sx={{ marginRight: '10px' }} variant='contained' color="inherit">Sign Up</Button></Link>
             </Box>
+          )}
 
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Drop-Down">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="avatar" src='../../img/icon.png'/>
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-          </Toolbar>
-        </Container>
+        </Toolbar>
       </AppBar>
+    </Box>
   );
-}
+};

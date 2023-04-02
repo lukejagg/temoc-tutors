@@ -15,7 +15,7 @@ export const SignUp: React.FC = () => {
     const [retypePassword, setRetypePassword] = useState('');
     const [error, setError] = useState('');
     const [showErrorMessage, setShowErrorMessage] = useState(false);
-    
+
     return (
         <Box className="signup-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
         <Paper className="signup-paper" elevation={20} sx={{ borderRadius: 5 }}>

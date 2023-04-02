@@ -10,14 +10,14 @@ import { SignUp } from "./pages/SignUp/signup";
 const App: React.FC = () => {
   return (
     <Router>
-    <Routes>
-      <Route path="/" element={<Home />}/>
-      <Route path="/signup" element={<SignUp />}/>
-      <Route path="/login" element={<Login />}/>
-      <Route path="/dashboard" element={<Dashboard />}/>
-      <Route path="/account" element={<Account />}/>
-    </Routes>
-  </Router>
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/signup" element={<SignUp />}/>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/account" element={<Account />}/>
+      </Routes>
+    </Router>
   );
 };
 

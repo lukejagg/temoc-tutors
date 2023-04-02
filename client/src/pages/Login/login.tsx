@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Paper, TextField, Button, Alert } from '@mui/material';
 import { LoginRequest } from '../../api/dbEndpointTypes';
 import { checkLoginRequest } from '../../api/endpointRequests';
@@ -12,7 +13,8 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showErrorMessage, setShowErrorMessage] = useState(false);
- 
+  const navigate = useNavigate();
+
   // API Calls
   const sendLoginRequest = async () => {
     const newLoginRequest: LoginRequest = {
@@ -42,7 +44,9 @@ export const Login: React.FC = () => {
     if (!errorMessage) {
       sendLoginRequest().then((result) => {
         if(result !== undefined) {
-          requestSessionID();
+          requestSessionID().then(() => {
+            navigate('/');
+          });
         }
         else {
           const loginError = "Wrong email or password";
@@ -51,6 +55,7 @@ export const Login: React.FC = () => {
         }
       });
     }
+    
   };
 
   // Login Page rendered

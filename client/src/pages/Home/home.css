@@ -5,11 +5,16 @@
     align-items: center;
     justify-content: center;
 }
-.home-paper{
+
+.home-paper {
     background: black;
     opacity: 0.8;
     padding: 50px 75px 10px 75px;
     height: 500px;
     width: 800px;
     position:fixed;
+}
+
+.home-paper-wrapper {
+    color: 'white';
 }

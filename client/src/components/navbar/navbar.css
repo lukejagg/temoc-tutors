@@ -1,0 +1,30 @@
+.navbar-wrapper {
+  flex-grow: 1;
+}
+
+.logo-container {
+  display: 'flex';
+  align-items: 'center';
+}
+
+.MuiAppBar-root {
+  background-color: #fff;
+  color: #333;
+}
+
+.MuiTypography-root {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.MuiButton-root {
+  color: #d10b0b;
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 20px;
+}
+
+.MuiButton-root:hover {
+  color: #666;
+  background-color: transparent;
+}
