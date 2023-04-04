@@ -11,13 +11,7 @@ export const Home: React.FC = () => {
     return(
         <div>
             <Navbar/>
-            <Box className="home-background">
-                <Paper className='home-paper' elevation={20} sx={{ borderRadius: 5 }} style={{background: 'black'}}>
-                    <div className='home-paper-wrapper'>
-                        <h3> Welcome to TemocTutors </h3>
-                    </div>
-                </Paper>
-            </Box>
+            
         </div>
     );
 };
