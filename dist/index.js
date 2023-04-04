@@ -59,6 +59,23 @@ app.post('/session', (req, res) => {
     const result = (0, sessionAuthentication_1.createSessionID)();
     res.json(result);
 });
+// Sign Up Request
+app.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, email, password } = req.body;
+    try {
+        const result = yield client.query('INSERT INTO student (username, email, password) VALUES ($1, $2, $3)  RETURNING *', [username, email, password]);
+        if (result.rowCount === 1) {
+            res.status(200).json(result.rows[0]);
+        }
+        else {
+            res.status(401).send('Error signing up');
+        }
+    }
+    catch (err) {
+        console.error('Error signing up:', err);
+        res.status(500).send('Error signing up');
+    }
+}));
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

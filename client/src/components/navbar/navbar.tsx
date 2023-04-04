@@ -44,8 +44,8 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp }) => {
             </Box>
           ) : (
             <Box sx={{ paddingLeft: '16px' }}>
-              <Link to="/login"><Button sx={{ marginRight: '10px' }} variant='outlined' color="inherit">Log In</Button></Link>
-              <Link to="/signup"><Button sx={{ marginRight: '10px' }} variant='contained' color="inherit">Sign Up</Button></Link>
+              <Link to="/login"><Button sx={{ marginRight: '10px' }} variant='outlined' color="primary">Log In</Button></Link>
+              <Link to="/signup"><Button sx={{ marginRight: '10px' }} variant='contained' color="primary">Sign Up</Button></Link>
             </Box>
           )}
 

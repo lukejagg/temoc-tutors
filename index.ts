@@ -40,7 +40,7 @@ app.post('/login', async (req: Request, res: Response) => {
       'SELECT * FROM student WHERE email = $1 AND password = $2',
       [email, password]
     );
-    if (result.rows.length > 0) {
+    if(result.rows.length > 0) {
       res.status(200).json(result.rows[0]);
     } else {
       res.status(401).send('Invalid email or password');
@@ -55,6 +55,26 @@ app.post('/login', async (req: Request, res: Response) => {
 app.post('/session', (req, res) => {
   const result = createSessionID();
   res.json(result);
+});
+
+// Sign Up Request
+app.post('/signup', async (req: Request, res: Response) => {
+  const { username, email, password } = req.body;
+
+  try {
+    const result = await client.query(
+      'INSERT INTO student (username, email, password) VALUES ($1, $2, $3)  RETURNING *',
+      [username, email, password]
+    );
+    if(result.rowCount === 1) {
+      res.status(200).json(result.rows[0]);
+    } else {
+      res.status(401).send('Error signing up');
+    }
+  } catch (err) {
+    console.error('Error signing up:', err);
+    res.status(500).send('Error signing up');
+  }  
 });
 
 const port = process.env.PORT || 8000;

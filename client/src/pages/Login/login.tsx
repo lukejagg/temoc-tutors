@@ -4,9 +4,8 @@ import { Box, Paper, TextField, Button, Alert } from '@mui/material';
 import { LoginRequest } from '../../api/dbEndpointTypes';
 import { checkLoginRequest } from '../../api/endpointRequests';
 import backgroundImage from "../../img/background.png";
-
-import "../Login/login.css";
 import { requestSessionID } from '../../api/sessionRequest';
+import "../Login/login.css";
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -36,6 +35,8 @@ export const Login: React.FC = () => {
       ? 'Please enter email'
       : hasEmptyPassword
       ? 'Please enter password'
+      : !isValidEmail(email)
+      ? 'Email is not valid'
       : '';
         
     setError(errorMessage);
@@ -55,15 +56,23 @@ export const Login: React.FC = () => {
         }
       });
     }
-    
   };
 
-  // Login Page rendered
+  const handleSignUp = () => {
+    navigate('/signup');
+  };
+
+  // Other Functions
+  const isValidEmail = (email : string) => {
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(email);
+  };
+
   return (
     <Box className="login-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <Paper className="login-paper" elevation={20} sx={{ borderRadius: 5 }}>
         <div className="login-wrapper">
-          <h3 className="login-header">Welcome</h3>
+          <h3 className="login-header">Login</h3>
           <TextField
             className="login-textfield"
             label="Email"
@@ -82,7 +91,7 @@ export const Login: React.FC = () => {
           </div>
 
           <div className="login-button-wrapper">
-            <Button className="login-button" variant="outlined" color="primary">
+            <Button className="login-button" variant="outlined" color="primary" onClick={handleSignUp}>
               Sign Up
             </Button>
 

@@ -19,6 +19,7 @@ export async function setupDatabase(client: Client) {
     await client.query(`
       CREATE TABLE IF NOT EXISTS tutor (
         id SERIAL PRIMARY KEY,
+        username VARCHAR(255) NOT NULL,
         subjects subject_enum[] NOT NULL,
         about_me VARCHAR(255),
         available_hours BYTEA[] NOT NULL,
@@ -27,11 +28,10 @@ export async function setupDatabase(client: Client) {
 
       CREATE TABLE IF NOT EXISTS student (
         id SERIAL PRIMARY KEY,
-        username VARCHAR(255) NOT NULL UNIQUE,
+        username VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
         total_tutoring_hours INT,
-        tutor_id INT REFERENCES tutor(id)
       );
 
       CREATE TABLE IF NOT EXISTS favorite (
