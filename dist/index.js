@@ -63,7 +63,7 @@ app.post('/session', (req, res) => {
 app.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, email, password } = req.body;
     try {
-        const result = yield client.query('INSERT INTO student (username, email, password) VALUES ($1, $2, $3)  RETURNING *', [username, email, password]);
+        const result = yield client.query('INSERT INTO student (username, email, password) VALUES ($1, $2, $3) RETURNING *', [username, email, password]);
         if (result.rowCount === 1) {
             res.status(200).json(result.rows[0]);
         }

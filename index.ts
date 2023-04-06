@@ -63,7 +63,7 @@ app.post('/signup', async (req: Request, res: Response) => {
 
   try {
     const result = await client.query(
-      'INSERT INTO student (username, email, password) VALUES ($1, $2, $3)  RETURNING *',
+      'INSERT INTO student (username, email, password) VALUES ($1, $2, $3) RETURNING *',
       [username, email, password]
     );
     if(result.rowCount === 1) {
