@@ -1,28 +1,48 @@
-import  { useNavigate } from 'react-router-dom';
-import "../Home/home.css";
+import { useEffect, useState } from 'react';
+import { StudentHome } from './student-home';
+import { GuestHome } from './guest-home';
+import { TutorHome } from './tutor-home';
 import * as React from 'react';
-import { Box, Paper, Container, Typography, Button } from '@mui/material';
-import { Navbar } from "../../components/navbar/navbar";
 
-export const Home: React.FC = () => {
-  const navigate = useNavigate();
-  // const handleClickLogin = () => navigate('/login');
-  // const handleClickSignUp = () => navigate('/signup');
-  return(
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#fff' }}>
-      <Navbar />
-      <img src="/path/to/horizontal-image.jpg" alt="Horizontal Image" style={{ width: '100%', height: 'auto' }} />
-      <Container maxWidth="sm" style={{ margin: '32px auto', textAlign: 'center' }}>
-      <Typography variant="h4" component="h1" gutterBottom>
-          Company Name
-      </Typography>
-      <Typography variant="body1" component="p">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, odio non rhoncus facilisis, dui sapien maximus purus, in faucibus ipsum nunc auctor mauris. Integer eget neque et quam tincidunt hendrerit vel nec magna.
-      </Typography>
-      </Container>
-      <Button variant="contained" color="primary" size="large" style={{ margin: '32px auto' }}>
-      Click Here
-      </Button>
-    </div>
-  );
+enum UserType {
+  STUDENT = 's',
+  TUTOR = 't',
+}
+
+interface HomeProps {
+  sessionId?: string;
+  userType?: UserType;
+}
+
+export const Home: React.FC<HomeProps> = ({ sessionId: sessionIdProp, userType: userTypeProp }) => {
+  const [sessionId, setSessionId] = useState<string | undefined>(sessionIdProp);
+  const [userType, setUserType] = useState<UserType | undefined>(userTypeProp);
+
+  useEffect(() => {
+    const storedSessionId = localStorage.getItem('sessionID');
+    const storedUserType = localStorage.getItem('userType');
+    if (storedSessionId) {
+      setSessionId(storedSessionId);
+    }
+    if (storedUserType) {
+      setUserType(storedUserType as UserType);
+    }
+  }, []);
+
+  if(sessionId) {
+    if(userType === 's') {
+      return <StudentHome />;
+    }
+    else if(userType === 't') {
+      return <TutorHome />;
+    }
+    else {
+      return (
+        <h1>An unexpected error has occured</h1>
+      )
+    }
+  }
+  else {
+    return <GuestHome />;
+  }
 };

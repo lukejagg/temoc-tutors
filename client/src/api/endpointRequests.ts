@@ -16,6 +16,8 @@ export const checkLoginRequest = async (loginRequest: LoginRequest) => {
       throw new Error(`Request failed with status code ${response.status}`);
     }
 
+    localStorage.setItem('userType', 's');
+
     return await response.json();
   } catch (error) {
     console.error(error);
@@ -35,6 +37,8 @@ export const checkStudentCreationRequest = async (studentCreationRequest: Studen
     if (!response.ok) {
       throw new Error(`Request failed with status code ${response.status}`);
     }
+
+    localStorage.setItem('userType', 's');
 
     return await response.json();
   } catch (error) {

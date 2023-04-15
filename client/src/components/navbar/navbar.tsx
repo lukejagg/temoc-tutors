@@ -2,17 +2,28 @@ import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-interface NavbarProps {
-  sessionId?: string;
+enum UserType {
+  STUDENT = 's',
+  TUTOR = 't',
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp }) => {
+interface NavbarProps {
+  sessionId?: string;
+  userType?: UserType;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userType: userTypeProp }) => {
   const [sessionId, setSessionId] = useState<string | undefined>(sessionIdProp);
+  const [userType, setUserType] = useState<UserType | undefined>(userTypeProp);
 
   useEffect(() => {
     const storedSessionId = localStorage.getItem('sessionID');
+    const storedUserType = localStorage.getItem('userType');
     if (storedSessionId) {
       setSessionId(storedSessionId);
+    }
+    if (storedUserType) {
+      setUserType(storedUserType as UserType);
     }
   }, []);
 
@@ -20,12 +31,34 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp }) => {
 
   const handleLogOut = () => {
     localStorage.removeItem('sessionID');
+    localStorage.removeItem('userType');
     window.location.reload();
+  };
+
+  const renderUserTypeButtons = () => {
+    if (userType === UserType.STUDENT) {
+      return (
+        <>
+          <Button variant='contained' color="primary" sx={{ marginRight: '10px' }}>Button 1</Button>
+          <Button variant='contained' color="primary" sx={{ marginRight: '10px' }}>Button 2</Button>
+          <Button variant='contained' color="primary" sx={{ marginRight: '10px' }}>Button 3</Button>
+        </>
+      );
+    } else if (userType === UserType.TUTOR) {
+      return (
+        <>
+          <Button variant='contained' color="primary" sx={{ marginRight: '10px' }}>Button 1</Button>
+          <Button variant='contained' color="primary" sx={{ marginRight: '10px' }}>Button 2</Button>
+        </>
+      );
+    } else {
+      return null;
+    }
   };
 
   return (
     <Box>
-      <AppBar position="fixed" sx={{ backgroundColor: '#fff', color: '#333' }}>
+      <AppBar position="fixed" elevation={1} sx={{ backgroundColor: '#fff', color: '#333'}}>
         <Toolbar>
           <Box sx={{ marginLeft: '16px' }}>
             <img src={require('../../img/icon.png')} alt="TemocTutor" width={50} height={50} />
@@ -34,12 +67,9 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp }) => {
             TemocTutors
           </Typography>
 
-          {
-            /* First part is if user is logged in and authenticated.
-            Second half is if the user is not logged in */
-          }
           {sessionId ? ( 
             <Box sx={{ paddingLeft: '16px' }}>
+              {renderUserTypeButtons()}
               <Button sx={{ marginRight: '10px' }} variant='contained' color="error" onClick={handleLogOut}>Log Out</Button>
             </Box>
           ) : (
