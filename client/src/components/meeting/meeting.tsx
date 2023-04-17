@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Navbar } from "../../components/navbar/navbar";
 import './meeting.css';
 
@@ -12,6 +12,7 @@ declare global {
 const Meeting: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -32,6 +33,10 @@ const Meeting: React.FC = () => {
 
       jitsi.addEventListener('videoConferenceJoined', () => {
         jitsi.executeCommand('password', password);
+      });
+
+      jitsi.addEventListener('readyToClose', () => {
+        navigate('/');
       });
 
       return () => {
