@@ -6,8 +6,17 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { PickersDay } from '@mui/x-date-pickers';
 import { Badge } from '@mui/material';
 
-export const StudentCalendar: React.FC = () => {
+type StudentCalendarProps = {
+  onDateChange: (date: Date | null) => void;
+};
+
+export const StudentCalendar: React.FC<StudentCalendarProps> = (props) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+    props.onDateChange(date);
+  };
 
   return (
     <div>
@@ -15,14 +24,9 @@ export const StudentCalendar: React.FC = () => {
         <StaticDatePicker
           orientation="landscape"
           value={selectedDate}
-          onChange={(date) => setSelectedDate(date)}
+          onChange={(date) => handleDateChange(date)}
         />
       </LocalizationProvider>
-      {selectedDate && (
-        <div>
-          Selected date: {dayjs(selectedDate).format('YYYY-MM-DD')}
-        </div>
-      )}
     </div>
   );
 };
