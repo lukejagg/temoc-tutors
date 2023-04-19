@@ -1,23 +1,26 @@
 import * as React from 'react';
-import { Container, Typography, Button } from '@mui/material';
 import { Navbar } from "../../components/navbar/navbar";
+import { StudentCalendar } from './components/student-calendar/student-calendar';
+import { Paper, Typography, Box } from '@mui/material';
+import "../Home/student-home.css";
 
 export const StudentHome: React.FC = () => {
   return(
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#fff' }}>
+    <div className='top-content'>
       <Navbar />
-      <img src="/path/to/horizontal-image.jpg" alt="Horizontal" style={{ width: '100%', height: 'auto' }} />
-      <Container maxWidth="sm" style={{ margin: '32px auto', textAlign: 'center' }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-            Company Name
-        </Typography>
-        <Typography variant="body1" component="p">
-            Student
-        </Typography>
-      </Container>
-      <Button variant="contained" color="primary" size="large" style={{ margin: '32px auto' }}>
-      Click Here
-      </Button>
+
+      {/* Calendar and Appointments Render */}
+      <div className='container'>
+        {/* Calendar */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <StudentCalendar />
+        </Box>
+
+        {/* Appointments */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          
+        </Box>
+      </div>
     </div>
   );
 };

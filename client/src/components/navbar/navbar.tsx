@@ -39,16 +39,16 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
     if (userType === UserType.STUDENT) {
       return (
         <>
-          <Button variant='contained' color="primary" sx={{ marginRight: '10px' }}>Button 1</Button>
-          <Button variant='contained' color="primary" sx={{ marginRight: '10px' }}>Button 2</Button>
-          <Button variant='contained' color="primary" sx={{ marginRight: '10px' }}>Button 3</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }}>Home</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }}>Profile</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }}>FAQ</Button>
         </>
       );
     } else if (userType === UserType.TUTOR) {
       return (
         <>
-          <Button variant='contained' color="primary" sx={{ marginRight: '10px' }}>Button 1</Button>
-          <Button variant='contained' color="primary" sx={{ marginRight: '10px' }}>Button 2</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }}>Button 1</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }}>Button 2</Button>
         </>
       );
     } else {

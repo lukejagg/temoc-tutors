@@ -1,5 +1,4 @@
-import React, { useState, useEffect} from 'react';
-import  { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { Box } from '@mui/material';
 import "./account.css";
 import backgroundImage from "../../img/background.png";

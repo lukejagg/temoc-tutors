@@ -49,7 +49,7 @@ export const SignUp: React.FC = () => {
       ? 'Please enter a password'
       : (hasEmptyRetypePassword && !hasEmptyPassword)
       ? 'Please re-type your password'
-      : (password != retypePassword)
+      : (password !== retypePassword)
       ? 'Password does not match'
       : !isValidEmail(email)
       ? 'Email is not valid'
