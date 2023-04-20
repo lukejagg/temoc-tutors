@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import { Navbar } from "../../components/navbar/navbar";
 import { Calendar } from './components/calendar/calendar';
 import { Typography, Box } from '@mui/material';
@@ -21,17 +21,30 @@ export const StudentHome: React.FC = () => {
 
   return(
     <div>
-      <div className='top-content'>
+      <div className="top-content">
         <Navbar />
-        <div className='container'>
-        
+        <div className="container">
           {/* Calendar */}
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Calendar onDateChange={(date: Date | null) => setSelectedDate(date)} />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Calendar
+              onDateChange={(date: Date | null) => setSelectedDate(date)}
+            />
           </Box>
 
           {/* Appointments */}
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             {selectedDate ? (
               <Typography variant="h4">
                 {new Date(selectedDate).toLocaleDateString()}
@@ -39,10 +52,12 @@ export const StudentHome: React.FC = () => {
                 <StudentAppointments />
               </Typography>
             ) : (
-              <Typography variant="h4">No date selected</Typography>
+              <Typography variant="h4">
+                <StudentAppointments />
+                No date selected
+              </Typography>
             )}
           </Box>
-
         </div>
       </div>
     </div>
