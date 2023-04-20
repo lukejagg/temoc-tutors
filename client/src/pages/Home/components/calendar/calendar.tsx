@@ -4,12 +4,16 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 
-type Calendar = {
+type CalendarProps = {
   onDateChange: (date: Date | null) => void;
 };
 
-export const Calendar: React.FC<Calendar> = (props) => {
+export const Calendar: React.FC<CalendarProps> = (props) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const requestAppointments = () => {
+    console.log("lol");
+  }
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
@@ -23,6 +27,7 @@ export const Calendar: React.FC<Calendar> = (props) => {
           orientation="landscape"
           value={selectedDate}
           onChange={(date) => handleDateChange(date)}
+          onAccept={requestAppointments}
         />
       </LocalizationProvider>
     </div>

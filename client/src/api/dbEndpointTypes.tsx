@@ -22,7 +22,7 @@ export interface StudentCreationRequest {
 }
 
 export interface StudentAppointmentsCheckRequest {
-    id: number;
+    id: string | null;
     date: Date;
 }
 
