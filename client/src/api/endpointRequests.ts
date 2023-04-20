@@ -78,9 +78,9 @@ export const checkStudentAppointmentsCheckRequest = async (studentAppointmentsCh
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(studentAppointmentsCheckRequest),
   };
-
+  
   try {
-    const response = await fetch(`${API_BASE_URL}/signup`, requestOptions);
+    const response = await fetch(`${API_BASE_URL}/appointment/date`, requestOptions);
 
     if (!response.ok) {
       throw new Error(`Request failed with status code ${response.status}`);

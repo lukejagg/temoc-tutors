@@ -97,6 +97,25 @@ app.post('/signup', async (req: Request, res: Response) => {
   }  
 });
 
+app.post('/appointment/date', async (req: Request, res: Response) => {
+  const { id, date } = req.body;
+
+  try {
+    const result = await client.query(
+      'SELECT id, time_start, time_end, tutor_id FROM appointment WHERE student_id = $1 AND date = to_date($2,  \'YYYY-MM-DD\')',
+      [id, date]
+    );
+    if(result.rowCount !== 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error loading appointments');
+    }
+  } catch (err) {
+    console.error('Error loading appointments', err);
+    res.status(500).send('Error loading appointments');
+  }  
+});
+
 // Getting Appointments for Student By Date
 // app.post('/appointments', async (req: Request, res: Response) => {
 //   const { id, date } = req.body;

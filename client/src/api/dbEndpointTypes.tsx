@@ -23,7 +23,7 @@ export interface StudentCreationRequest {
 
 export interface StudentAppointmentsCheckRequest {
     id: string | null;
-    date: Date;
+    date: string;
 }
 
 // // Interfaces for tutor-related endpoints
