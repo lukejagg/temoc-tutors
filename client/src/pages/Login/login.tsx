@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, TextField, Button, Alert } from '@mui/material';
-import { LoginRequest } from '../../api/dbEndpointTypes';
-import { checkLoginRequest } from '../../api/endpointRequests';
-import backgroundImage from "../../img/background.png";
+import { LoginRequest, UserIdRequest } from '../../api/dbEndpointTypes';
+import { checkLoginRequest, checkUserIdRequest } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
+import backgroundImage from "../../img/background.png";
 import "../Login/login.css";
 
 export const Login: React.FC = () => {
@@ -22,6 +22,14 @@ export const Login: React.FC = () => {
     };
 
     return await checkLoginRequest(newLoginRequest);
+  };
+
+  const sendUserIdRequest = async () => {
+    const newUserIdRequest: UserIdRequest = {
+      email: email
+    };
+
+    return await checkUserIdRequest(newUserIdRequest);
   };
 
   // Event Handlers
@@ -46,7 +54,9 @@ export const Login: React.FC = () => {
       sendLoginRequest().then((result) => {
         if(result !== undefined) {
           requestSessionID().then(() => {
-            navigate('/');
+            sendUserIdRequest().then(() => {
+              navigate('/');
+            });
           });
         }
         else {

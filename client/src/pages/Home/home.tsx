@@ -31,7 +31,11 @@ export const Home: React.FC<HomeProps> = ({ sessionId: sessionIdProp, userType: 
 
   if(sessionId) {
     if(userType === 's') {
-      return <StudentHome />;
+      return (
+        <>
+          <StudentHome />
+        </>
+      );
     }
     else if(userType === 't') {
       return <TutorHome />;

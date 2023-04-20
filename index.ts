@@ -51,6 +51,26 @@ app.post('/login', async (req: Request, res: Response) => {
   }
 });
 
+// User ID Request
+app.post('/login/userid', async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  try {
+    const result = await client.query(
+      'SELECT id FROM student WHERE email = $1',
+      [email]
+    );
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows[0]);
+    } else {
+      res.status(401).send('User does not exist');
+    }
+  } catch (err) {
+    console.error('Error retrieving user', err);
+    res.status(500).send('Error retrieving user');
+  }
+});
+
 // Session ID generation
 app.post('/session', (req, res) => {
   const result = createSessionID();
@@ -76,6 +96,26 @@ app.post('/signup', async (req: Request, res: Response) => {
     res.status(500).send('Error signing up');
   }  
 });
+
+// Getting Appointments for Student By Date
+// app.post('/appointments', async (req: Request, res: Response) => {
+//   const { id, date } = req.body;
+
+//   try {
+//     const result = await client.query(
+//       'INSERT INTO student (username, email, password) VALUES ($1, $2, $3) RETURNING *',
+//       [username, email, password]
+//     );
+//     if(result.rowCount === 1) {
+//       res.status(200).json(result.rows[0]);
+//     } else {
+//       res.status(401).send('Error signing up');
+//     }
+//   } catch (err) {
+//     console.error('Error signing up:', err);
+//     res.status(500).send('Error signing up');
+//   }  
+// });
 
 const port = process.env.PORT || 8000;
 

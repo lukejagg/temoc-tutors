@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Box, Paper, TextField, Button, Alert } from '@mui/material';
-import { StudentCreationRequest } from '../../api/dbEndpointTypes';
-import backgroundImage from "../../img/background.png";
+import { StudentCreationRequest, UserIdRequest } from '../../api/dbEndpointTypes';
 import { useNavigate } from 'react-router-dom';
-import "./signup.css";
-import { checkStudentCreationRequest } from '../../api/endpointRequests';
+import { checkStudentCreationRequest, checkUserIdRequest } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
+import backgroundImage from "../../img/background.png";
+import "./signup.css";
 
 export const SignUp: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -26,6 +26,15 @@ export const SignUp: React.FC = () => {
 
     return await checkStudentCreationRequest(newSignUpRequest);
   };
+
+  const sendUserIdRequest = async () => {
+    const newUserIdRequest: UserIdRequest = {
+      email: email
+    };
+
+    return await checkUserIdRequest(newUserIdRequest);
+  };
+
 
   // Event Handlers
   const handleSignUp = async () => {
@@ -62,7 +71,9 @@ export const SignUp: React.FC = () => {
         sendStudentCreationRequest().then((result) => {
           if(result !== undefined) {
             requestSessionID().then(() => {
-              navigate('/');
+              sendUserIdRequest().then(() => {
+                navigate('/');
+              });
             });
           }
           else {

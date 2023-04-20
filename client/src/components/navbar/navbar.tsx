@@ -30,10 +30,13 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
   // Button Handlers
 
   const handleLogOut = () => {
-    localStorage.removeItem('sessionID');
-    localStorage.removeItem('userType');
+    localStorage.clear();
+    
     window.location.reload();
   };
+
+  // Event Handlers
+
 
   const renderUserTypeButtons = () => {
     if (userType === UserType.STUDENT) {

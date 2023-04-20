@@ -32,10 +32,17 @@ function setupDatabase(client) {
         username VARCHAR(255) NOT NULL,
         subjects subject_enum[] NOT NULL,
         about_me VARCHAR(255),
-        available_hours BYTEA[] NOT NULL,
         profile_picture BYTEA
       );
-
+      
+      CREATE TABLE IF NOT EXISTS tutor_schedule (
+        id SERIAL PRIMARY KEY,
+        tutor_id INTEGER NOT NULL REFERENCES tutor(id),
+        day DATE NOT NULL,
+        start_time TIME NOT NULL,
+        end_time TIME NOT NULL
+      );
+      
       CREATE TABLE IF NOT EXISTS student (
         id SERIAL PRIMARY KEY,
         username VARCHAR(255) NOT NULL,
@@ -43,17 +50,18 @@ function setupDatabase(client) {
         password VARCHAR(255) NOT NULL,
         total_tutoring_hours INT
       );
-
+      
       CREATE TABLE IF NOT EXISTS favorite (
         id SERIAL PRIMARY KEY,
         student_id INT NOT NULL REFERENCES student(id),
         tutor_id INT NOT NULL REFERENCES tutor(id)
       );
-
+      
       CREATE TABLE IF NOT EXISTS appointment (
         id SERIAL PRIMARY KEY,
         date DATE NOT NULL,
-        time BYTEA NOT NULL,
+        time_start TIME NOT NULL,
+        time_end TIME NOT NULL,
         student_id INT NOT NULL REFERENCES student(id),
         tutor_id INT NOT NULL REFERENCES tutor(id)
       );

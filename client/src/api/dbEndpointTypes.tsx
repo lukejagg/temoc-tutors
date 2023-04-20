@@ -4,6 +4,11 @@ export interface LoginRequest {
     password: string;
 }
 
+// Interface for getting User ID
+export interface UserIdRequest {
+    email: string;
+}
+
 // Interface for getting the session ID
 export interface SessionData {
     sessionId: string;
@@ -14,6 +19,11 @@ export interface StudentCreationRequest {
     email: string;
     username: string;
     password: string;
+}
+
+export interface StudentAppointmentsCheckRequest {
+    id: number;
+    date: Date;
 }
 
 // // Interfaces for tutor-related endpoints
