@@ -7,7 +7,6 @@ import { Dashboard } from "./pages/Dashboard/dashboard";
 import { Account } from "./pages/Account/account";
 import { SignUp } from "./pages/SignUp/signup";
 import Meeting from './components/meeting/meeting';
-import Footer from "./components/footer/footer";
 
 const App: React.FC = () => {
   return (

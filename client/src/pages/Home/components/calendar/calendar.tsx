@@ -3,8 +3,6 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import { PickersDay } from '@mui/x-date-pickers';
-import { Badge } from '@mui/material';
 
 type Calendar = {
   onDateChange: (date: Date | null) => void;
