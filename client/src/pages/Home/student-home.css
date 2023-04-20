@@ -10,6 +10,9 @@
   display: grid;
   grid-template-columns: 50% 50%;
   grid-gap: 16px;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px);
 }
 
 .calendar {

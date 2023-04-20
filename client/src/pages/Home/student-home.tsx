@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Navbar } from "../../components/navbar/navbar";
-import { StudentCalendar } from './components/student-calendar/student-calendar';
+import { Calendar } from './components/calendar/calendar';
 import { Paper, Typography, Box } from '@mui/material';
 import "../Home/student-home.css";
 
@@ -19,7 +19,7 @@ export const StudentHome: React.FC = () => {
       <div className='container'>
         {/* Calendar */}
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <StudentCalendar onDateChange={handleDateChange} />
+          <Calendar onDateChange={handleDateChange} />
         </Box>
 
         {/* Appointments */}
