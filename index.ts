@@ -91,6 +91,25 @@ app.post('/login/userid', async (req: Request, res: Response) => {
   }
 });
 
+app.post('/login/tutor/userid', async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  try {
+    const result = await client.query(
+      'SELECT id FROM tutor WHERE email = $1',
+      [email]
+    );
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows[0]);
+    } else {
+      res.status(401).send('User does not exist');
+    }
+  } catch (err) {
+    console.error('Error retrieving user', err);
+    res.status(500).send('Error retrieving user');
+  }
+});
+
 // Session ID generation
 app.post('/session', (req, res) => {
   const result = createSessionID();
@@ -123,6 +142,25 @@ app.post('/appointment/date', async (req: Request, res: Response) => {
   try {
     const result = await client.query(
       'SELECT appointment.id, appointment.time_start, appointment.time_end, appointment.tutor_id, tutor.username FROM appointment JOIN tutor ON appointment.tutor_id = tutor.id WHERE appointment.student_id = $1 AND appointment.date = to_date($2, \'YYYY-MM-DD\')',
+      [id, date]
+    );
+    if(result.rowCount !== 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error loading appointments');
+    }
+  } catch (err) {
+    console.error('Error loading appointments', err);
+    res.status(500).send('Error loading appointments');
+  }  
+});
+
+app.post('/appointment/tutor/date', async (req: Request, res: Response) => {
+  const { id, date } = req.body;
+
+  try {
+    const result = await client.query(
+      'SELECT appointment.id, appointment.time_start, appointment.time_end, appointment.student_id, student.username FROM appointment JOIN student ON appointment.student_id = student.id WHERE appointment.tutor_id = $1 AND appointment.date = to_date($2, \'YYYY-MM-DD\')',
       [id, date]
     );
     if(result.rowCount !== 0) {

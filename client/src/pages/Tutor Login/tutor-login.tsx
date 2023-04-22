@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, TextField, Button, Alert } from '@mui/material';
 import { TutorLoginRequest, UserIdRequest } from '../../api/dbEndpointTypes';
-import { checkTutorLoginRequest, checkUserIdRequest } from '../../api/endpointRequests';
+import { checkTutorLoginRequest, checkTutorUserIdRequest } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
 import backgroundImage from "../../img/background.png";
 import "../Tutor Login/tutor-login.css";
@@ -29,7 +29,7 @@ export const TutorLogin: React.FC = () => {
       email: email
     };
 
-    return await checkUserIdRequest(newUserIdRequest);
+    return await checkTutorUserIdRequest(newUserIdRequest);
   };
 
   // Event Handlers

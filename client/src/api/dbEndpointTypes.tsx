@@ -33,6 +33,11 @@ export interface StudentAppointmentsCheckRequest {
     date: string;
 }
 
+export interface TutorAppointmentsCheckRequest {
+    id: string | null;
+    date: string;
+}
+
 // // Interfaces for tutor-related endpoints
 // export interface Tutor {
 //     id: number;

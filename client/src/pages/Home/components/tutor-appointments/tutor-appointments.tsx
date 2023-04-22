@@ -10,26 +10,26 @@ interface Appointment {
   id: string;
   time_start: Date;
   time_end: Date;
-  tutor_id: string;
+  student_id: string;
   username: string;
   profile_picture: string;
 }
 
-export const StudentAppointments: React.FC<AppointmentProps> = ({ appointments }) => {
-  const [studentAppointments, setStudentAppointments] = useState<Appointment[] | null>(null);
+export const TutorAppointments: React.FC<AppointmentProps> = ({ appointments }) => {
+  const [tutorAppointments, setTutorAppointments] = useState<Appointment[] | null>(null);
 
   useEffect(() => {
     if (appointments) {
-      setStudentAppointments(appointments);
+      setTutorAppointments(appointments);
     }
     
   }, [appointments]);
 
   return (
     <Paper sx={{ padding: "20px", maxHeight: "650px", overflowY: "auto", width: "600px" }}>
-      {studentAppointments && studentAppointments.length > 0 ? (
+      {tutorAppointments && tutorAppointments.length > 0 ? (
         <List>
-          {studentAppointments.map((appointment) => (
+          {tutorAppointments.map((appointment) => (
             <ListItem key={appointment.id} sx={{ height: "125px", alignSelf: "flex-start" }}>
               <ListItemAvatar>
                 <Avatar
