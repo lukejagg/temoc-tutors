@@ -109,7 +109,7 @@ export const TutorLogin: React.FC = () => {
               Sign Up
             </Button>
 
-            <Button className="login-button" variant="contained" color="primary" onClick={handleLoginRedirect}>
+            <Button className="login-button" variant="outlined" color="primary" onClick={handleLoginRedirect}>
               Student Login
             </Button>
 

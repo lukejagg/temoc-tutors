@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 enum UserType {
   STUDENT = 's',
@@ -15,6 +15,7 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userType: userTypeProp }) => {
   const [sessionId, setSessionId] = useState<string | undefined>(sessionIdProp);
   const [userType, setUserType] = useState<UserType | undefined>(userTypeProp);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedSessionId = localStorage.getItem('sessionID');
@@ -35,15 +36,21 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
     window.location.reload();
   };
 
+  const handleStudentHomeRedirect = () => {
+    navigate('/');
+  };
+
+  const handleStudentProfileRedirect = () => {
+    navigate('/profile');
+  };
+  
   // Event Handlers
-
-
   const renderUserTypeButtons = () => {
     if (userType === UserType.STUDENT) {
       return (
         <>
-          <Button color="primary" sx={{ marginRight: '10px' }}>Home</Button>
-          <Button color="primary" sx={{ marginRight: '10px' }}>Profile</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleStudentHomeRedirect}>Home</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleStudentProfileRedirect}>Profile</Button>
           <Button color="primary" sx={{ marginRight: '10px' }}>FAQ</Button>
         </>
       );
