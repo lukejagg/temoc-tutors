@@ -122,7 +122,7 @@ app.post('/appointment/date', async (req: Request, res: Response) => {
 
   try {
     const result = await client.query(
-      'SELECT id, time_start, time_end, tutor_id FROM appointment WHERE student_id = $1 AND date = to_date($2,  \'YYYY-MM-DD\')',
+      'SELECT appointment.id, appointment.time_start, appointment.time_end, appointment.tutor_id, tutor.username FROM appointment JOIN tutor ON appointment.tutor_id = tutor.id WHERE appointment.student_id = $1 AND appointment.date = to_date($2, \'YYYY-MM-DD\')',
       [id, date]
     );
     if(result.rowCount !== 0) {

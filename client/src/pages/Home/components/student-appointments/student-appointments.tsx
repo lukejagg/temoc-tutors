@@ -11,6 +11,7 @@ interface Appointment {
   time_start: Date;
   time_end: Date;
   tutor_id: string;
+  username: string;
   profile_picture: string;
 }
 
@@ -37,7 +38,7 @@ export const StudentAppointments: React.FC<AppointmentProps> = ({ appointments }
                 />
               </ListItemAvatar>
               <ListItemText
-                primary={appointment.id + " w/ " + appointment.id}
+                primary={appointment.id + " w/ " + appointment.username}
                 secondary={appointment.time_start + " - " + appointment.time_end}
               />
             </ListItem>

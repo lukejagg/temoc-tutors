@@ -113,7 +113,7 @@ app.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 app.post('/appointment/date', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id, date } = req.body;
     try {
-        const result = yield client.query('SELECT id, time_start, time_end, tutor_id FROM appointment WHERE student_id = $1 AND date = to_date($2,  \'YYYY-MM-DD\')', [id, date]);
+        const result = yield client.query('SELECT appointment.id, appointment.time_start, appointment.time_end, appointment.tutor_id, tutor.username FROM appointment JOIN tutor ON appointment.tutor_id = tutor.id WHERE appointment.student_id = $1 AND appointment.date = to_date($2, \'YYYY-MM-DD\')', [id, date]);
         if (result.rowCount !== 0) {
             res.status(200).json(result.rows);
         }
