@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import { Navbar } from "../../components/navbar/navbar";
 import { Calendar } from './components/calendar/calendar';
 import { Typography, Box } from '@mui/material';
@@ -11,7 +12,7 @@ interface Props {}
 
 export const StudentHome: React.FC<Props> = () => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
-  const [appointments, setAppointments] = React.useState<any[] | null>([]);
+  const [appointments, setAppointments] = React.useState<any[]>([]);
 
   const appointmentsRequest = async (date: Date) => {
     const newAppointmentsRequest: StudentAppointmentsCheckRequest = {
@@ -23,7 +24,7 @@ export const StudentHome: React.FC<Props> = () => {
     return response;
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (selectedDate) {
       appointmentsRequest(selectedDate).then((response) => {
         setAppointments(response);
@@ -44,15 +45,13 @@ export const StudentHome: React.FC<Props> = () => {
           {/* Appointments */}
           <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
             {selectedDate ? (
-              <Typography variant="h4">
-                {new Date(selectedDate).toLocaleDateString()}
-                {appointments && <StudentAppointments />}
-              </Typography>
+              appointments ? (
+                <StudentAppointments appointments={appointments} />
+              ) : (
+                <Typography variant="h4">No appointments scheduled on this day</Typography>
+              )
             ) : (
-              <Typography variant="h4">
-                <StudentAppointments />
-                No date selected
-              </Typography>
+              <Typography variant="h4">No date selected</Typography>
             )}
           </Box>
         </div>

@@ -1,4 +1,4 @@
-import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest } from "./dbEndpointTypes";
+import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest } from "./dbEndpointTypes";
 
 const API_BASE_URL = "http://localhost:8000";
 
@@ -17,6 +17,28 @@ export const checkLoginRequest = async (loginRequest: LoginRequest) => {
     }
 
     localStorage.setItem('userType', 's');
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkTutorLoginRequest = async (tutorLoginRequest: TutorLoginRequest) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(tutorLoginRequest),
+  };
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/tutorlogin`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    localStorage.setItem('userType', 't');
 
     return await response.json();
   } catch (error) {

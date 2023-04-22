@@ -4,6 +4,13 @@ export interface LoginRequest {
     password: string;
 }
 
+// Interface for user logging on
+export interface TutorLoginRequest {
+    email: string;
+    password: string;
+}
+
+
 // Interface for getting User ID
 export interface UserIdRequest {
     email: string;

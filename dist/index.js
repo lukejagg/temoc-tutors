@@ -54,6 +54,23 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.status(500).send('Error logging in');
     }
 }));
+// Login Request
+app.post('/tutorlogin', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    try {
+        const result = yield client.query('SELECT * FROM tutor WHERE email = $1 AND password = $2', [email, password]);
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows[0]);
+        }
+        else {
+            res.status(401).send('Invalid email or password');
+        }
+    }
+    catch (err) {
+        console.error('Error logging in:', err);
+        res.status(500).send('Error logging in');
+    }
+}));
 // User ID Request
 app.post('/login/userid', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.body;

@@ -30,6 +30,8 @@ function setupDatabase(client) {
       CREATE TABLE IF NOT EXISTS tutor (
         id SERIAL PRIMARY KEY,
         username VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL,
         subjects subject_enum[] NOT NULL,
         about_me VARCHAR(255),
         profile_picture BYTEA

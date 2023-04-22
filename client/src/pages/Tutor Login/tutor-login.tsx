@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Paper, TextField, Button, Alert } from '@mui/material';
-import { LoginRequest, UserIdRequest } from '../../api/dbEndpointTypes';
-import { checkLoginRequest, checkUserIdRequest } from '../../api/endpointRequests';
+import { TutorLoginRequest, UserIdRequest } from '../../api/dbEndpointTypes';
+import { checkTutorLoginRequest, checkUserIdRequest } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
 import backgroundImage from "../../img/background.png";
-import "../Login/login.css";
+import "../Tutor Login/tutor-login.css";
 
-export const Login: React.FC = () => {
+export const TutorLogin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,12 +16,12 @@ export const Login: React.FC = () => {
 
   // API Calls
   const sendLoginRequest = async () => {
-    const newLoginRequest: LoginRequest = {
+    const newTutorLoginRequest: TutorLoginRequest = {
       email: email,
       password: password
     };
 
-    return await checkLoginRequest(newLoginRequest);
+    return await checkTutorLoginRequest(newTutorLoginRequest);
   };
 
   const sendUserIdRequest = async () => {
@@ -72,8 +72,8 @@ export const Login: React.FC = () => {
     navigate('/signup');
   };
 
-  const handleTutorRedirect = () => {
-    navigate('/tutorlogin');
+  const handleLoginRedirect = () => {
+    navigate('/login');
   };
 
   // Other Functions
@@ -86,7 +86,7 @@ export const Login: React.FC = () => {
     <Box className="login-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <Paper className="login-paper" elevation={20} sx={{ borderRadius: 5 }}>
         <div className="login-wrapper">
-          <h3 className="login-header">Login</h3>
+          <h3 className="login-header">Tutor Login</h3>
           <TextField
             className="login-textfield"
             label="Email"
@@ -109,8 +109,8 @@ export const Login: React.FC = () => {
               Sign Up
             </Button>
 
-            <Button className="login-button" variant="outlined" color="primary" onClick={handleTutorRedirect}>
-              Tutor Login
+            <Button className="login-button" variant="contained" color="primary" onClick={handleLoginRedirect}>
+              Student Login
             </Button>
 
             <Button className="login-button" variant="contained" color="primary" onClick={handleLogin}>
