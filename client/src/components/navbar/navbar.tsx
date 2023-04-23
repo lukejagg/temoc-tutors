@@ -36,7 +36,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
     window.location.reload();
   };
 
-  const handleStudentHomeRedirect = () => {
+  const handleHomeRedirect = () => {
     navigate('/');
   };
 
@@ -49,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
     if (userType === UserType.STUDENT) {
       return (
         <>
-          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleStudentHomeRedirect}>Home</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleHomeRedirect}>Home</Button>
           <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleStudentProfileRedirect}>Profile</Button>
           <Button color="primary" sx={{ marginRight: '10px' }}>FAQ</Button>
         </>
@@ -57,7 +57,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
     } else if (userType === UserType.TUTOR) {
       return (
         <>
-          <Button color="primary" sx={{ marginRight: '10px' }}>Button 1</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleHomeRedirect}>Home</Button>
           <Button color="primary" sx={{ marginRight: '10px' }}>Button 2</Button>
         </>
       );

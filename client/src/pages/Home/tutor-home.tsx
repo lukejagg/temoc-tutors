@@ -6,7 +6,7 @@ import { Typography, Box } from '@mui/material';
 import { StudentAppointments } from './components/student-appointments/student-appointments';
 import { TutorAppointmentsCheckRequest } from '../../api/dbEndpointTypes';
 import { checkTutorAppointmentsCheckRequest } from '../../api/endpointRequests';
-import "../Home/student-home.css";
+import "../Home/tutor-home.css";
 
 interface Props {}
 
