@@ -40,6 +40,10 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
     navigate('/');
   };
 
+  const handleTutorSearchRedirect = () => {
+    navigate('/tutorsearch');
+  }
+
   const handleStudentProfileRedirect = () => {
     navigate('/profile');
   };
@@ -50,8 +54,8 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
       return (
         <>
           <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleHomeRedirect}>Home</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleTutorSearchRedirect}>Tutor Search</Button>
           <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleStudentProfileRedirect}>Profile</Button>
-          <Button color="primary" sx={{ marginRight: '10px' }}>FAQ</Button>
         </>
       );
     } else if (userType === UserType.TUTOR) {
