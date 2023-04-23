@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { checkStudentCreationRequest, checkUserIdRequest } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
 import backgroundImage from "../../img/background.png";
-import "./signup.css";
+import "./tutor-sign-up.css";
 
 export const TutorSignUp: React.FC = () => {
   const [username, setUsername] = useState('');
