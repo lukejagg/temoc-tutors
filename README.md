@@ -1,4 +1,6 @@
 # README
+This project was developed for CS 4485 Team 21
+
 ## Installation
 ### Git Install
 `npm install`
