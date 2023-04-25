@@ -17,12 +17,14 @@ export const TutorSearch: React.FC = () => {
   const [subjects, setSubjects] = useState<string[]>([]);
   const [selectedSubject, setSelectedSubject] = useState('');
 
+  // API Calls
   const getSubjects = async () => {
     const response = await checkGetSubjects();
     const subjects = response.map((item: any) => item.subject_type);
     return subjects;
   };
 
+  // Data Handling
   const handleDateChange = (newValue: Date | null) => {
     const formattedDate = newValue ? dayjs(newValue).format('YYYY-MM-DD') : null;
     setDate(formattedDate);
