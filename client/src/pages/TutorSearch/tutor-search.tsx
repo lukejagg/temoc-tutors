@@ -11,6 +11,10 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { checkAppointmentRequest, checkGetSubjects } from '../../api/endpointRequests';
 import { TutorResults } from './components/tutor-results';
 import { AppointmentRequest } from '../../api/dbEndpointTypes';
+
+import SendIcon from '@mui/icons-material/Send';
+import ClearIcon from '@mui/icons-material/Clear';
+
 import './tutor-search.css';
 
 export const TutorSearch: React.FC = () => {
@@ -102,6 +106,7 @@ export const TutorSearch: React.FC = () => {
           margin="normal"
           value={tutorName ?? ''}
           onChange={(event) => setTutorName(event.target.value)}
+          sx={{marginTop: "0px", marginBottom: "0px"}}
         />
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -142,21 +147,25 @@ export const TutorSearch: React.FC = () => {
           </Select>
         </FormControl>
 
-        <Button 
-          variant="contained"
-          onClick={handleSearch}
-          sx={{ backgroundColor: '#4285F4', color: '#fff', height: '40px' }}
-        >
-          Search
-        </Button>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: "0.5rem" }}>
+          <Button 
+            variant="contained"
+            onClick={handleSearch}
+            sx={{ backgroundColor: '#4285F4', color: '#fff', height: '40px' }}
+            endIcon={<SendIcon />}
+          >
+            Search
+          </Button>
 
-        <Button 
-          variant="contained" 
-          sx={{ backgroundColor: '#4285F4', color: '#fff', height: '40px' }}
-          onClick={handleClearFields}
-        >
-          Clear
-        </Button>
+          <Button 
+            variant="contained" 
+            sx={{ backgroundColor: '#4285F4', color: '#fff', height: '40px' }}
+            onClick={handleClearFields}
+            endIcon={<ClearIcon />}
+          >
+            Clear
+          </Button>
+        </div>
       </Box>
       
       <TutorResults appointments={appointments} />

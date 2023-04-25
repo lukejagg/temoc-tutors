@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Paper, Typography } from '@mui/material';
+import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper } from '@mui/material';
+
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import { blue } from '@mui/material/colors';
 
 interface AppointmentProps{
   appointments: any[] | null;
@@ -16,6 +19,11 @@ interface Appointment {
 
 export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
   const [studentAppointments, setStudentAppointments] = useState<Appointment[] | null>(null);
+  const primary = blue[500];
+
+  const handleScheduling = () => {
+    console.log("scheduled")
+  }
 
   useEffect(() => {
     if (appointments) {
@@ -46,6 +54,10 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
                 primary={appointment.subjects.replace(/[{}]/g, "")}
                 secondary={new Date(appointment.day).toLocaleDateString()}
               />
+              
+              <IconButton aria-label="make-appointment" onClick={handleScheduling}>
+                <AddCircleRoundedIcon fontSize="large" sx={{color: primary}} />
+              </IconButton>
             </ListItem>
           ))}
         </List>

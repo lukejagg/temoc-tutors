@@ -8,7 +8,7 @@
   background-color: #f2f2f2;
   max-width: 1500px;
   margin: 100px auto 0;
-  gap: 3rem;
+  gap: 1rem;
 }
 
 .tutor-search-bar {
@@ -19,4 +19,3 @@
 .MuiTextField-root {
   background: #ffffff;
 }
-
