@@ -191,25 +191,58 @@ app.post('/subjects', async (req: Request, res: Response) => {
   }  
 });
 
-// Getting Appointments for Student By Date
-// app.post('/appointments', async (req: Request, res: Response) => {
-//   const { id, date } = req.body;
+app.post('/appointment/student/request', async (req: Request, res: Response) => {
+  const { username, date, start_time, end_time, subject } = req.body;
+  
+  let query_base = 'SELECT * FROM tutor JOIN tutor_schedule ON tutor.id = tutor_schedule.id WHERE'
+  let data_list = [];
+  let counter = 1;
 
-//   try {
-//     const result = await client.query(
-//       'INSERT INTO student (username, email, password) VALUES ($1, $2, $3) RETURNING *',
-//       [username, email, password]
-//     );
-//     if(result.rowCount === 1) {
-//       res.status(200).json(result.rows[0]);
-//     } else {
-//       res.status(401).send('Error signing up');
-//     }
-//   } catch (err) {
-//     console.error('Error signing up:', err);
-//     res.status(500).send('Error signing up');
-//   }  
-// });
+  if(username) {
+    query_base += ` tutor.username = $${counter} AND`;
+    data_list.push(username);
+    counter++;
+  }
+
+  if(date) {
+    query_base += ` tutor_schedule.day = $${counter}  AND`;
+    data_list.push(date);
+    counter++;
+  } 
+  
+  if(start_time) {
+    query_base += ` tutor_schedule.start_time >= $${counter}  AND`;
+    data_list.push(start_time);
+    counter++;
+  }
+
+  if(end_time) {
+    query_base += ` tutor_schedule.end_time <= $${counter}  AND`;
+    data_list.push(end_time);
+    counter++;
+  }
+
+  if(subject) {
+    query_base += ` $${counter} = ANY(tutor.subjects)  AND`;
+    data_list.push(subject);
+    counter++;
+  }
+
+  query_base = query_base.slice(0, -4);
+
+  try {
+    const result = await client.query(query_base, data_list);
+    if(result.rowCount !== 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error loading subjects');
+    }
+  } catch (err) {
+    console.error('Error loading subjects', err);
+    res.status(500).send('Error loading subjects');
+  }  
+
+});
 
 const port = process.env.PORT || 8000;
 

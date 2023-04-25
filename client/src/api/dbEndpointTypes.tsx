@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 // Interface for user logging on
 export interface LoginRequest {
     email: string;
@@ -36,6 +38,14 @@ export interface StudentAppointmentsCheckRequest {
 export interface TutorAppointmentsCheckRequest {
     id: string | null;
     date: string;
+}
+
+export interface AppointmentRequest {
+    username: string | null;
+    date: string | null;
+    start_time: string | null;
+    end_time: string | null;
+    subject: string | null;
 }
 
 // // Interfaces for tutor-related endpoints

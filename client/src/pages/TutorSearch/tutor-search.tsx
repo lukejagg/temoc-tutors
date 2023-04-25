@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { Navbar } from '../../components/navbar/navbar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from '@mui/x-date-pickers';
-import { checkGetSubjects } from '../../api/endpointRequests';
+import { checkAppointmentRequest, checkGetSubjects } from '../../api/endpointRequests';
 import { TutorResults } from './components/tutor-results';
+import { AppointmentRequest } from '../../api/dbEndpointTypes';
 import './tutor-search.css';
 
 export const TutorSearch: React.FC = () => {
@@ -15,9 +18,18 @@ export const TutorSearch: React.FC = () => {
   const [date, setDate] = useState<string | null>(null);
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
   const [endTime, setEndTime] = useState<Dayjs | null>(null);
+  const [formattedStartTime, setFormattedStartTime] = useState<string | null>(null);
+  const [formattedEndTime, setFormattedEndTime] = useState<string | null>(null);
   const [selectedSubject, setSelectedSubject] = useState('');
   const [subjects, setSubjects] = useState<string[]>([]);
-  const [searchPressed, setSearchPressed] = useState<boolean>(false);
+  const [appointments, setAppointments] = useState<any[]>([]);
+  
+  const dateFormat = 'HH:mm:00';
+
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+  dayjs.tz.setDefault('America/Chicago');
+
 
   // API Calls
   const getSubjects = async () => {
@@ -26,10 +38,27 @@ export const TutorSearch: React.FC = () => {
     return subjects;
   };
 
+  const getAppointments = async () => {
+    const newAppointmentRequest: AppointmentRequest = {
+      username: tutorName,
+      date: date,
+      start_time: formattedStartTime,
+      end_time: formattedEndTime,
+      subject: selectedSubject
+    };
+
+    return await checkAppointmentRequest(newAppointmentRequest);
+  };
+
   // Data Handling
   const handleDateChange = (newValue: Date | null) => {
     const formattedDate = newValue ? dayjs(newValue).format('YYYY-MM-DD') : null;
     setDate(formattedDate);
+  };
+
+  const handleSearch = () => {
+    getAppointments()
+    .then((response) => setAppointments(response))
   };
 
   const handleClearFields = () => {
@@ -47,6 +76,20 @@ export const TutorSearch: React.FC = () => {
     })
     .then(data => setSubjects(data))
   }, []);
+
+  useEffect(() => {
+    if (startTime) {
+      setFormattedStartTime(startTime.format(dateFormat));
+    } else {
+      setFormattedStartTime(null);
+    }
+  
+    if (endTime) {
+      setFormattedEndTime(endTime.format(dateFormat));
+    } else {
+      setFormattedEndTime(null);
+    }
+  }, [startTime, endTime]);
 
   return (
     <>
@@ -100,7 +143,8 @@ export const TutorSearch: React.FC = () => {
         </FormControl>
 
         <Button 
-          variant="contained" 
+          variant="contained"
+          onClick={handleSearch}
           sx={{ backgroundColor: '#4285F4', color: '#fff', height: '40px' }}
         >
           Search
@@ -114,14 +158,8 @@ export const TutorSearch: React.FC = () => {
           Clear
         </Button>
       </Box>
-
-      <TutorResults
-        tutorName={tutorName}
-        date={date}
-        startTime={startTime}
-        endTime={endTime}
-        selectedSubject={selectedSubject}
-      />;
+      
+      <TutorResults appointments={appointments} />
     </>
   );
 };
