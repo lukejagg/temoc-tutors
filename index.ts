@@ -174,6 +174,23 @@ app.post('/appointment/tutor/date', async (req: Request, res: Response) => {
   }  
 });
 
+
+app.post('/subjects', async (req: Request, res: Response) => {
+  try {
+    const result = await client.query(
+        'SELECT unnest(enum_range(NULL::subject_enum))::text as subject_type'
+      );
+    if(result.rowCount !== 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error loading subjects');
+    }
+  } catch (err) {
+    console.error('Error loading subjects', err);
+    res.status(500).send('Error loading subjects');
+  }  
+});
+
 // Getting Appointments for Student By Date
 // app.post('/appointments', async (req: Request, res: Response) => {
 //   const { id, date } = req.body;
