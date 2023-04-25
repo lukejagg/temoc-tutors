@@ -30,6 +30,10 @@ export const TutorSearch: React.FC = () => {
     setDate(formattedDate);
   };
 
+  const sendTutorRequirements = () => {
+    
+  }
+
   useEffect(() => {
     getSubjects()
     .then(response => {
@@ -89,7 +93,11 @@ export const TutorSearch: React.FC = () => {
           </Select>
         </FormControl>
 
-        <Button variant="contained" sx={{ backgroundColor: '#4285F4', color: '#fff', height: '40px' }}>
+        <Button 
+          variant="contained" 
+          sx={{ backgroundColor: '#4285F4', color: '#fff', height: '40px' }}
+          onClick={sendTutorRequirements}
+        >
           Search
         </Button>
       </Box>
