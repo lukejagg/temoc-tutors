@@ -95,11 +95,15 @@ export const SignUp: React.FC = () => {
     return emailRegex.test(email);
   };
 
+  const handleTutorRedirect = () => {
+    navigate('/tutorsignup');
+  };
+
   return (
     <Box className="signup-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <Paper className="signup-paper" elevation={20} sx={{ borderRadius: 5 }}>
         <div className="signup-wrapper">
-          <h3 className="signup-header">Sign Up</h3>
+          <h3 className="signup-header">Student Sign Up</h3>
 
           <TextField
             className="signup-textfield"
@@ -137,6 +141,10 @@ export const SignUp: React.FC = () => {
           <div className="signup-button-wrapper">
             <Button className="signup-button" variant="outlined" color="primary" onClick={handleLogin}>
               Login
+            </Button>
+
+            <Button className="signup-button" variant="outlined" color="primary" onClick={handleTutorRedirect}>
+              Tutor Sign Up
             </Button>
 
             <Button className="signup-button" variant="contained" color="primary" onClick={handleSignUp}>
