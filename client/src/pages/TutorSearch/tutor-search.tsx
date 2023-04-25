@@ -7,6 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from '@mui/x-date-pickers';
 import { checkGetSubjects } from '../../api/endpointRequests';
+import { TutorResults } from './components/tutor-results';
 import './tutor-search.css';
 
 export const TutorSearch: React.FC = () => {
@@ -14,8 +15,9 @@ export const TutorSearch: React.FC = () => {
   const [date, setDate] = useState<string | null>(null);
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
   const [endTime, setEndTime] = useState<Dayjs | null>(null);
-  const [subjects, setSubjects] = useState<string[]>([]);
   const [selectedSubject, setSelectedSubject] = useState('');
+  const [subjects, setSubjects] = useState<string[]>([]);
+  const [searchPressed, setSearchPressed] = useState<boolean>(false);
 
   // API Calls
   const getSubjects = async () => {
@@ -30,9 +32,13 @@ export const TutorSearch: React.FC = () => {
     setDate(formattedDate);
   };
 
-  const sendTutorRequirements = () => {
-    
-  }
+  const handleClearFields = () => {
+    setTutorName(null);
+    setDate(null);
+    setStartTime(null);
+    setEndTime(null);
+    setSelectedSubject('');
+  };
 
   useEffect(() => {
     getSubjects()
@@ -96,11 +102,26 @@ export const TutorSearch: React.FC = () => {
         <Button 
           variant="contained" 
           sx={{ backgroundColor: '#4285F4', color: '#fff', height: '40px' }}
-          onClick={sendTutorRequirements}
         >
           Search
         </Button>
+
+        <Button 
+          variant="contained" 
+          sx={{ backgroundColor: '#4285F4', color: '#fff', height: '40px' }}
+          onClick={handleClearFields}
+        >
+          Clear
+        </Button>
       </Box>
+
+      <TutorResults
+        tutorName={tutorName}
+        date={date}
+        startTime={startTime}
+        endTime={endTime}
+        selectedSubject={selectedSubject}
+      />;
     </>
   );
 };
