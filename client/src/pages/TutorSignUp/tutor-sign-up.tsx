@@ -90,6 +90,10 @@ export const TutorSignUp: React.FC = () => {
       navigate('/login');
   };
 
+  const handleStudentRedirect = () => {
+      navigate('/signup');
+  };
+
   // Other Functions
   const isValidEmail = (email : string) => {
     const emailRegex = /\S+@\S+\.\S+/;
@@ -100,7 +104,7 @@ export const TutorSignUp: React.FC = () => {
     <Box className="signup-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <Paper className="signup-paper" elevation={20} sx={{ borderRadius: 5 }}>
         <div className="signup-wrapper">
-          <h3 className="signup-header">Sign Up</h3>
+          <h3 className="signup-header">Tutor Sign Up</h3>
 
           <TextField
             className="signup-textfield"
@@ -138,6 +142,10 @@ export const TutorSignUp: React.FC = () => {
           <div className="signup-button-wrapper">
             <Button className="signup-button" variant="outlined" color="primary" onClick={handleLogin}>
               Login
+            </Button>
+
+            <Button className="signup-button" variant="outlined" color="primary" onClick={handleStudentRedirect}>
+              Student Sign Up
             </Button>
 
             <Button className="signup-button" variant="contained" color="primary" onClick={handleSignUp}>

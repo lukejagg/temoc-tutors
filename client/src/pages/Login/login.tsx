@@ -86,7 +86,7 @@ export const Login: React.FC = () => {
     <Box className="login-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <Paper className="login-paper" elevation={20} sx={{ borderRadius: 5 }}>
         <div className="login-wrapper">
-          <h3 className="login-header">Login</h3>
+          <h3 className="login-header">Student Login</h3>
           <TextField
             className="login-textfield"
             label="Email"
