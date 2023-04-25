@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   background-color: #f2f2f2;
-  max-width: 1000px;
+  max-width: 1500px;
   margin: 100px auto 0;
   gap: 3rem;
 }
@@ -14,10 +14,6 @@
 .tutor-search-bar {
   margin: 1rem 1rem 1rem 0;
   background-color: transparent;
-}
-
-.tutor-search-bar input {
-  color: white;
 }
 
 .MuiTextField-root {
