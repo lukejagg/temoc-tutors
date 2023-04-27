@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper } from '@mui/material';
+import { AppointmentValidityCheck } from '../../../api/dbEndpointTypes';
+import { checkAppointmentValidityCheck } from '../../../api/endpointRequests';
 
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import { blue } from '@mui/material/colors';
@@ -7,6 +10,7 @@ import { blue } from '@mui/material/colors';
 interface AppointmentProps{
   appointments: any[] | null;
 }
+
 interface Appointment {
   id: string;
   username: string;
@@ -18,12 +22,31 @@ interface Appointment {
 }
 
 export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
+  const [studentId, ] = useState(localStorage.getItem('userId'));
   const [studentAppointments, setStudentAppointments] = useState<Appointment[] | null>(null);
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+
+  
   const primary = blue[500];
 
-  const handleScheduling = () => {
-    console.log("scheduled")
-  }
+  const navigate = useNavigate();
+
+  const handleScheduling = async (appointment: Appointment) => {
+    const newAppointmentValidityCheck: AppointmentValidityCheck = {
+      id: studentId,
+      date: appointment.day.slice(0, 10),
+      start_time: appointment.start_time,
+      end_time: appointment.end_time
+    };
+
+    await checkAppointmentValidityCheck(newAppointmentValidityCheck)
+    .then((response) => {
+      if(response !== null) {
+        setSelectedAppointment(appointment);
+        navigate('/confirmation/appointment', { state: { appointment } });
+      }
+    });
+  };
 
   useEffect(() => {
     if (appointments) {
@@ -55,15 +78,16 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
                 secondary={new Date(appointment.day).toLocaleDateString()}
               />
               
-              <IconButton aria-label="make-appointment" onClick={handleScheduling}>
+              <IconButton aria-label="make-appointment" onClick={() => handleScheduling(appointment)}>
                 <AddCircleRoundedIcon fontSize="large" sx={{color: primary}} />
+
               </IconButton>
             </ListItem>
           ))}
         </List>
       ) : (
         <p>No Tutors</p>
-      )}
+        )}
     </Paper>
   );
 };

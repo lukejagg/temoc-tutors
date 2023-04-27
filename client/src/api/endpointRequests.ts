@@ -1,4 +1,4 @@
-import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest } from "./dbEndpointTypes";
+import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck } from "./dbEndpointTypes";
 
 const API_BASE_URL = "http://localhost:8000";
 
@@ -192,6 +192,26 @@ export const checkAppointmentRequest = async (appointmentRequest: AppointmentReq
   
   try {
     const response = await fetch(`${API_BASE_URL}/appointment/student/request`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkAppointmentValidityCheck = async (appointmentValidityCheck: AppointmentValidityCheck) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(appointmentValidityCheck),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/appointment/confirmation`, requestOptions);
 
     if (!response.ok) {
       throw new Error(`Request failed with status code ${response.status}`);

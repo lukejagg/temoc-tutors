@@ -48,6 +48,13 @@ export interface AppointmentRequest {
     subject: string | null;
 }
 
+export interface AppointmentValidityCheck {
+    id: string | null;
+    date: string | null;
+    start_time: string | null;
+    end_time: string | null;
+}
+
 // // Interfaces for tutor-related endpoints
 // export interface Tutor {
 //     id: number;

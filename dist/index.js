@@ -218,6 +218,22 @@ app.post('/appointment/student/request', (req, res) => __awaiter(void 0, void 0,
         res.status(500).send('Error loading subjects');
     }
 }));
+app.post('/appointment/confirmation', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, start_time, end_time, date } = req.body;
+    try {
+        const result = yield client.query('SELECT * FROM appointment WHERE student_id = $1 AND date = $2 AND (($3 BETWEEN time_start AND time_end) OR ($4 BETWEEN time_start AND time_end))', [id, date, start_time, end_time]);
+        if (result.rows.length !== 0) {
+            res.status(200).json(result.rows);
+        }
+        else {
+            res.status(401).send('Error loading subjects');
+        }
+    }
+    catch (err) {
+        console.error('Error loading subjects', err);
+        res.status(500).send('Error loading subjects');
+    }
+}));
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
