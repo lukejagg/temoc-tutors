@@ -71,16 +71,14 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
               </ListItemAvatar>
               <ListItemText
                 primary={appointment.username}
-                secondary={appointment.start_time.slice(0, -3) + " - " + appointment.end_time.slice(0, -3)}
+                secondary={"Available Times: " + appointment.start_time.slice(0, -3) + " - " + appointment.end_time.slice(0, -3)}
               />
               <ListItemText
                 primary={appointment.subjects.replace(/[{}]/g, "")}
                 secondary={new Date(appointment.day).toLocaleDateString()}
               />
-              
               <IconButton aria-label="make-appointment" onClick={() => handleScheduling(appointment)}>
                 <AddCircleRoundedIcon fontSize="large" sx={{color: primary}} />
-
               </IconButton>
             </ListItem>
           ))}

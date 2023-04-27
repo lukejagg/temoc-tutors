@@ -194,7 +194,7 @@ app.post('/subjects', async (req: Request, res: Response) => {
 app.post('/appointment/student/request', async (req: Request, res: Response) => {
   const { username, date, start_time, end_time, subject } = req.body;
   
-  let query_base = 'SELECT * FROM tutor JOIN tutor_schedule ON tutor.id = tutor_schedule.id WHERE'
+  let query_base = 'SELECT * FROM tutor JOIN tutor_schedule ON tutor.id = tutor_schedule.tutor_id WHERE'
   let data_list = [];
   let counter = 1;
 
