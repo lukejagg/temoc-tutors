@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { Box, Paper, TextField, Button, Alert } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Paper, TextField, Button, Alert, FormControl, MenuItem, Select, InputLabel } from '@mui/material';
 import { StudentCreationRequest, UserIdRequest } from '../../api/dbEndpointTypes';
 import { useNavigate } from 'react-router-dom';
-import { checkStudentCreationRequest, checkUserIdRequest } from '../../api/endpointRequests';
+import { checkStudentCreationRequest, checkUserIdRequest, checkGetSubjects } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
 import backgroundImage from "../../img/background.png";
 import "./tutor-sign-up.css";
 
 export const TutorSignUp: React.FC = () => {
   const [username, setUsername] = useState('');
-  const [subjects, setSubjects] = useState('');
+  const [selectedSubject, setSelectedSubject] = useState('');
+  const [subjects, setSubjects] = useState<string[]>([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [retypePassword, setRetypePassword] = useState('');
@@ -35,6 +36,22 @@ export const TutorSignUp: React.FC = () => {
 
     return await checkUserIdRequest(newUserIdRequest);
   };
+
+      //API calls 
+      const getSubjects = async () => {
+        const response = await checkGetSubjects();
+        const subjects = response.map ((item:any) => item.subject_type)
+        return subjects;
+    };
+
+    useEffect(() => {
+        getSubjects()
+        .then(response => {
+            return response;
+        })
+        .then(data => setSubjects(data))
+    }, []);
+
 
 
   // Event Handlers
@@ -119,6 +136,22 @@ export const TutorSignUp: React.FC = () => {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
+          
+          <FormControl>
+            <InputLabel>Subject</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedSubject}
+                label="Subject"
+                sx={{ background: 'white' }}
+                onChange={(event) => setSelectedSubject(event.target.value as string)}>
+                {subjects.map(subject => (
+                  <MenuItem key={subject} value={subject}>
+                    {subject}
+                  </MenuItem>))}
+              </Select>
+          </FormControl>
 
           <TextField
             className="signup-textfield"

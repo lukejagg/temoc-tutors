@@ -1,11 +1,28 @@
-import React from 'react';
-import { Box, Button, Paper, TextField, Avatar, IconButton, TextFieldClasses} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Button, TextField, Avatar, IconButton, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
 import "./account.css";
 import { Navbar } from "../../components/navbar/navbar";
+import { checkGetSubjects } from '../../api/endpointRequests';
 
 export const Account: React.FC = () => {
-
+    const [selectedSubject, setSelectedSubject] = useState('');
+    const [subjects, setSubjects] = useState<string[]>([]);
     
+    //API calls 
+    const getSubjects = async () => {
+        const response = await checkGetSubjects();
+        const subjects = response.map ((item:any) => item.subject_type)
+        return subjects;
+    };
+
+    useEffect(() => {
+        getSubjects()
+        .then(response => {
+            return response;
+        })
+        .then(data => setSubjects(data))
+    }, []);
+
     return(
         <div> 
             <Navbar/>
@@ -17,24 +34,33 @@ export const Account: React.FC = () => {
                         <h4 className= "account-settings"> <b> Username & Subjects</b></h4>
                         <div className="account-sections">
                             <TextField
-                                className="account-username"
+                                className="account-settings"
                                 value= {'hello whats up'}
-                                contentEditable = {false}
                                 label='Username'
                             /> 
-                            <TextField
-                                className="account-textfield"
-                                value= {'Need to make this a dropdown'}
-                                contentEditable = {false}
-                                sx={{input: {color: 'red'}}}
-                            /> 
+                            <FormControl>
+                                <InputLabel>Subject</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={selectedSubject}
+                                        label="Subject"
+                                        sx={{ width: '200px', background: 'white' }}
+                                        onChange={(event) => setSelectedSubject(event.target.value as string)}
+                                        >
+                                        {subjects.map(subject => (
+                                        <MenuItem key={subject} value={subject}>
+                                            {subject}
+                                        </MenuItem>
+                                        ))}
+                                    </Select>
+                            </FormControl>
                         </div>
                         <h4 className= "account-settings"> <b> Email </b></h4>
                         <div className="account-sections">
                             <TextField
                                 className="account-textfield"
                                 value= {'hello whats up'}
-                                contentEditable = {false}
                                 label= 'Email'
                                 
                             /> 
@@ -45,7 +71,6 @@ export const Account: React.FC = () => {
                             <TextField
                                 className="account-textfield"
                                 value= {'hello whats up'}
-                                contentEditable = {false}
                                 label= 'Password'
                             /> 
                         </div>
@@ -55,12 +80,10 @@ export const Account: React.FC = () => {
                             <TextField
                                 className="account-textfield"
                                 value= {'hello whats up'}
-                                contentEditable = {false}
                                 label= 'Re-type Password'
                             /> 
                         </div>
                         <div className="account-sections">
-                            <Button className='edit-button' variant="contained" color='primary'> Edit Profile </Button>
                             <Button className='update-button' variant="contained" color='primary'> Update Profile </Button>
                         </div>
                     </div>
