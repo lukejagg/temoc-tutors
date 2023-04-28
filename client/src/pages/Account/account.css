@@ -28,7 +28,10 @@
     gap: 30px;
 }
 
-.account-button{
+.edit-button{
+    width:30%;
+}
+.done-button{
     width:30%;
 }
 .account-settings{

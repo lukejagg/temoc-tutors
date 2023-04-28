@@ -1,11 +1,11 @@
 import React from 'react';
-import { Box, Button, Paper, TextField, Avatar, IconButton} from '@mui/material';
+import { Box, Button, Paper, TextField, Avatar, IconButton, TextFieldClasses} from '@mui/material';
 import "./account.css";
-import backgroundImage from "../../img/background.png";
 import { Navbar } from "../../components/navbar/navbar";
 
 export const Account: React.FC = () => {
 
+    
     return(
         <div> 
             <Navbar/>
@@ -17,7 +17,7 @@ export const Account: React.FC = () => {
                         <h4 className= "account-settings"> <b> Username & Subjects</b></h4>
                         <div className="account-sections">
                             <TextField
-                                className="account-textfield"
+                                className="account-username"
                                 value= {'hello whats up'}
                                 contentEditable = {false}
                                 label='Username'
@@ -60,7 +60,8 @@ export const Account: React.FC = () => {
                             /> 
                         </div>
                         <div className="account-sections">
-                            <Button className='account-button' variant="contained" color='primary'> Edit Profile </Button>
+                            <Button className='edit-button' variant="contained" color='primary'> Edit Profile </Button>
+                            <Button className='update-button' variant="contained" color='primary'> Update Profile </Button>
                         </div>
                     </div>
             </Box>
