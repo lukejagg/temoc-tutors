@@ -1,4 +1,4 @@
-.tutor-search-box {
+.tutor-confirm-bar {
   border-radius: 10px;
   padding: 3rem 2rem 2rem;
   display: flex;
@@ -6,9 +6,8 @@
   justify-content: center;
   align-items: center;
   background-color: #f2f2f2;
-  max-width: 1600px;
-  min-width: 1500px;
-  margin: 100px auto 0;
+  max-width: 1000px;
+  margin: 50px auto 0;
   gap: 1rem;
 }
 
@@ -19,4 +18,8 @@
 
 .MuiTextField-root {
   background: #ffffff;
+}
+
+.header-text {
+  margin: 64px auto 0;
 }

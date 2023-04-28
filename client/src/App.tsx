@@ -8,6 +8,7 @@ import { SignUp } from "./pages/SignUp/signup";
 import { TutorLogin } from "./pages/Tutor Login/tutor-login";
 import { TutorSearch } from "./pages/TutorSearch/tutor-search";
 import { TutorSignUp } from "./pages/TutorSignUp/tutor-sign-up";
+import { TutorConfirm } from "./pages/TutorSearch/components/tutor-confirm";
 import Meeting from './components/meeting/meeting';
 
 const App: React.FC = () => {
@@ -22,6 +23,7 @@ const App: React.FC = () => {
         <Route path = "/tutorsignup" element={<TutorSignUp/>}/>
         <Route path="/account" element={<Account />}/>
         <Route path="/meet" element={<Meeting />} />
+        <Route path="/confirmation/appointment" element={<TutorConfirm />} />
       </Routes>
     </Router>
   );

@@ -1,4 +1,4 @@
-import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest } from "./dbEndpointTypes";
+import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck, TutorScheduleAppointment, AppointmentReservation } from "./dbEndpointTypes";
 
 const API_BASE_URL = "http://localhost:8000";
 
@@ -172,6 +172,126 @@ export const checkGetSubjects = async () => {
   
   try {
     const response = await fetch(`${API_BASE_URL}/subjects`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkAppointmentRequest = async (appointmentRequest: AppointmentRequest) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(appointmentRequest),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/appointment/student/request`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkAppointmentValidityCheck = async (appointmentValidityCheck: AppointmentValidityCheck) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(appointmentValidityCheck),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/appointment/confirmation`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkNewTutorSchedule = async (tutorScheduleAppointment: TutorScheduleAppointment) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(tutorScheduleAppointment),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/tutor/schedule/appointment`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteTutorScheduleAppointment = async (tutorScheduleAppointment: TutorScheduleAppointment) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(tutorScheduleAppointment),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/tutor/schedule/delete`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkTutorScheduleExists = async (tutorScheduleAppointment: TutorScheduleAppointment) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(tutorScheduleAppointment),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/tutor/schedule/check`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkAppointmentReservation = async (appointmentReservation: AppointmentReservation) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(appointmentReservation),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/user/new/appointment`, requestOptions);
 
     if (!response.ok) {
       throw new Error(`Request failed with status code ${response.status}`);
