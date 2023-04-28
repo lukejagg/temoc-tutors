@@ -45,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
   }
 
   const handleStudentProfileRedirect = () => {
-    navigate('/profile');
+    navigate('/account');
   };
   
   // Event Handlers
