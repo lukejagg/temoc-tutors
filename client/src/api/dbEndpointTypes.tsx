@@ -55,6 +55,13 @@ export interface AppointmentValidityCheck {
     end_time: string | null;
 }
 
+export interface TutorScheduleAppointment {
+    tutor_id: string;
+    start_time: string | null;
+    end_time: string | null;
+    date: string | null;
+}
+
 // // Interfaces for tutor-related endpoints
 // export interface Tutor {
 //     id: number;

@@ -1,4 +1,4 @@
-import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck } from "./dbEndpointTypes";
+import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck, TutorScheduleAppointment } from "./dbEndpointTypes";
 
 const API_BASE_URL = "http://localhost:8000";
 
@@ -212,6 +212,66 @@ export const checkAppointmentValidityCheck = async (appointmentValidityCheck: Ap
   
   try {
     const response = await fetch(`${API_BASE_URL}/appointment/confirmation`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkNewTutorSchedule = async (tutorScheduleAppointment: TutorScheduleAppointment) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(tutorScheduleAppointment),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/tutor/schedule/appointment`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteTutorScheduleAppointment = async (tutorScheduleAppointment: TutorScheduleAppointment) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(tutorScheduleAppointment),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/tutor/schedule/delete`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkTutorScheduleExists = async (tutorScheduleAppointment: TutorScheduleAppointment) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(tutorScheduleAppointment),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/tutor/schedule/check`, requestOptions);
 
     if (!response.ok) {
       throw new Error(`Request failed with status code ${response.status}`);

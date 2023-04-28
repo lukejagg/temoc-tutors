@@ -265,6 +265,66 @@ app.post('/appointment/confirmation', async (req: Request, res: Response) => {
   }  
 });
 
+app.post('/tutor/schedule/appointment', async (req: Request, res: Response) => {
+  const { tutor_id, start_time, end_time, date} = req.body;
+
+  try {
+    const result = await client.query(
+      'INSERT INTO tutor_schedule (tutor_id, day, start_time, end_time) VALUES ($1, $2, $3, $4)',
+      [tutor_id, date, start_time.slice(0, -3) + ":00", end_time.slice(0, -3) + ":00"]
+    );
+
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error inserting new adjustments');
+    }
+  } catch (err) {
+    console.error('Error inserting new adjustments', err);
+    res.status(500).send('Error inserting new adjustments');
+  }  
+});
+
+app.post('/tutor/schedule/delete', async (req: Request, res: Response) => {
+  const { tutor_id, start_time, end_time, date} = req.body;
+
+  try {
+    const result = await client.query(
+      'DELETE FROM tutor_schedule WHERE tutor_id = $1 AND day = $2 AND start_time = $3 AND end_time = $4',
+      [tutor_id, date, start_time.slice(0, -3) + ":00", end_time.slice(0, -3) + ":00"]
+    );
+
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error inserting new adjustments');
+    }
+  } catch (err) {
+    console.error('Error inserting new adjustments', err);
+    res.status(500).send('Error inserting new adjustments');
+  }  
+});
+
+app.post('/tutor/schedule/check', async (req: Request, res: Response) => {
+  const { tutor_id, start_time, end_time, date} = req.body;
+
+  try {
+    const result = await client.query(
+      'SELECT * FROM tutor_schedule WHERE tutor_id = $1 AND day = $2 AND start_time = $3 AND end_time = $4',
+      [tutor_id, date, start_time.slice(0, -3) + ":00", end_time.slice(0, -3) + ":00"]
+    );
+
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error inserting new adjustments');
+    }
+  } catch (err) {
+    console.error('Error inserting new adjustments', err);
+    res.status(500).send('Error inserting new adjustments');
+  }  
+});
+
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => {

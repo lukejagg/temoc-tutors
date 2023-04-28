@@ -8,7 +8,8 @@ import { Navbar } from '../../../components/navbar/navbar';
 import { Alert, Avatar, Box, Button, Container, FormControl, InputLabel, List, ListItem, ListItemAvatar, ListItemText, MenuItem, Paper, Select, Typography } from '@mui/material';
 import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { checkGetSubjects } from '../../../api/endpointRequests';
+import { checkGetSubjects, checkNewTutorSchedule, checkTutorScheduleExists, deleteTutorScheduleAppointment } from '../../../api/endpointRequests';
+import { TutorScheduleAppointment } from '../../../api/dbEndpointTypes';
 
 
 import CheckIcon from '@mui/icons-material/Check';
@@ -33,14 +34,98 @@ export const TutorConfirm: React.FC= () => {
   dayjs.tz.setDefault('America/Chicago');
   dayjs.extend(duration);
 
-  const getSubjects = async () => {
-    const response = await checkGetSubjects();
-    const subjects = response.map((item: any) => item.subject_type);
-    return subjects;
-  };
+  const makeNewTutorSchedule = async (tutorScheduleStartTime: string | null, tutorScheduleEndTime: string | null) => {
+    const newTutorScheduleAppointment: TutorScheduleAppointment = {
+      tutor_id: appointment.tutor_id,
+      start_time: tutorScheduleStartTime,
+      end_time: tutorScheduleEndTime,
+      date: appointment.day
+    };
 
+    return await checkNewTutorSchedule(newTutorScheduleAppointment).then((event) => {console.log(event)});
+  }
+
+  const makeNewTutorScheduleDeletion = async (tutorScheduleStartTime: string | null, tutorScheduleEndTime: string | null) => {
+    const newTutorScheduleAppointment: TutorScheduleAppointment = {
+      tutor_id: appointment.tutor_id,
+      start_time: tutorScheduleStartTime,
+      end_time: tutorScheduleEndTime,
+      date: appointment.day
+    };
+
+    return await deleteTutorScheduleAppointment(newTutorScheduleAppointment).then((event) => {console.log(event)});
+  }
+
+  const makeCheckTutorScheduleExists = async (tutorScheduleStartTime: string | null, tutorScheduleEndTime: string | null) => {
+    const newTutorScheduleAppointment: TutorScheduleAppointment = {
+      tutor_id: appointment.tutor_id,
+      start_time: tutorScheduleStartTime,
+      end_time: tutorScheduleEndTime,
+      date: appointment.day
+    };
+
+    return await checkTutorScheduleExists(newTutorScheduleAppointment).then((event) => {console.log(event)});
+  }
+
+  const checkForDiff = (studentTime: Dayjs, tutorTime: Dayjs) => {
+    return dayjs(tutorTime).diff(dayjs(studentTime), 'minute');
+  }
+  
   const handleConfirm = async () => {
-    console.log(formattedStartTime, formattedEndTime)
+    if((dayjs(studentStartTime).isAfter(dayjs(formattedStartTime))) && (dayjs(studentEndTime).isBefore(dayjs(formattedEndTime)))) {
+      const startingTimeDiff = checkForDiff(dayjs(formattedStartTime), dayjs(studentStartTime));
+      const endTimeDiff = checkForDiff(dayjs(studentEndTime), dayjs(formattedEndTime));
+
+      if(startingTimeDiff >= 30 && formattedStartTime && studentStartTime) {
+        makeCheckTutorScheduleExists(formattedStartTime.format('HH:mm:ss'), studentStartTime.format('HH:mm:ss')).then((response) => {
+          if(response === undefined) {
+            makeNewTutorSchedule(formattedStartTime.format('HH:mm:ss'), studentStartTime.format('HH:mm:ss'));
+          }
+        });
+      }
+
+      if(endTimeDiff >= 30 && formattedEndTime && studentEndTime) {
+        makeCheckTutorScheduleExists(studentEndTime.format('HH:mm:ss'), formattedEndTime.format('HH:mm:ss')).then((response) => {
+          if(response === undefined) {
+            makeNewTutorSchedule(studentEndTime.format('HH:mm:ss'), formattedEndTime.format('HH:mm:ss'));
+          }
+        });
+      }
+
+      if(formattedStartTime && formattedEndTime) {
+        makeNewTutorScheduleDeletion(formattedStartTime.format('HH:mm:ss'), formattedEndTime.format('HH:mm:ss'));
+      }
+    } 
+    else if(dayjs(studentStartTime).isAfter(dayjs(formattedStartTime))) {
+      const startingTimeDiff = checkForDiff(dayjs(formattedStartTime), dayjs(studentStartTime));
+
+      if(startingTimeDiff >= 30 && formattedStartTime && studentStartTime) {
+        makeCheckTutorScheduleExists(formattedStartTime.format('HH:mm:ss'), studentStartTime.format('HH:mm:ss')).then((response) => {
+          if(response === undefined) {
+            makeNewTutorSchedule(formattedStartTime.format('HH:mm:ss'), studentStartTime.format('HH:mm:ss'));
+          }
+        });
+      }
+
+      if(formattedStartTime && formattedEndTime) {
+        makeNewTutorScheduleDeletion(formattedStartTime.format('HH:mm:ss'), formattedEndTime.format('HH:mm:ss'));
+      }
+    } 
+    else if(dayjs(studentEndTime).isBefore(dayjs(formattedEndTime))) {
+      const endTimeDiff = checkForDiff(dayjs(formattedEndTime), dayjs(studentEndTime));
+
+      if(endTimeDiff >= 30 && formattedEndTime && studentEndTime) {
+        makeCheckTutorScheduleExists(formattedEndTime.format('HH:mm:ss'), studentEndTime.format('HH:mm:ss')).then((response) => {
+          if(response === undefined) {
+            makeNewTutorSchedule(formattedEndTime.format('HH:mm:ss'), studentEndTime.format('HH:mm:ss'));
+          }
+        });
+      }
+
+      if(formattedStartTime && formattedEndTime) {
+        makeNewTutorScheduleDeletion(formattedStartTime.format('HH:mm:ss'), formattedEndTime.format('HH:mm:ss'));
+      }
+    }
   }
   
   const handleClearFields = () => {
@@ -56,22 +141,26 @@ export const TutorConfirm: React.FC= () => {
 
   useEffect(() => {
     const diffInMinutes = dayjs(studentEndTime).diff(dayjs(studentStartTime), 'minute');
-
+ 
     const errorMessage = diffInMinutes < 30
       ? 'Need to schedule for at least 30 minutes'
       : '';
         
     setError(errorMessage);
     setShowErrorMessage(errorMessage !== '');
+
+    if (errorMessage !== '') {
+      setTimeout(() => {
+        setShowErrorMessage(false);
+      }, 10000);
+    }
   });
 
   useEffect(() => {
-    getSubjects()
-    .then(response => {
-      return response;
-    })
-    .then(data => setSubjects(data))
-  }, []);
+    const subjects = appointment.subjects.substring(1, appointment.subjects.length - 1).split(",");
+
+    setSubjects(subjects);
+  });
 
   return (
     <>
@@ -123,7 +212,7 @@ export const TutorConfirm: React.FC= () => {
         </FormControl>
 
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: "1.5rem" }}>
-          {showErrorMessage ? (
+          {(showErrorMessage) || (studentEndTime === null) || (studentStartTime === null) || (studentSelectedSubject === '')  ? (
             <Button disabled
               sx={{ backgroundColor: '#4285F4', color: '#fff', height: '40px' }}
               endIcon={<CheckIcon />}
