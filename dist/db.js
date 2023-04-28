@@ -65,7 +65,8 @@ function setupDatabase(client) {
         time_start TIME NOT NULL,
         time_end TIME NOT NULL,
         student_id INT NOT NULL REFERENCES student(id),
-        tutor_id INT NOT NULL REFERENCES tutor(id)
+        tutor_id INT NOT NULL REFERENCES tutor(id),
+        subject VARCHAR(255) NOT NULL
       );
     `);
             return client;

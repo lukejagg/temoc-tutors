@@ -3,13 +3,13 @@ import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import duration from 'dayjs/plugin/duration';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Navbar } from '../../../components/navbar/navbar';
 import { Alert, Avatar, Box, Button, Container, FormControl, InputLabel, List, ListItem, ListItemAvatar, ListItemText, MenuItem, Paper, Select, Typography } from '@mui/material';
 import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { checkGetSubjects, checkNewTutorSchedule, checkTutorScheduleExists, deleteTutorScheduleAppointment } from '../../../api/endpointRequests';
-import { TutorScheduleAppointment } from '../../../api/dbEndpointTypes';
+import { checkAppointmentReservation, checkNewTutorSchedule, checkTutorScheduleExists, deleteTutorScheduleAppointment } from '../../../api/endpointRequests';
+import { AppointmentReservation, TutorScheduleAppointment } from '../../../api/dbEndpointTypes';
 
 
 import CheckIcon from '@mui/icons-material/Check';
@@ -18,6 +18,7 @@ import './tutor-confirm.css';
 
 export const TutorConfirm: React.FC= () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [appointment, ] = useState(location.state.appointment);
   const [studentStartTime, setStudentStartTime] = useState<Dayjs | null>(null);
@@ -42,7 +43,7 @@ export const TutorConfirm: React.FC= () => {
       date: appointment.day
     };
 
-    return await checkNewTutorSchedule(newTutorScheduleAppointment).then((event) => {console.log(event)});
+    return await checkNewTutorSchedule(newTutorScheduleAppointment);
   }
 
   const makeNewTutorScheduleDeletion = async (tutorScheduleStartTime: string | null, tutorScheduleEndTime: string | null) => {
@@ -53,7 +54,7 @@ export const TutorConfirm: React.FC= () => {
       date: appointment.day
     };
 
-    return await deleteTutorScheduleAppointment(newTutorScheduleAppointment).then((event) => {console.log(event)});
+    return await deleteTutorScheduleAppointment(newTutorScheduleAppointment);
   }
 
   const makeCheckTutorScheduleExists = async (tutorScheduleStartTime: string | null, tutorScheduleEndTime: string | null) => {
@@ -64,7 +65,20 @@ export const TutorConfirm: React.FC= () => {
       date: appointment.day
     };
 
-    return await checkTutorScheduleExists(newTutorScheduleAppointment).then((event) => {console.log(event)});
+    return await checkTutorScheduleExists(newTutorScheduleAppointment);
+  }
+
+  const makeNewAppointmentReservation  = async (appointmentStartTime: string | null, appointmentEndTime: string | null) => {
+    const newAppointmentReservation: AppointmentReservation = {
+      student_id: localStorage.getItem('userId'),
+      tutor_id: appointment.tutor_id,
+      start_time: appointmentStartTime,
+      end_time: appointmentEndTime,
+      date: appointment.day,
+      subject: studentSelectedSubject
+    };
+
+    return await checkAppointmentReservation(newAppointmentReservation).then((event) => {console.log(event)});
   }
 
   const checkForDiff = (studentTime: Dayjs, tutorTime: Dayjs) => {
@@ -94,6 +108,10 @@ export const TutorConfirm: React.FC= () => {
 
       if(formattedStartTime && formattedEndTime) {
         makeNewTutorScheduleDeletion(formattedStartTime.format('HH:mm:ss'), formattedEndTime.format('HH:mm:ss'));
+        if(studentStartTime && studentEndTime) {
+          makeNewAppointmentReservation(studentStartTime.format('HH:mm:ss'), studentEndTime.format('HH:mm:ss'))
+          navigate('/tutorsearch');
+        }
       }
     } 
     else if(dayjs(studentStartTime).isAfter(dayjs(formattedStartTime))) {
@@ -109,6 +127,10 @@ export const TutorConfirm: React.FC= () => {
 
       if(formattedStartTime && formattedEndTime) {
         makeNewTutorScheduleDeletion(formattedStartTime.format('HH:mm:ss'), formattedEndTime.format('HH:mm:ss'));
+        if(studentStartTime && studentEndTime) {
+          makeNewAppointmentReservation(studentStartTime.format('HH:mm:ss'), studentEndTime.format('HH:mm:ss'))
+          navigate('/tutorsearch');
+        }
       }
     } 
     else if(dayjs(studentEndTime).isBefore(dayjs(formattedEndTime))) {
@@ -124,6 +146,10 @@ export const TutorConfirm: React.FC= () => {
 
       if(formattedStartTime && formattedEndTime) {
         makeNewTutorScheduleDeletion(formattedStartTime.format('HH:mm:ss'), formattedEndTime.format('HH:mm:ss'));
+        if(studentStartTime && studentEndTime) {
+          makeNewAppointmentReservation(studentStartTime.format('HH:mm:ss'), studentEndTime.format('HH:mm:ss'))
+          navigate('/tutorsearch');
+        }
       }
     }
   }

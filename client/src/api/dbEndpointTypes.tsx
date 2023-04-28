@@ -62,6 +62,15 @@ export interface TutorScheduleAppointment {
     date: string | null;
 }
 
+export interface AppointmentReservation {
+    student_id: string | null,
+    tutor_id: string | null,
+    start_time: string | null,
+    end_time: string | null,
+    date: string | null,
+    subject: string | null
+}
+
 // // Interfaces for tutor-related endpoints
 // export interface Tutor {
 //     id: number;

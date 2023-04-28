@@ -282,6 +282,22 @@ app.post('/tutor/schedule/check', (req, res) => __awaiter(void 0, void 0, void 0
         res.status(500).send('Error inserting new adjustments');
     }
 }));
+app.post('/user/new/appointment', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { student_id, tutor_id, start_time, end_time, date, subject } = req.body;
+    try {
+        const result = yield client.query('INSERT INTO appointment (student_id, tutor_id, time_start, time_end, date, subject) VALUES ($1, $2, $3, $4, $5, $6)', [student_id, tutor_id, start_time.slice(0, -3) + ":00", end_time.slice(0, -3) + ":00", date, subject]);
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows);
+        }
+        else {
+            res.status(401).send('Error inserting new adjustments');
+        }
+    }
+    catch (err) {
+        console.error('Error inserting new adjustments', err);
+        res.status(500).send('Error inserting new adjustments');
+    }
+}));
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
