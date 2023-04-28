@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Paper, TextField } from '@mui/material';
+import { Box, Button, Paper, TextField, Avatar, IconButton} from '@mui/material';
 import "./account.css";
 import backgroundImage from "../../img/background.png";
 import { Navbar } from "../../components/navbar/navbar";
@@ -9,18 +9,25 @@ export const Account: React.FC = () => {
     return(
         <div> 
             <Navbar/>
-            <Box className="account-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
-                <Paper className="account-paper" elevation={20} sx={{ borderRadius: 5 }}>
+            <Box className="account-background">
                     <div className="account-wrapper" > 
                         <h3 className="account-header"> Tutor Settings </h3>
-                        <h4 className= "account-settings"> <b> Username</b></h4>
+                        <h4 className= "account-settings"> <b> Profile Picture</b></h4>
+                        <IconButton> <Avatar sx={{width: 100, height: 100}}> H </Avatar> </IconButton>
+                        <h4 className= "account-settings"> <b> Username & Subjects</b></h4>
                         <div className="account-sections">
                             <TextField
                                 className="account-textfield"
                                 value= {'hello whats up'}
                                 contentEditable = {false}
+                                label='Username'
                             /> 
-                            <Button className='account-button' variant="contained" color='secondary'> Edit Username </Button>
+                            <TextField
+                                className="account-textfield"
+                                value= {'Need to make this a dropdown'}
+                                contentEditable = {false}
+                                sx={{input: {color: 'red'}}}
+                            /> 
                         </div>
                         <h4 className= "account-settings"> <b> Email </b></h4>
                         <div className="account-sections">
@@ -28,31 +35,34 @@ export const Account: React.FC = () => {
                                 className="account-textfield"
                                 value= {'hello whats up'}
                                 contentEditable = {false}
+                                label= 'Email'
                                 
                             /> 
-                            <Button className='account-button' variant="contained" color='secondary'> Edit Email </Button>
-                        </div>
-                        <h4 className= "account-settings"> <b> Subjects</b></h4>
-                        <div className="account-sections">
-                            <TextField
-                                className="account-textfield"
-                                value= {'Need to make this a dropdown'}
-                                contentEditable = {false}
-                                sx={{input: {color: 'red'}}}
-                            /> 
-                            <Button className='account-button' variant="contained" color='secondary'> Edit Subjects </Button>
                         </div>
                         <h4 className= "account-settings"> <b> Password </b></h4>
                         <div className="account-sections">
+
                             <TextField
                                 className="account-textfield"
                                 value= {'hello whats up'}
                                 contentEditable = {false}
+                                label= 'Password'
                             /> 
-                            <Button className='account-button' variant="contained" color='secondary'> Edit Password </Button>
+                        </div>
+                        <h4 className= "account-settings"> <b> Re-type Password </b></h4>
+                        <div className="account-sections">
+
+                            <TextField
+                                className="account-textfield"
+                                value= {'hello whats up'}
+                                contentEditable = {false}
+                                label= 'Re-type Password'
+                            /> 
+                        </div>
+                        <div className="account-sections">
+                            <Button className='account-button' variant="contained" color='primary'> Edit Profile </Button>
                         </div>
                     </div>
-                </Paper>
             </Box>
         </div>
     );
