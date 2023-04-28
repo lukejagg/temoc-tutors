@@ -5,3 +5,39 @@
     align-items: center;
     height: 100vh;
 }
+.account-paper{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 50px 75px;
+    background-color: #fff;
+    height: 650px;
+    width: 900px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.account-header {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #333;
+}
+.account-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+.account-textfield {
+    width: 75%;  
+}
+.account-sections{
+    display: flex;
+    flex-direction: row;
+    gap: 30px
+}
+
+.account-button{
+    width:22%
+}
