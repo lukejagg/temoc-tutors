@@ -63,6 +63,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
         <>
           <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleHomeRedirect}>Home</Button>
           <Button color="primary" sx={{ marginRight: '10px' }}>Button 2</Button>
+          
         </>
       );
     } else {

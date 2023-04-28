@@ -1,34 +1,34 @@
-.studentAcc-background {
+.account-background {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 64px;
     margin-bottom: 64px;
 }
-.studentAcc-header {
+.account-header {
   text-align: center;
   font-size: 3rem;
   font-weight: bold;
   text-transform: uppercase;
   color: #333;
 }
-.studentAcc-wrapper {
+.account-wrapper {
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
-.studentAcc-textfield {
+.account-textfield {
     width: 120%
 }
-.studentAcc-sections{
+.account-sections{
     display: flex;
     flex-direction: row;
     gap: 30px;
 }
-.update-button{
+.done-button{
     width:30%;
 }
-.studentAcc-settings{
+.account-settings{
     font-size: 20px;
 }
 
