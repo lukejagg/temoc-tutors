@@ -50,6 +50,7 @@ export const TutorAccount: React.FC = () => {
                                         id="demo-simple-select"
                                         value={selectedSubject}
                                         label="Subject"
+                                        multiple
                                         sx={{ width: '200px', background: 'white' }}
                                         onChange={(event) => setSelectedSubject(event.target.value as string)}
                                         >

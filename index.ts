@@ -8,6 +8,9 @@ import { createSessionID } from "./sessionAuthentication";
 
 dotenv.config();
 
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
+
 // Initialize Postgres Database
 const client = new Client({
   user: process.env.PG_USER,
@@ -33,14 +36,18 @@ app.get('/', (req: Request, res: Response) => {
 
 // Login Request
 app.post('/login', async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
 
   try {
     const result = await client.query(
-      'SELECT * FROM student WHERE email = $1 AND password = $2',
-      [email, password]
+      'SELECT * FROM student WHERE email = $1',
+      [email]
     );
-    if(result.rows.length > 0) {
+    
+    const hash = result.rows[0].password;
+    const match = await bcrypt.compare(password, hash);
+
+    if(result.rows.length > 0 && match) {
       res.status(200).json(result.rows[0]);
     } else {
       res.status(401).send('Invalid email or password');
@@ -57,10 +64,14 @@ app.post('/tutorlogin', async (req: Request, res: Response) => {
 
   try {
     const result = await client.query(
-      'SELECT * FROM tutor WHERE email = $1 AND password = $2',
-      [email, password]
+      'SELECT * FROM tutor WHERE email = $1',
+      [email]
     );
-    if(result.rows.length > 0) {
+    
+    const hash = result.rows[0].password;
+    const match = await bcrypt.compare(password, hash);
+
+    if(result.rows.length > 0 && match) {
       res.status(200).json(result.rows[0]);
     } else {
       res.status(401).send('Invalid email or password');
@@ -118,9 +129,13 @@ app.post('/session', (req, res) => {
 
 // Sign Up Request
 app.post('/signup', async (req: Request, res: Response) => {
-  const { username, email, password } = req.body;
+  let { username, email, password } = req.body;
 
   try {
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(password, salt);
+    password = hash;
+
     const result = await client.query(
       'INSERT INTO student (username, email, password) VALUES ($1, $2, $3) RETURNING *',
       [username, email, password]

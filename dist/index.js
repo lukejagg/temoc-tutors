@@ -19,6 +19,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const db_1 = require("./db");
 const sessionAuthentication_1 = require("./sessionAuthentication");
 dotenv_1.default.config();
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
 // Initialize Postgres Database
 const client = new pg_1.Client({
     user: process.env.PG_USER,
@@ -39,10 +41,12 @@ app.get('/', (req, res) => {
 });
 // Login Request
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
     try {
-        const result = yield client.query('SELECT * FROM student WHERE email = $1 AND password = $2', [email, password]);
-        if (result.rows.length > 0) {
+        const result = yield client.query('SELECT * FROM student WHERE email = $1', [email]);
+        const hash = result.rows[0].password;
+        const match = yield bcrypt.compare(password, hash);
+        if (result.rows.length > 0 && match) {
             res.status(200).json(result.rows[0]);
         }
         else {
@@ -58,8 +62,10 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 app.post('/tutorlogin', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
-        const result = yield client.query('SELECT * FROM tutor WHERE email = $1 AND password = $2', [email, password]);
-        if (result.rows.length > 0) {
+        const result = yield client.query('SELECT * FROM tutor WHERE email = $1', [email]);
+        const hash = result.rows[0].password;
+        const match = yield bcrypt.compare(password, hash);
+        if (result.rows.length > 0 && match) {
             res.status(200).json(result.rows[0]);
         }
         else {
@@ -111,8 +117,11 @@ app.post('/session', (req, res) => {
 });
 // Sign Up Request
 app.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, email, password } = req.body;
+    let { username, email, password } = req.body;
     try {
+        const salt = yield bcrypt.genSalt(saltRounds);
+        const hash = yield bcrypt.hash(password, salt);
+        password = hash;
         const result = yield client.query('INSERT INTO student (username, email, password) VALUES ($1, $2, $3) RETURNING *', [username, email, password]);
         if (result.rowCount === 1) {
             res.status(200).json(result.rows[0]);
