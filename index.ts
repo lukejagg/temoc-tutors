@@ -67,7 +67,7 @@ app.post('/tutorlogin', async (req: Request, res: Response) => {
       'SELECT * FROM tutor WHERE email = $1',
       [email]
     );
-    
+
     const hash = result.rows[0].password;
     const match = await bcrypt.compare(password, hash);
 
@@ -367,13 +367,18 @@ app.listen(port, () => {
 });
 
 app.post('/user/new/tutor', async (req: Request, res: Response) => {
-  const { username, email, password, subject } = req.body;
+  let { username, email, password, subject } = req.body;
 
   try {
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(password, salt);
+    password = hash;
+
     const result = await client.query(
       'INSERT INTO tutor (username, email, password, subjects) VALUES ($1, $2, $3, $4) RETURNING *',
       [username, email, password, subject]
     );
+
     if(result.rowCount === 1) {
       res.status(200).json(result.rows[0]);
     } else {
