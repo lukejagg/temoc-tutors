@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, TextField, Avatar, IconButton, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
+import { Box, Button, TextField, Avatar, IconButton, FormControl, InputLabel, Select, MenuItem, OutlinedInput} from '@mui/material';
 import "./tutor-account.css";
 import { Navbar } from "../../components/navbar/navbar";
 import { checkGetSubjects } from '../../api/endpointRequests';
@@ -51,6 +51,7 @@ export const TutorAccount: React.FC = () => {
                                         value={selectedSubject}
                                         label="Subject"
                                         multiple
+                                        input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                                         sx={{ width: '200px', background: 'white' }}
                                         onChange={(event) => setSelectedSubject(event.target.value as string)}
                                         >

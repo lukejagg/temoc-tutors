@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Paper, TextField, Button, Alert, FormControl, MenuItem, Select, InputLabel } from '@mui/material';
-import { StudentCreationRequest, UserIdRequest } from '../../api/dbEndpointTypes';
+import { Box, Paper, TextField, Button, Alert, FormControl, MenuItem, Select, InputLabel, OutlinedInput } from '@mui/material';
+import { TutorCreationRequest, UserIdRequest } from '../../api/dbEndpointTypes';
 import { useNavigate } from 'react-router-dom';
-import { checkStudentCreationRequest, checkUserIdRequest, checkGetSubjects } from '../../api/endpointRequests';
+import { checkTutorCreationRequest, checkUserIdRequest, checkGetSubjects } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
 import backgroundImage from "../../img/background.png";
 import "./tutor-sign-up.css";
 
 export const TutorSignUp: React.FC = () => {
   const [username, setUsername] = useState('');
-  const [selectedSubject, setSelectedSubject] = useState('');
+  const [selectedSubject, setSelectedSubject] = useState<string[]>([]);
   const [subjects, setSubjects] = useState<string[]>([]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,14 +19,15 @@ export const TutorSignUp: React.FC = () => {
   const navigate = useNavigate();
 
   // API Calls
-  const sendStudentCreationRequest = async () => {
-    const newSignUpRequest: StudentCreationRequest = {
+  const sendTutorCreationRequest = async () => {
+    const newSignUpRequest: TutorCreationRequest = {
       username: username,
       email: email,
-      password: password
+      password: password,
+      subject: subjects
     };
-
-    return await checkStudentCreationRequest(newSignUpRequest);
+     console.log(subjects);
+    return await checkTutorCreationRequest(newSignUpRequest);
   };
 
   const sendUserIdRequest = async () => {
@@ -37,22 +38,19 @@ export const TutorSignUp: React.FC = () => {
     return await checkUserIdRequest(newUserIdRequest);
   };
 
-      //API calls 
-      const getSubjects = async () => {
-        const response = await checkGetSubjects();
-        const subjects = response.map ((item:any) => item.subject_type)
-        return subjects;
-    };
+  const getSubjects = async () => {
+    const response = await checkGetSubjects();
+    const subjects = response.map ((item:any) => item.subject_type)
+    return subjects;
+  };
 
-    useEffect(() => {
-        getSubjects()
-        .then(response => {
-            return response;
-        })
-        .then(data => setSubjects(data))
-    }, []);
-
-
+  useEffect(() => {
+    getSubjects()
+      .then(response => {
+        return response;
+      })
+      .then(data => setSubjects(data))
+  },[]);
 
   // Event Handlers
   const handleSignUp = async () => {
@@ -86,7 +84,7 @@ export const TutorSignUp: React.FC = () => {
       setShowErrorMessage(errorMessage !== '');
 
       if(!errorMessage) {
-        sendStudentCreationRequest().then((result) => {
+        sendTutorCreationRequest().then((result) => {
           if(result !== undefined) {
             requestSessionID().then(() => {
               sendUserIdRequest().then(() => {
@@ -140,12 +138,14 @@ export const TutorSignUp: React.FC = () => {
           <FormControl>
             <InputLabel>Subject</InputLabel>
               <Select
+                multiple
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={selectedSubject}
                 label="Subject"
+                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                 sx={{ background: 'white' }}
-                onChange={(event) => setSelectedSubject(event.target.value as string)}>
+                onChange={(event) => setSelectedSubject(event.target.value as string[])}>
                 {subjects.map(subject => (
                   <MenuItem key={subject} value={subject}>
                     {subject}

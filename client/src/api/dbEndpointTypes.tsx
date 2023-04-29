@@ -71,6 +71,13 @@ export interface AppointmentReservation {
     subject: string | null
 }
 
+export interface TutorCreationRequest{
+    email: string,
+    username: string,
+    password: string,
+    subject: string[]
+}
+
 // // Interfaces for tutor-related endpoints
 // export interface Tutor {
 //     id: number;
