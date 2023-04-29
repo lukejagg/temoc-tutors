@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Paper } from "@mui/material";
+import { Avatar, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Paper } from "@mui/material";
 
 interface AppointmentProps {
   appointments: any[] | null;
@@ -41,6 +41,13 @@ export const StudentAppointments: React.FC<AppointmentProps> = ({ appointments }
                 primary={appointment.username}
                 secondary={appointment.time_start + " - " + appointment.time_end}
               />
+              <ListItemButton
+                sx={{ height: "100%", width: "100%" }}
+                component="a"
+                href={`/meet?id1=${localStorage.getItem("userId")}&id2=${appointment.tutor_id}`}
+              >
+                Join
+              </ListItemButton>
             </ListItem>
           ))}
         </List>
