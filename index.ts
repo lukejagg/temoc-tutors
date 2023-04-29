@@ -351,6 +351,25 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 });
 
+app.post('/user/new/tutor', async (req: Request, res: Response) => {
+  const { username, email, password, subject } = req.body;
+
+  try {
+    const result = await client.query(
+      'INSERT INTO tutor (username, email, password, subjects) VALUES ($1, $2, $3, $4) RETURNING *',
+      [username, email, password, subject]
+    );
+    if(result.rowCount === 1) {
+      res.status(200).json(result.rows[0]);
+    } else {
+      res.status(401).send('Error signing up');
+    }
+  } catch (err) {
+    console.error('Error signing up:', err);
+    res.status(500).send('Error signing up');
+  }  
+});
+
 /*
 TODO:
 0. Update each api endpoint as needed
