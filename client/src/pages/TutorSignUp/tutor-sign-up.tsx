@@ -26,7 +26,6 @@ export const TutorSignUp: React.FC = () => {
       password: password,
       subject: subjects
     };
-     console.log(subjects);
     return await checkTutorCreationRequest(newSignUpRequest);
   };
 
