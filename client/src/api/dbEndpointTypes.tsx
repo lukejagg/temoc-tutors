@@ -1,4 +1,5 @@
 import { Dayjs } from "dayjs";
+import { AnyMxRecord } from "dns";
 
 // Interface for user logging on
 export interface LoginRequest {
@@ -75,6 +76,7 @@ export interface TutorCreationRequest{
     email: string,
     username: string,
     password: string,
+    profile_picture: File | null | undefined,
     subject: string[]
 }
 

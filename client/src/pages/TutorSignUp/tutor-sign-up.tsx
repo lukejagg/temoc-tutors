@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Paper, TextField, Button, Alert, FormControl, MenuItem, Select, InputLabel, OutlinedInput } from '@mui/material';
+import { Box, Paper, TextField, Button, Alert, FormControl, MenuItem, Select, InputLabel, OutlinedInput, Avatar, IconButton, Typography, Grid, Container } from '@mui/material';
 import { TutorCreationRequest, UserIdRequest } from '../../api/dbEndpointTypes';
 import { useNavigate } from 'react-router-dom';
 import { checkTutorCreationRequest, checkUserIdRequest, checkGetSubjects } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
 import backgroundImage from "../../img/background.png";
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import "./tutor-sign-up.css";
 
 export const TutorSignUp: React.FC = () => {
@@ -14,6 +15,7 @@ export const TutorSignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [retypePassword, setRetypePassword] = useState('');
+  const [profilePic, setProfilePic] = useState<File | null | undefined>();
   const [error, setError] = useState('');
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const navigate = useNavigate();
@@ -24,7 +26,8 @@ export const TutorSignUp: React.FC = () => {
       username: username,
       email: email,
       password: password,
-      subject: subjects
+      subject: subjects,
+      profile_picture: profilePic
     };
     return await checkTutorCreationRequest(newSignUpRequest);
   };
@@ -100,6 +103,12 @@ export const TutorSignUp: React.FC = () => {
       }
   }
 
+  
+  const selectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = event.target.files as FileList;
+    setProfilePic(selectedFiles?.[0]);
+  };
+
   const handleLogin = () => {
       navigate('/login');
   };
@@ -119,6 +128,38 @@ export const TutorSignUp: React.FC = () => {
       <Paper className="signup-paper" elevation={20} sx={{ borderRadius: 5 }}>
         <div className="signup-wrapper">
           <h3 className="signup-header">Tutor Sign Up</h3>
+          
+          <div>
+            <Typography>Select a Profile Picture</Typography>
+            <Grid container spacing={1} justifyContent="center">
+              <Grid item>
+                <Typography variant="subtitle1">
+                  {profilePic ? (
+                    <Avatar
+                      src={URL.createObjectURL(profilePic)}
+                      style={{ width: "100px", height: "100px" }}
+                    />
+                  ) : (
+                    <Avatar style={{ width: "100px", height: "100px" }} />
+                  )}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <input
+                  id="fileInput"
+                  type="file"
+                  style={{ display: "none" }}
+                  onChange={selectImage}
+                />
+                <label htmlFor="fileInput">
+                  <IconButton component="span">
+                    <AddPhotoAlternateIcon />
+                  </IconButton>
+                </label>
+              </Grid>
+            </Grid>
+          </div>
+          
 
           <TextField
             className="signup-textfield"

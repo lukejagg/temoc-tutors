@@ -367,7 +367,7 @@ app.listen(port, () => {
 });
 
 app.post('/user/new/tutor', async (req: Request, res: Response) => {
-  let { username, email, password, subject } = req.body;
+  let { username, email, password, subject, profile_picture } = req.body;
 
   try {
     const salt = await bcrypt.genSalt(saltRounds);
@@ -375,8 +375,8 @@ app.post('/user/new/tutor', async (req: Request, res: Response) => {
     password = hash;
 
     const result = await client.query(
-      'INSERT INTO tutor (username, email, password, subjects) VALUES ($1, $2, $3, $4) RETURNING *',
-      [username, email, password, subject]
+      'INSERT INTO tutor (username, email, password, subjects, profile_picture) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [username, email, password, subject, profile_picture]
     );
 
     if(result.rowCount === 1) {
