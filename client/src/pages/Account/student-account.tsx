@@ -6,7 +6,7 @@ import { checkGetSubjects } from '../../api/endpointRequests';
 
 export const StudentAccount: React.FC = () => {
     const [username, setUsername] = useState('')
-    const [email, setEmail] = useState('');
+    const [eemail, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [retypePassword, setRetypePassword] = useState('');
     
