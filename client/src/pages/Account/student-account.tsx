@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, TextField, Avatar, IconButton, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
+import { Box, Button, TextField, Avatar, IconButton, FormControl, InputLabel, Select, MenuItem, Typography, Grid} from '@mui/material';
 import "./student-account.css";
 import { Navbar } from "../../components/navbar/navbar";
 import { checkGetSubjects, checkProfileUpdateRequest } from '../../api/endpointRequests';
 import { ProfileUpdateRequest } from '../../api/dbEndpointTypes';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 export const StudentAccount: React.FC = () => {
     const [username, setUsername] = useState<string | null>('');
@@ -36,6 +37,11 @@ export const StudentAccount: React.FC = () => {
         }
     };
 
+    const selectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFiles = event.target.files as FileList;
+        setProfilePic(selectedFiles?.[0]);
+    };
+
     return(
         <div> 
             <Navbar/>
@@ -43,7 +49,36 @@ export const StudentAccount: React.FC = () => {
                     <div className="studentAcc-wrapper" > 
                         <h3 className="studentAcc-header"> Student Settings </h3>
                         <h4 className= "studentAcc-settings"> <b> Profile Picture</b></h4>
-                        <IconButton> <Avatar sx={{width: 100, height: 100}}> {username} </Avatar> </IconButton>
+                        <div>
+                            <Typography>Select a Profile Picture</Typography>
+                            <Grid container spacing={1} justifyContent="center">
+                            <Grid item>
+                                <Typography variant="subtitle1">
+                                {profilePic ? (
+                                    <Avatar
+                                    src={URL.createObjectURL(profilePic)}
+                                    style={{ width: "100px", height: "100px" }}
+                                    />
+                                ) : (
+                                    <Avatar style={{ width: "100px", height: "100px" }} />
+                                )}
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <input
+                                id="fileInput"
+                                type="file"
+                                style={{ display: "none" }}
+                                onChange={selectImage}
+                                />
+                                <label htmlFor="fileInput">
+                                <IconButton component="span">
+                                    <AddPhotoAlternateIcon />
+                                </IconButton>
+                                </label>
+                            </Grid>
+                            </Grid>
+                        </div>
                         <h4 className= "studentAcc-settings"> <b> Username</b></h4>
                         <div className="studentAcc-sections">
                             <TextField
