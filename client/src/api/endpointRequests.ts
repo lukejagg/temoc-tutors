@@ -1,4 +1,4 @@
-import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck, TutorScheduleAppointment, AppointmentReservation, TutorCreationRequest } from "./dbEndpointTypes";
+import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck, TutorScheduleAppointment, AppointmentReservation, TutorCreationRequest, TutorProfileRequest } from "./dbEndpointTypes";
 
 const API_BASE_URL = "http://localhost:8000";
 
@@ -318,6 +318,26 @@ export const checkTutorCreationRequest = async (tutorCreation: TutorCreationRequ
     }
 
     localStorage.setItem('userType', 't');
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkTutorProfileRequest = async (tutorProfile: TutorProfileRequest) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(tutorProfile),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/tutor/profile/request`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
 
     return await response.json();
   } catch (error) {

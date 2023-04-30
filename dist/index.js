@@ -330,6 +330,22 @@ app.post('/user/new/tutor', (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(500).send('Error signing up');
     }
 }));
+app.post('/tutor/profile/request', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let { tutor_id } = req.body;
+    try {
+        const result = yield client.query('SELECT username, email, subjects FROM tutor WHERE id = $1', [tutor_id]);
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows);
+        }
+        else {
+            res.status(401).send('Error inserting new adjustments');
+        }
+    }
+    catch (err) {
+        console.error('Error inserting new adjustments', err);
+        res.status(500).send('Error inserting new adjustments');
+    }
+}));
 /*
 TODO:
 0. Update each api endpoint as needed

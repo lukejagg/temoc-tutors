@@ -78,6 +78,10 @@ export interface TutorCreationRequest{
     subject: string[]
 }
 
+export interface TutorProfileRequest{
+    tutor_id: string | null,
+}
+
 // // Interfaces for tutor-related endpoints
 // export interface Tutor {
 //     id: number;

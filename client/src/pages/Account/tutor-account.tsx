@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, TextField, Avatar, IconButton, FormControl, InputLabel, Select, MenuItem, OutlinedInput} from '@mui/material';
 import "./tutor-account.css";
 import { Navbar } from "../../components/navbar/navbar";
-import { checkGetSubjects } from '../../api/endpointRequests';
+import { checkGetSubjects, checkTutorProfileRequest } from '../../api/endpointRequests';
+import { TutorProfileRequest } from '../../api/dbEndpointTypes';
 
 export const TutorAccount: React.FC = () => {
     const [username, setUsername] = useState<string | null>(null)
-    const [selectedSubject, setSelectedSubject] = useState('');
+    const [selectedSubject, setSelectedSubject] = useState<string[]>([]);
     const [subjects, setSubjects] = useState<string[]>([]);
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState<string | null>(null);
     const [password, setPassword] = useState<string | null>(null);
     const [retypePassword, setRetypePassword] = useState<string | null>(null);
     
@@ -19,12 +20,27 @@ export const TutorAccount: React.FC = () => {
         return subjects;
     };
 
+    const getTutorProfile = async () => {
+        const newTutorProfileRequest: TutorProfileRequest = {
+            tutor_id: localStorage.getItem('userId')
+        };
+
+        return await checkTutorProfileRequest(newTutorProfileRequest);
+    };
+
     useEffect(() => {
         getSubjects()
         .then(response => {
             return response;
         })
         .then(data => setSubjects(data))
+    }, []);
+
+    useEffect(() => {
+        getTutorProfile()
+        .then(response => {
+            return response;
+        })
     }, []);
 
     return(
@@ -53,7 +69,7 @@ export const TutorAccount: React.FC = () => {
                                         multiple
                                         input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                                         sx={{ width: '200px', background: 'white' }}
-                                        onChange={(event) => setSelectedSubject(event.target.value as string)}
+                                        onChange={(event) => setSelectedSubject(event.target.value as string[])}
                                         >
                                         {subjects.map(subject => (
                                         <MenuItem key={subject} value={subject}>
