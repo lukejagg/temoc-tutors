@@ -57,6 +57,10 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
     
   }, [appointments]);
 
+  useEffect(() => {
+    // getAllTutors()
+  }, []);
+
   return (
     <Paper sx={{ padding: "20px", maxHeight: "650px", overflowY: "auto", width: "600px",   margin: "50px auto 0"  }}>
       {studentAppointments && studentAppointments.length > 0 ? (

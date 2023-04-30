@@ -29,6 +29,7 @@ export interface StudentCreationRequest {
     email: string;
     username: string;
     password: string;
+    profile_pic: File | null | undefined;
 }
 
 export interface StudentAppointmentsCheckRequest {
@@ -77,7 +78,8 @@ export interface TutorCreationRequest{
     username: string,
     password: string,
     profile_picture: File | null | undefined,
-    subject: string[]
+    subject: string[],
+    about_me: string | null
 }
 
 // // Interfaces for tutor-related endpoints

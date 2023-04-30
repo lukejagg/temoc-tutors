@@ -65,8 +65,6 @@ export const checkUserIdRequest = async (userIdRequest: UserIdRequest) => {
 
     localStorage.setItem('userId', userId);
 
-    console.log(localStorage.getItem("userId"))
-
     return responseData;
   } catch (error) {
     console.error(error);

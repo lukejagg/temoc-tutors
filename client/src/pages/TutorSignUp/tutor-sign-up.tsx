@@ -10,6 +10,7 @@ import "./tutor-sign-up.css";
 
 export const TutorSignUp: React.FC = () => {
   const [username, setUsername] = useState('');
+  const [aboutMe, setAboutMe] = useState<string | null>('');
   const [selectedSubject, setSelectedSubject] = useState<string[]>([]);
   const [subjects, setSubjects] = useState<string[]>([]);
   const [email, setEmail] = useState('');
@@ -27,7 +28,8 @@ export const TutorSignUp: React.FC = () => {
       email: email,
       password: password,
       subject: subjects,
-      profile_picture: profilePic
+      profile_picture: profilePic,
+      about_me: aboutMe
     };
     return await checkTutorCreationRequest(newSignUpRequest);
   };
@@ -76,6 +78,8 @@ export const TutorSignUp: React.FC = () => {
       ? 'Please enter a password'
       : (hasEmptyRetypePassword && !hasEmptyPassword)
       ? 'Please re-type your password'
+      : (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)))
+      ? 'Password not strong enough, make sure to include 1 lowercase, 1 uppercase, 1 digit, 1 special character, and be 8 characters long at least'
       : (password !== retypePassword)
       ? 'Password does not match'
       : !isValidEmail(email)
@@ -156,6 +160,16 @@ export const TutorSignUp: React.FC = () => {
                     <AddPhotoAlternateIcon />
                   </IconButton>
                 </label>
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="outlined-multiline-static"
+                  label="About Me"
+                  multiline
+                  rows={4}
+                  value={aboutMe}
+                  onChange={(event) => setAboutMe(event.target.value)}
+                />
               </Grid>
             </Grid>
           </div>

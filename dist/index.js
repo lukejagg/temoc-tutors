@@ -117,12 +117,12 @@ app.post('/session', (req, res) => {
 });
 // Sign Up Request
 app.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { username, email, password } = req.body;
+    let { username, email, password, profile_pic } = req.body;
     try {
         const salt = yield bcrypt.genSalt(saltRounds);
         const hash = yield bcrypt.hash(password, salt);
         password = hash;
-        const result = yield client.query('INSERT INTO student (username, email, password) VALUES ($1, $2, $3) RETURNING *', [username, email, password]);
+        const result = yield client.query('INSERT INTO student (username, email, password, profile_picture) VALUES ($1, $2, $3, $4) RETURNING *', [username, email, password, profile_pic]);
         if (result.rowCount === 1) {
             res.status(200).json(result.rows[0]);
         }
@@ -312,12 +312,12 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
 app.post('/user/new/tutor', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { username, email, password, subject, profile_picture } = req.body;
+    let { username, email, password, subject, profile_picture, about_me } = req.body;
     try {
         const salt = yield bcrypt.genSalt(saltRounds);
         const hash = yield bcrypt.hash(password, salt);
         password = hash;
-        const result = yield client.query('INSERT INTO tutor (username, email, password, subjects, profile_picture) VALUES ($1, $2, $3, $4, $5) RETURNING *', [username, email, password, subject, profile_picture]);
+        const result = yield client.query('INSERT INTO tutor (username, email, password, subjects, profile_picture, about_me) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [username, email, password, subject, profile_picture, about_me]);
         if (result.rowCount === 1) {
             res.status(200).json(result.rows[0]);
         }

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Box, Paper, TextField, Button, Alert } from '@mui/material';
+import { Box, Paper, TextField, Button, Alert, Typography, Grid, Avatar, IconButton } from '@mui/material';
 import { StudentCreationRequest, UserIdRequest } from '../../api/dbEndpointTypes';
 import { useNavigate } from 'react-router-dom';
 import { checkStudentCreationRequest, checkUserIdRequest } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
 import backgroundImage from "../../img/background.png";
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+
 import "./signup.css";
 
 export const SignUp: React.FC = () => {
@@ -14,6 +16,7 @@ export const SignUp: React.FC = () => {
   const [retypePassword, setRetypePassword] = useState('');
   const [error, setError] = useState('');
   const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [profilePic, setProfilePic] = useState<File | null | undefined>();
   const navigate = useNavigate();
 
   // API Calls
@@ -21,7 +24,8 @@ export const SignUp: React.FC = () => {
     const newSignUpRequest: StudentCreationRequest = {
       username: username,
       email: email,
-      password: password
+      password: password,
+      profile_pic: profilePic
     };
 
     return await checkStudentCreationRequest(newSignUpRequest);
@@ -58,6 +62,8 @@ export const SignUp: React.FC = () => {
       ? 'Please enter a password'
       : (hasEmptyRetypePassword && !hasEmptyPassword)
       ? 'Please re-type your password'
+      : (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)))
+      ? 'Password not strong enough, make sure to include 1 lowercase, 1 uppercase, 1 digit, 1 special character, and be 8 characters long at least'
       : (password !== retypePassword)
       ? 'Password does not match'
       : !isValidEmail(email)
@@ -66,6 +72,8 @@ export const SignUp: React.FC = () => {
 
       setError(errorMessage);
       setShowErrorMessage(errorMessage !== '');
+
+      console.log(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password));
 
       if(!errorMessage) {
         sendStudentCreationRequest().then((result) => {
@@ -99,11 +107,47 @@ export const SignUp: React.FC = () => {
     navigate('/tutorsignup');
   };
 
+  const selectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = event.target.files as FileList;
+    setProfilePic(selectedFiles?.[0]);
+  };
+
   return (
     <Box className="signup-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <Paper className="signup-paper" elevation={20} sx={{ borderRadius: 5 }}>
         <div className="signup-wrapper">
           <h3 className="signup-header">Student Sign Up</h3>
+
+          <div>
+            <Typography>Select a Profile Picture</Typography>
+            <Grid container spacing={1} justifyContent="center">
+              <Grid item>
+                <Typography variant="subtitle1">
+                  {profilePic ? (
+                    <Avatar
+                      src={URL.createObjectURL(profilePic)}
+                      style={{ width: "100px", height: "100px" }}
+                    />
+                  ) : (
+                    <Avatar style={{ width: "100px", height: "100px" }} />
+                  )}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <input
+                  id="fileInput"
+                  type="file"
+                  style={{ display: "none" }}
+                  onChange={selectImage}
+                />
+                <label htmlFor="fileInput">
+                  <IconButton component="span">
+                    <AddPhotoAlternateIcon />
+                  </IconButton>
+                </label>
+              </Grid>
+            </Grid>
+          </div>
 
           <TextField
             className="signup-textfield"
