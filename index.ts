@@ -360,6 +360,58 @@ app.post('/user/new/appointment', async (req: Request, res: Response) => {
   }  
 });
 
+app.post('/student/new/profileUpdate', async (req: Request, res: Response) => {
+  let { username, email, password, profile_picture, id } = req.body;
+
+  const salt = await bcrypt.genSalt(saltRounds);
+  const hash = await bcrypt.hash(password, salt);
+  password = hash;
+
+  let query_base = 'UPDATE student SET ';
+  let query_end = ' WHERE id = $1';
+  let data_list = [id];
+  let counter = 2;  
+
+  if(username) {
+    query_base += `username = $${counter}, `;
+    data_list.push(username);
+    counter++;
+  }
+
+  if(email) {
+    query_base += `email = $${counter}, `;
+    data_list.push(email);
+    counter++;
+  }
+
+  if(password) {
+    query_base += `password = $${counter}, `;
+    data_list.push(password);
+    counter++;
+  }
+
+  if(profile_picture) {
+    query_base += `profile_picture = $${counter}, `;
+    data_list.push(profile_picture);
+    counter++;
+  }
+
+  query_base = query_base.slice(0, -2);
+  query_base += query_end;
+
+  try {
+    const result = await client.query(query_base, data_list);
+    if(result.rowCount !== 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error loading subjects');
+    }
+  } catch (err) {
+    console.error('Error loading subjects', err);
+    res.status(500).send('Error loading subjects');
+  }  
+});
+
 app.post('/user/new/tutor', async (req: Request, res: Response) => {
   let { username, email, password, subject } = req.body;
 
@@ -485,51 +537,3 @@ TODO:
 //     res.status(500).send('Error creating appointment');
 //   }
 // });
-
-app.post('/student/new/profileUpdate', async (req: Request, res: Response) => {
-  const { username, email, password, profile_picture, id } = req.body;
-
-  let query_base = 'UPDATE student SET ';
-  let query_end = ' WHERE id = $1';
-  let data_list = [];
-  let counter = 2;  
-
-  if(username) {
-    query_base += `username = $${counter}, `;
-    data_list.push(username);
-    counter++;
-  }
-
-  if(email) {
-    query_base += `email = $${counter}, `;
-    data_list.push(email);
-    counter++;
-  }
-
-  if(password) {
-    query_base += `password = $${counter}, `;
-    data_list.push(password);
-    counter++;
-  }
-
-  if(profile_picture) {
-    query_base += `profile_picture = $${counter}, `;
-    data_list.push(profile_picture);
-    counter++;
-  }
-
-  query_base = query_base.slice(0, -2);
-  query_base += query_end;
-
-  try {
-    const result = await client.query(query_base, data_list);
-    if(result.rowCount !== 0) {
-      res.status(200).json(result.rows);
-    } else {
-      res.status(401).send('Error loading subjects');
-    }
-  } catch (err) {
-    console.error('Error loading subjects', err);
-    res.status(500).send('Error loading subjects');
-  }  
-});
