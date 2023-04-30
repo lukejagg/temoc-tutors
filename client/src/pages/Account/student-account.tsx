@@ -2,14 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, TextField, Avatar, IconButton, FormControl, InputLabel, Select, MenuItem} from '@mui/material';
 import "./student-account.css";
 import { Navbar } from "../../components/navbar/navbar";
-import { checkGetSubjects } from '../../api/endpointRequests';
+import { checkGetSubjects, checkProfileUpdateRequest } from '../../api/endpointRequests';
+import { ProfileUpdateRequest } from '../../api/dbEndpointTypes';
 
 export const StudentAccount: React.FC = () => {
-    const [username, setUsername] = useState('')
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [retypePassword, setRetypePassword] = useState('');
+    const [username, setUsername] = useState<string | null>('');
+    const [email, setEmail] = useState<string | null>('');
+    const [password, setPassword] = useState<string | null>('');
+    const [retypePassword, setRetypePassword] = useState<string | null>('');
+    const [profilePic, setProfilePic] = useState<File | null | undefined>();
+    const [id, ] = useState<string | null>(localStorage.getItem('userId'));
     
+    // API Calls
+    const sendProfileUpdateRequest = async () => {
+        const newProfileUpdateRequest: ProfileUpdateRequest = {
+            username: username,
+            email: email,
+            password: password,
+            profile_pic: profilePic,
+            id: id
+    };
+
+        return await checkProfileUpdateRequest(newProfileUpdateRequest);
+    };
+
     return(
         <div> 
             <Navbar/>
@@ -55,7 +71,7 @@ export const StudentAccount: React.FC = () => {
                             /> 
                         </div>
                         <div className="studentAcc-sections">
-                            <Button className='update-button' variant="contained" color='primary'> Update Profile </Button>
+                            <Button className='update-button' variant="contained" color='primary' onClick={sendProfileUpdateRequest}> Update Profile </Button>
                         </div>
                     </div>
             </Box>

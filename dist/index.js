@@ -307,10 +307,6 @@ app.post('/user/new/appointment', (req, res) => __awaiter(void 0, void 0, void 0
         res.status(500).send('Error inserting new adjustments');
     }
 }));
-const port = process.env.PORT || 8000;
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-});
 app.post('/user/new/tutor', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let { username, email, password, subject } = req.body;
     try {
@@ -330,6 +326,10 @@ app.post('/user/new/tutor', (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(500).send('Error signing up');
     }
 }));
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+});
 /*
 TODO:
 0. Update each api endpoint as needed
@@ -414,3 +414,45 @@ TODO:
 //     res.status(500).send('Error creating appointment');
 //   }
 // });
+app.post('/student/new/profileUpdate', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, email, password, profile_picture, id } = req.body;
+    let query_base = 'UPDATE student SET ';
+    let query_end = ' WHERE id = $1';
+    let data_list = [];
+    let counter = 2;
+    if (username) {
+        query_base += `username = $${counter}, `;
+        data_list.push(username);
+        counter++;
+    }
+    if (email) {
+        query_base += `email = $${counter}, `;
+        data_list.push(email);
+        counter++;
+    }
+    if (password) {
+        query_base += `password = $${counter}, `;
+        data_list.push(password);
+        counter++;
+    }
+    if (profile_picture) {
+        query_base += `profile_picture = $${counter}, `;
+        data_list.push(profile_picture);
+        counter++;
+    }
+    query_base = query_base.slice(0, -2);
+    query_base += query_end;
+    try {
+        const result = yield client.query(query_base, data_list);
+        if (result.rowCount !== 0) {
+            res.status(200).json(result.rows);
+        }
+        else {
+            res.status(401).send('Error loading subjects');
+        }
+    }
+    catch (err) {
+        console.error('Error loading subjects', err);
+        res.status(500).send('Error loading subjects');
+    }
+}));

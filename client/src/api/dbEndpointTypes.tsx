@@ -12,6 +12,15 @@ export interface TutorLoginRequest {
     password: string;
 }
 
+// Interface for updating student profile
+export interface ProfileUpdateRequest {
+    username: string | null;
+    email: string | null;
+    password: string | null;
+    profile_pic: File | null | undefined;
+    id: string | null;
+}
+
 
 // Interface for getting User ID
 export interface UserIdRequest {
