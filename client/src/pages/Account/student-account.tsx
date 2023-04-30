@@ -30,9 +30,13 @@ export const StudentAccount: React.FC = () => {
     const handleUpdateRequest = () => {
         if ((username !== null || username !== "") || (email !== null || email !== "") || (password !== null || password !== "") || (profilePic !== null || profilePic !== undefined)) {
             if (password === retypePassword) {
-                sendProfileUpdateRequest();
+                if (email === null || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    sendProfileUpdateRequest();
+                } else {
+                    // handle if email is not in correct format
+                }
             } else {
-                // handle later (if password doesnt match retyped password)
+                // handle if password and retyped password don't match
             }
         }
     };
