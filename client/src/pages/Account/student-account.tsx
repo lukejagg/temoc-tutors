@@ -26,6 +26,16 @@ export const StudentAccount: React.FC = () => {
         return await checkProfileUpdateRequest(newProfileUpdateRequest);
     };
 
+    const handleUpdateRequest = () => {
+        if ((username !== null || username !== "") || (email !== null || email !== "") || (password !== null || password !== "") || (profilePic !== null || profilePic !== undefined)) {
+            if (password === retypePassword) {
+                sendProfileUpdateRequest();
+            } else {
+                // handle later (if password doesnt match retyped password)
+            }
+        }
+    };
+
     return(
         <div> 
             <Navbar/>
@@ -71,7 +81,7 @@ export const StudentAccount: React.FC = () => {
                             /> 
                         </div>
                         <div className="studentAcc-sections">
-                            <Button className='update-button' variant="contained" color='primary' onClick={sendProfileUpdateRequest}> Update Profile </Button>
+                            <Button className='update-button' variant="contained" color='primary' onClick={handleUpdateRequest}> Update Profile </Button>
                         </div>
                     </div>
             </Box>
