@@ -6,6 +6,7 @@ import { checkAppointmentValidityCheck } from '../../../api/endpointRequests';
 
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import { blue } from '@mui/material/colors';
+import { AllTutors } from './all-tutors';
 
 interface AppointmentProps{
   appointments: any[] | null;
@@ -57,39 +58,29 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
     
   }, [appointments]);
 
-  useEffect(() => {
-    // getAllTutors()
-  }, []);
-
   return (
-    <Paper sx={{ padding: "20px", maxHeight: "650px", overflowY: "auto", width: "600px",   margin: "50px auto 0"  }}>
+    <Paper sx={{ padding: "20px", maxHeight: "650px", overflowY: "auto", width: "600px", margin: "50px auto 50px" }}>
       {studentAppointments && studentAppointments.length > 0 ? (
         <List>
           {studentAppointments.map((appointment) => (
             <ListItem key={appointment.id} sx={{ height: "125px", alignSelf: "flex-start" }}>
               <ListItemAvatar>
-                <Avatar
-                  sx={{ height: "85px", width: "85px", margin: "20px" }}
-                  src={appointment.profile_picture}
-                />
+                <Avatar sx={{ height: "85px", width: "85px", margin: "20px" }} src={appointment.profile_picture} />
               </ListItemAvatar>
-              <ListItemText
-                primary={appointment.username}
-                secondary={"Available Times: " + appointment.start_time.slice(0, -3) + " - " + appointment.end_time.slice(0, -3)}
-              />
-              <ListItemText
-                primary={appointment.subjects.replace(/[{}]/g, "")}
-                secondary={new Date(appointment.day).toLocaleDateString()}
-              />
+              <ListItemText primary={appointment.username} secondary={"Available Times: " + appointment.start_time.slice(0, -3) + " - " + appointment.end_time.slice(0, -3)} />
+              <ListItemText primary={appointment.subjects.replace(/[{}]/g, "")} secondary={new Date(appointment.day).toLocaleDateString()} />
               <IconButton aria-label="make-appointment" onClick={() => handleScheduling(appointment)}>
-                <AddCircleRoundedIcon fontSize="large" sx={{color: primary}} />
+                <AddCircleRoundedIcon fontSize="large" sx={{ color: primary }} />
               </IconButton>
             </ListItem>
           ))}
         </List>
       ) : (
-        <p>No Tutors</p>
-        )}
+        <>
+          <p>No Tutors found, here are all our current tutors</p>
+          <AllTutors />
+        </>
+      )}
     </Paper>
   );
 };

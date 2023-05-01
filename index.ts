@@ -360,6 +360,25 @@ app.post('/user/new/appointment', async (req: Request, res: Response) => {
   }  
 });
 
+app.post('/alltutors', async (req: Request, res: Response) => {
+  const { id } = req.body;
+  try {
+    const result = await client.query(
+      'SELECT tutor.*, favorite.id AS favorite_id FROM tutor LEFT JOIN favorite ON favorite.tutor_id = tutor.id AND favorite.student_id = $1',
+      [id]
+    );    
+
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error inserting new adjustments');
+    }
+  } catch (err) {
+    console.error('Error inserting new adjustments', err);
+    res.status(500).send('Error inserting new adjustments');
+  }  
+});
+
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => {

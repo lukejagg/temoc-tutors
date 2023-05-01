@@ -32,7 +32,8 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
 
   const handleLogOut = () => {
     localStorage.clear();
-    
+    handleHomeRedirect();
+
     window.location.reload();
   };
 
@@ -63,7 +64,6 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
         <>
           <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleHomeRedirect}>Home</Button>
           <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleProfileRedirect}>Profile</Button>
-          
         </>
       );
     } else {

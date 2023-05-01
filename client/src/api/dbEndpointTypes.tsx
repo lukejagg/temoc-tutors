@@ -82,6 +82,10 @@ export interface TutorCreationRequest{
     about_me: string | null
 }
 
+export interface TutorAll{
+    id: string | null;
+}
+
 // // Interfaces for tutor-related endpoints
 // export interface Tutor {
 //     id: number;
