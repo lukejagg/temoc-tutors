@@ -51,8 +51,8 @@ function setupDatabase(client) {
         username VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
-        total_tutoring_hours INT
         profile_picture BYTEA,
+        total_tutoring_hours INT
       );
       
       CREATE TABLE IF NOT EXISTS favorite (

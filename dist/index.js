@@ -312,12 +312,12 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
 app.post('/user/new/tutor', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { username, email, password, subject, profile_picture, about_me } = req.body;
+    let { username, email, password, subject, about_me } = req.body;
     try {
         const salt = yield bcrypt.genSalt(saltRounds);
         const hash = yield bcrypt.hash(password, salt);
         password = hash;
-        const result = yield client.query('INSERT INTO tutor (username, email, password, subjects, profile_picture, about_me) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [username, email, password, subject, profile_picture, about_me]);
+        const result = yield client.query('INSERT INTO tutor (username, email, password, subjects, about_me) VALUES ($1, $2, $3, $4, $5) RETURNING *', [username, email, password, subject, about_me]);
         if (result.rowCount === 1) {
             res.status(200).json(result.rows[0]);
         }
