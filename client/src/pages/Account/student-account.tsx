@@ -13,6 +13,7 @@ export const StudentAccount: React.FC = () => {
     const [retypePassword, setRetypePassword] = useState<string | null>('');
     const [profilePic, setProfilePic] = useState<File | null | undefined>();
     const [id, ] = useState<string | null>(localStorage.getItem('userId'));
+    let [errorMessage, ] = useState<string>();
     
     // API Calls
     const sendProfileUpdateRequest = async () => {
@@ -27,16 +28,20 @@ export const StudentAccount: React.FC = () => {
         return await checkProfileUpdateRequest(newProfileUpdateRequest);
     };
 
+    // The error message isn't displaying. I believe it is updating though
+    // Problem likely lies with HTML part
+    
     const handleUpdateRequest = () => {
+        errorMessage = "";
         if ((username !== null || username !== "") || (email !== null || email !== "") || (password !== null || password !== "") || (profilePic !== null || profilePic !== undefined)) {
             if (password === retypePassword) {
                 if (email === null || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                     sendProfileUpdateRequest();
                 } else {
-                    // handle if email is not in correct format
+                    errorMessage += "Please enter a valid email\n";
                 }
             } else {
-                // handle if password and retyped password don't match
+                errorMessage += "Both of the passwords need to match\n";
             }
         }
     };
@@ -48,6 +53,9 @@ export const StudentAccount: React.FC = () => {
 
     return(
         <div> 
+            <Typography style={{ color: 'red', fontSize: '24px', textAlign: 'center', marginTop: '10px' }}>
+                {errorMessage}
+            </Typography>
             <Navbar/>
             <Box className="studentAcc-background">
                     <div className="studentAcc-wrapper" > 
