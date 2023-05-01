@@ -13,7 +13,7 @@ export const StudentAccount: React.FC = () => {
     const [retypePassword, setRetypePassword] = useState<string | null>('');
     const [profilePic, setProfilePic] = useState<File | null | undefined>();
     const [id, ] = useState<string | null>(localStorage.getItem('userId'));
-    let [errorMessage, ] = useState<string>();
+    let [errorMessage, ] = useState<string | null>();
     
     // API Calls
     const sendProfileUpdateRequest = async () => {
@@ -22,7 +22,7 @@ export const StudentAccount: React.FC = () => {
             email: email,
             password: password,
             profile_pic: profilePic,
-            id: id
+            id: id,
     };
 
         return await checkProfileUpdateRequest(newProfileUpdateRequest);
@@ -39,9 +39,11 @@ export const StudentAccount: React.FC = () => {
                     sendProfileUpdateRequest();
                 } else {
                     errorMessage += "Please enter a valid email\n";
+                    //console.log(errorMessage);
                 }
             } else {
                 errorMessage += "Both of the passwords need to match\n";
+                //console.log(errorMessage);
             }
         }
     };
@@ -54,8 +56,9 @@ export const StudentAccount: React.FC = () => {
     return(
         <div> 
             <Typography style={{ color: 'red', fontSize: '24px', textAlign: 'center', marginTop: '10px' }}>
-                {errorMessage}
+                {errorMessage}]
             </Typography>
+        <Navbar/>
             <Navbar/>
             <Box className="studentAcc-background">
                     <div className="studentAcc-wrapper" > 
