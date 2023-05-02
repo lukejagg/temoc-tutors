@@ -381,8 +381,6 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 });
 
-// ...
-
 app.post('/user/new/tutor', upload.single('profile_picture'), async (req: Request, res: Response) => {
   let { username, email, password, subject, about_me } = req.body;
 

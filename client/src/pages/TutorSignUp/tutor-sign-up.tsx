@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Paper, TextField, Button, Alert, FormControl, MenuItem, Select, InputLabel, OutlinedInput, Avatar, IconButton, Typography, Grid, Container } from '@mui/material';
-import { TutorCreationRequest, UserIdRequest } from '../../api/dbEndpointTypes';
+import { ProfilePicturePost, TutorCreationRequest, UserIdRequest } from '../../api/dbEndpointTypes';
 import { useNavigate } from 'react-router-dom';
-import { checkTutorCreationRequest, checkUserIdRequest, checkGetSubjects } from '../../api/endpointRequests';
+import { checkTutorCreationRequest, checkUserIdRequest, checkGetSubjects, profilePicturePost } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
 import backgroundImage from "../../img/background.png";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
@@ -33,6 +33,14 @@ export const TutorSignUp: React.FC = () => {
     };
     return await checkTutorCreationRequest(newSignUpRequest);
   };
+
+  const sendProfilePicture = async () => {
+    const newProfileUpdate: ProfilePicturePost = {
+      profile_picture: profilePic
+    };
+
+    return await profilePicturePost(newProfileUpdate);
+  }
 
   const sendUserIdRequest = async () => {
     const newUserIdRequest: UserIdRequest = {
@@ -92,11 +100,22 @@ export const TutorSignUp: React.FC = () => {
       if(!errorMessage) {
         sendTutorCreationRequest().then((result) => {
           if(result !== undefined) {
-            requestSessionID().then(() => {
-              sendUserIdRequest().then(() => {
-                navigate('/');
+            if(profilePic) {
+              sendProfilePicture().then((result) => {
+              requestSessionID().then(() => {
+                sendUserIdRequest().then(() => {
+                  navigate('/');
+                });
               });
-            });
+            });  
+            }
+            else {
+              requestSessionID().then(() => {
+                sendUserIdRequest().then(() => {
+                  navigate('/');
+                });
+              });
+            }
           }
           else {
             const signupError = "Account with this email already exists";
@@ -126,6 +145,10 @@ export const TutorSignUp: React.FC = () => {
     const emailRegex = /\S+@\S+\.\S+/;
     return emailRegex.test(email);
   };
+
+  useEffect(() => {
+    console.log(profilePic)
+  })
 
   return (
     <Box className="signup-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
