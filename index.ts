@@ -11,6 +11,21 @@ dotenv.config();
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
+import multer from 'multer';
+import fs from 'fs';
+
+// Configure multer storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
+
 // Initialize Postgres Database
 const client = new Client({
   user: process.env.PG_USER,
@@ -366,7 +381,7 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 });
 
-app.post('/user/new/tutor', async (req: Request, res: Response) => {
+app.post('/user/new/tutor', upload.single('profile_picture'), async (req: Request, res: Response) => {
   let { username, email, password, subject, about_me } = req.body;
 
   try {
@@ -374,12 +389,17 @@ app.post('/user/new/tutor', async (req: Request, res: Response) => {
     const hash = await bcrypt.hash(password, salt);
     password = hash;
 
+    const profile_picture = req.file?.path;
+
+    // Parse the subject array
+    const subjects = JSON.parse(subject);
+
     const result = await client.query(
-      'INSERT INTO tutor (username, email, password, subjects, about_me) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [username, email, password, subject, about_me]
+      'INSERT INTO tutor (username, email, password, subjects, profile_picture, about_me) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [username, email, password, subjects, profile_picture, about_me]
     );
 
-    if(result.rowCount === 1) {
+    if (result.rowCount === 1) {
       res.status(200).json(result.rows[0]);
     } else {
       res.status(401).send('Error signing up');
@@ -387,8 +407,29 @@ app.post('/user/new/tutor', async (req: Request, res: Response) => {
   } catch (err) {
     console.error('Error signing up:', err);
     res.status(500).send('Error signing up');
-  }  
+  }
 });
+
+
+app.get('/user/tutor/:id/profile_picture', async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const result = await client.query('SELECT profile_picture FROM tutor WHERE id = $1', [id]);
+    if (result.rowCount === 1) {
+      const profile_picture_path = result.rows[0].profile_picture;
+      const profile_picture_extension = path.extname(profile_picture_path);
+      res.set('Content-Type', `image/${profile_picture_extension.substring(1)}`);
+      res.sendFile(path.resolve(profile_picture_path));
+    } else {
+      res.status(404).send('Profile picture not found');
+    }
+  } catch (err) {
+    console.error('Error getting profile picture:', err);
+    res.status(500).send('Error getting profile picture');
+  }
+});
+
 
 /*
 TODO:

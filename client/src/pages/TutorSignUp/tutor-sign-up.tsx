@@ -27,8 +27,9 @@ export const TutorSignUp: React.FC = () => {
       username: username,
       email: email,
       password: password,
-      subject: subjects,
-      about_me: aboutMe,
+      subject: selectedSubject,
+      profile_picture: profilePic,
+      about_me: aboutMe
     };
     return await checkTutorCreationRequest(newSignUpRequest);
   };

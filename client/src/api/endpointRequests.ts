@@ -302,12 +302,23 @@ export const checkAppointmentReservation = async (appointmentReservation: Appoin
 };
 
 export const checkTutorCreationRequest = async (tutorCreation: TutorCreationRequest) => {
+  const formData = new FormData();
+  formData.append('email', tutorCreation.email);
+  formData.append('username', tutorCreation.username);
+  formData.append('password', tutorCreation.password);
+  if (tutorCreation.profile_picture) {
+    formData.append('profile_picture', tutorCreation.profile_picture);
+  }
+  formData.append('subject', JSON.stringify(tutorCreation.subject));
+  if (tutorCreation.about_me) {
+    formData.append('about_me', tutorCreation.about_me);
+  }
+
   const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(tutorCreation),
+    method: 'POST',
+    body: formData,
   };
-  
+
   try {
     const response = await fetch(`${API_BASE_URL}/user/new/tutor`, requestOptions);
 
@@ -323,24 +334,12 @@ export const checkTutorCreationRequest = async (tutorCreation: TutorCreationRequ
   }
 };
 
-export const profilePicturePost = async (newProfilePicture: ProfilePicturePost) => {
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newProfilePicture),
-  };
-  
-  try {
-    const response = await fetch(`${API_BASE_URL}/user/new/tutor`, requestOptions);
+/*
+const tutorId = 1; // Replace with the actual tutor ID
+const avatarUrl = getTutorAvatarUrl(tutorId);
 
-    if (!response.ok) {
-      throw new Error(`Request failed with status code ${response.status}`);
-    }
-
-    localStorage.setItem('userType', 't');
-
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
+<img src={avatarUrl} alt="Tutor's avatar" />
+*/
+export const getTutorAvatarUrl = (tutorId: number | string) => {
+  return `${API_BASE_URL}/user/tutor/${tutorId}/profile_picture`;
 };
