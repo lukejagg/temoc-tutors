@@ -114,7 +114,7 @@ export const SignUp: React.FC = () => {
 
   return (
     <Box className="signup-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
-      <Paper className="signup-paper" elevation={20} sx={{ borderRadius: 5 }}>
+      <Paper className="signup-paper" elevation={20} sx={{ borderRadius: 5, height: "850px" }}>
         <div className="signup-wrapper">
           <h3 className="signup-header">Student Sign Up</h3>
 

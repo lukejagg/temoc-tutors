@@ -5,7 +5,6 @@ import { TutorLoginRequest, UserIdRequest } from '../../api/dbEndpointTypes';
 import { checkTutorLoginRequest, checkTutorUserIdRequest } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
 import backgroundImage from "../../img/background.png";
-import "../Tutor Login/tutor-login.css";
 
 export const TutorLogin: React.FC = () => {
   const [email, setEmail] = useState('');

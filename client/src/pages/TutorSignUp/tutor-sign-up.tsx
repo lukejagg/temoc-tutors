@@ -6,7 +6,6 @@ import { checkTutorCreationRequest, checkUserIdRequest, checkGetSubjects } from 
 import { requestSessionID } from '../../api/sessionRequest';
 import backgroundImage from "../../img/background.png";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import "./tutor-sign-up.css";
 
 export const TutorSignUp: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -129,7 +128,7 @@ export const TutorSignUp: React.FC = () => {
 
   return (
     <Box className="signup-background" style={{ backgroundImage: `url(${backgroundImage})` }}>
-      <Paper className="signup-paper" elevation={20} sx={{ borderRadius: 5 }}>
+      <Paper className="signup-paper" elevation={20} sx={{ borderRadius: 5 , height: "980px"}}>
         <div className="signup-wrapper">
           <h3 className="signup-header">Tutor Sign Up</h3>
           
