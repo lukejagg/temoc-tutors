@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const pg_1 = require("pg");
+const path_1 = __importDefault(require("path"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const db_1 = require("./db");
@@ -21,6 +22,17 @@ const sessionAuthentication_1 = require("./sessionAuthentication");
 dotenv_1.default.config();
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
+const multer_1 = __importDefault(require("multer"));
+// Configure multer storage
+const storage = multer_1.default.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path_1.default.extname(file.originalname));
+    },
+});
+const upload = (0, multer_1.default)({ storage: storage });
 // Initialize Postgres Database
 const client = new pg_1.Client({
     user: process.env.PG_USER,
@@ -311,13 +323,18 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
-app.post('/user/new/tutor', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { username, email, password, subject, profile_picture, about_me } = req.body;
+// ...
+app.post('/user/new/tutor', upload.single('profile_picture'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    let { username, email, password, subject, about_me } = req.body;
     try {
         const salt = yield bcrypt.genSalt(saltRounds);
         const hash = yield bcrypt.hash(password, salt);
         password = hash;
-        const result = yield client.query('INSERT INTO tutor (username, email, password, subjects, profile_picture, about_me) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [username, email, password, subject, profile_picture, about_me]);
+        const profile_picture = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
+        // Parse the subject array
+        const subjects = JSON.parse(subject);
+        const result = yield client.query('INSERT INTO tutor (username, email, password, subjects, profile_picture, about_me) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [username, email, password, subjects, profile_picture, about_me]);
         if (result.rowCount === 1) {
             res.status(200).json(result.rows[0]);
         }
@@ -328,6 +345,25 @@ app.post('/user/new/tutor', (req, res) => __awaiter(void 0, void 0, void 0, func
     catch (err) {
         console.error('Error signing up:', err);
         res.status(500).send('Error signing up');
+    }
+}));
+app.get('/user/tutor/:id/profile_picture', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const result = yield client.query('SELECT profile_picture FROM tutor WHERE id = $1', [id]);
+        if (result.rowCount === 1) {
+            const profile_picture_path = result.rows[0].profile_picture;
+            const profile_picture_extension = path_1.default.extname(profile_picture_path);
+            res.set('Content-Type', `image/${profile_picture_extension.substring(1)}`);
+            res.sendFile(path_1.default.resolve(profile_picture_path));
+        }
+        else {
+            res.status(404).send('Profile picture not found');
+        }
+    }
+    catch (err) {
+        console.error('Error getting profile picture:', err);
+        res.status(500).send('Error getting profile picture');
     }
 }));
 /*
