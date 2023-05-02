@@ -323,7 +323,6 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
-// ...
 app.post('/user/new/tutor', upload.single('profile_picture'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     let { username, email, password, subject, about_me } = req.body;

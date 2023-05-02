@@ -77,12 +77,9 @@ export interface TutorCreationRequest{
     email: string,
     username: string,
     password: string,
+    profile_picture: File | null | undefined,
     subject: string[],
     about_me: string | null
-}
-
-export interface ProfilePicturePost{
-    profile_picture: File | null | undefined
 }
 
 // // Interfaces for tutor-related endpoints
