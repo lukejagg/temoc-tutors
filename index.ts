@@ -142,30 +142,6 @@ app.post('/session', (req, res) => {
   res.json(result);
 });
 
-// Sign Up Request
-app.post('/signup', async (req: Request, res: Response) => {
-  let { username, email, password, profile_pic } = req.body;
-
-  try {
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hash = await bcrypt.hash(password, salt);
-    password = hash;
-
-    const result = await client.query(
-      'INSERT INTO student (username, email, password, profile_picture) VALUES ($1, $2, $3, $4) RETURNING *',
-      [username, email, password, profile_pic]
-    );
-    if(result.rowCount === 1) {
-      res.status(200).json(result.rows[0]);
-    } else {
-      res.status(401).send('Error signing up');
-    }
-  } catch (err) {
-    console.error('Error signing up:', err);
-    res.status(500).send('Error signing up');
-  }  
-});
-
 app.post('/appointment/date', async (req: Request, res: Response) => {
   const { id, date } = req.body;
 
@@ -379,6 +355,32 @@ const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
+});
+
+// Sign Up Request
+app.post('/signup', upload.single('profile_pic'), async (req: Request, res: Response) => {
+  let { username, email, password } = req.body;
+
+  try {
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(password, salt);
+    password = hash;
+
+    const profile_pic = req.file?.path;
+
+    const result = await client.query(
+      'INSERT INTO student (username, email, password, profile_pic) VALUES ($1, $2, $3, $4) RETURNING *',
+      [username, email, password, profile_pic]
+    );
+    if(result.rowCount === 1) {
+      res.status(200).json(result.rows[0]);
+    } else {
+      res.status(401).send('Error signing up');
+    }
+  } catch (err) {
+    console.error('Error signing up:', err);
+    res.status(500).send('Error signing up');
+  }  
 });
 
 app.post('/user/new/tutor', upload.single('profile_picture'), async (req: Request, res: Response) => {

@@ -127,26 +127,6 @@ app.post('/session', (req, res) => {
     const result = (0, sessionAuthentication_1.createSessionID)();
     res.json(result);
 });
-// Sign Up Request
-app.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let { username, email, password, profile_pic } = req.body;
-    try {
-        const salt = yield bcrypt.genSalt(saltRounds);
-        const hash = yield bcrypt.hash(password, salt);
-        password = hash;
-        const result = yield client.query('INSERT INTO student (username, email, password, profile_picture) VALUES ($1, $2, $3, $4) RETURNING *', [username, email, password, profile_pic]);
-        if (result.rowCount === 1) {
-            res.status(200).json(result.rows[0]);
-        }
-        else {
-            res.status(401).send('Error signing up');
-        }
-    }
-    catch (err) {
-        console.error('Error signing up:', err);
-        res.status(500).send('Error signing up');
-    }
-}));
 app.post('/appointment/date', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id, date } = req.body;
     try {
@@ -323,14 +303,36 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
-app.post('/user/new/tutor', upload.single('profile_picture'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// Sign Up Request
+app.post('/signup', upload.single('profile_pic'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
+    let { username, email, password } = req.body;
+    try {
+        const salt = yield bcrypt.genSalt(saltRounds);
+        const hash = yield bcrypt.hash(password, salt);
+        password = hash;
+        const profile_pic = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
+        const result = yield client.query('INSERT INTO student (username, email, password, profile_pic) VALUES ($1, $2, $3, $4) RETURNING *', [username, email, password, profile_pic]);
+        if (result.rowCount === 1) {
+            res.status(200).json(result.rows[0]);
+        }
+        else {
+            res.status(401).send('Error signing up');
+        }
+    }
+    catch (err) {
+        console.error('Error signing up:', err);
+        res.status(500).send('Error signing up');
+    }
+}));
+app.post('/user/new/tutor', upload.single('profile_picture'), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _b;
     let { username, email, password, subject, about_me } = req.body;
     try {
         const salt = yield bcrypt.genSalt(saltRounds);
         const hash = yield bcrypt.hash(password, salt);
         password = hash;
-        const profile_picture = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
+        const profile_picture = (_b = req.file) === null || _b === void 0 ? void 0 : _b.path;
         // Parse the subject array
         const subjects = JSON.parse(subject);
         const result = yield client.query('INSERT INTO tutor (username, email, password, subjects, profile_picture, about_me) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [username, email, password, subjects, profile_picture, about_me]);
