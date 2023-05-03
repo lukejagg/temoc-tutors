@@ -1,4 +1,4 @@
-import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck, TutorScheduleAppointment, AppointmentReservation, TutorCreationRequest } from "./dbEndpointTypes";
+import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck, TutorScheduleAppointment, AppointmentReservation, TutorCreationRequest, TutorAll, TutorFav } from "./dbEndpointTypes";
 
 const API_BASE_URL = "http://localhost:8000";
 
@@ -333,6 +333,66 @@ export const checkTutorCreationRequest = async (tutorCreation: TutorCreationRequ
     console.error(error);
   }
 };
+
+export const checkAllTutors = async (tutorAll: TutorAll) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(tutorAll),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/alltutors`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateTutor = async (tutor: any) => {
+  let id = localStorage.getItem('userId')
+
+  if (id !== null) {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({tutor_id: tutor.id, favorite_id: tutor.favorite_id, student_id: parseInt(id)}),
+    };
+    
+    if (tutor.favorite_id) {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/favorites`, requestOptions);
+    
+        if (!response.ok) {
+          throw new Error(`Request failed with status code ${response.status}`);
+        }
+    
+        return await response.json();
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      // Send an API request to remove the row from the favorite table
+      try {
+        const response = await fetch(`${API_BASE_URL}/delete/favorites`, requestOptions);
+    
+        if (!response.ok) {
+          throw new Error(`Request failed with status code ${response.status}`);
+        }
+    
+        return await response.json();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+};
+
 
 /*
 const tutorId = 1; // Replace with the actual tutor ID

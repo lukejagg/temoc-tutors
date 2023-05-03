@@ -42,7 +42,7 @@ export async function setupDatabase(client: Client) {
         email VARCHAR(255) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
         total_tutoring_hours INT,
-        profile_picture BYTEA
+        profile_picture VARCHAR(255)
       );
       
       CREATE TABLE IF NOT EXISTS favorite (

@@ -430,6 +430,62 @@ app.get('/user/tutor/:id/profile_picture', async (req: Request, res: Response) =
   }
 });
 
+app.post('/alltutors', async (req: Request, res: Response) => {
+  const { id } = req.body;
+  try {
+    const result = await client.query(
+      'SELECT tutor.id, tutor.username, tutor.subjects, favorite.id AS favorite_id FROM tutor LEFT JOIN favorite ON favorite.tutor_id = tutor.id AND favorite.student_id = $1',
+      [id]
+    );    
+
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error inserting new adjustments');
+    }
+  } catch (err) {
+    console.error('Error inserting new adjustments', err);
+    res.status(500).send('Error inserting new adjustments');
+  }  
+});
+
+app.post('/api/favorites', async (req: Request, res: Response) => {
+  const { tutor_id, favorite_id, student_id } = req.body;
+  try {
+    const result = await client.query(
+      'INSERT INTO favorite (tutor_id, student_id) VALUES ($1, $2) RETURNING *',
+      [tutor_id, student_id]
+    );    
+
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error inserting new adjustments');
+    }
+  } catch (err) {
+    console.error('Error inserting new adjustments', err);
+    res.status(500).send('Error inserting new adjustments');
+  }  
+});
+
+app.post('/delete/favorites', async (req: Request, res: Response) => {
+  const { tutor_id, favorite_id, student_id } = req.body;
+  try {
+    const result = await client.query(
+      'DELETE FROM favorite WHERE tutor_id = $1 AND student_id = $2',
+      [tutor_id, student_id]
+    );    
+
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error inserting new adjustments');
+    }
+  } catch (err) {
+    console.error('Error inserting new adjustments', err);
+    res.status(500).send('Error inserting new adjustments');
+  }  
+});
 
 /*
 TODO:

@@ -365,6 +365,54 @@ app.get('/user/tutor/:id/profile_picture', (req, res) => __awaiter(void 0, void 
         res.status(500).send('Error getting profile picture');
     }
 }));
+app.post('/alltutors', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    try {
+        const result = yield client.query('SELECT tutor.id, tutor.username, tutor.subjects, favorite.id AS favorite_id FROM tutor LEFT JOIN favorite ON favorite.tutor_id = tutor.id AND favorite.student_id = $1', [id]);
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows);
+        }
+        else {
+            res.status(401).send('Error inserting new adjustments');
+        }
+    }
+    catch (err) {
+        console.error('Error inserting new adjustments', err);
+        res.status(500).send('Error inserting new adjustments');
+    }
+}));
+app.post('/api/favorites', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { tutor_id, favorite_id, student_id } = req.body;
+    try {
+        const result = yield client.query('INSERT INTO favorite (tutor_id, student_id) VALUES ($1, $2) RETURNING *', [tutor_id, student_id]);
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows);
+        }
+        else {
+            res.status(401).send('Error inserting new adjustments');
+        }
+    }
+    catch (err) {
+        console.error('Error inserting new adjustments', err);
+        res.status(500).send('Error inserting new adjustments');
+    }
+}));
+app.post('/delete/favorites', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { tutor_id, favorite_id, student_id } = req.body;
+    try {
+        const result = yield client.query('DELETE FROM favorite WHERE tutor_id = $1 AND student_id = $2', [tutor_id, student_id]);
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows);
+        }
+        else {
+            res.status(401).send('Error inserting new adjustments');
+        }
+    }
+    catch (err) {
+        console.error('Error inserting new adjustments', err);
+        res.status(500).send('Error inserting new adjustments');
+    }
+}));
 /*
 TODO:
 0. Update each api endpoint as needed

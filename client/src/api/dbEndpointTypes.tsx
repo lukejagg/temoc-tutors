@@ -82,6 +82,19 @@ export interface TutorCreationRequest{
     about_me: string | null
 }
 
+export interface TutorAll{
+    id: string | null;
+}
+
+export interface TutorFav {
+    tutor_id: string | null;
+    username: string;
+    subjects: string;
+    favorite_id: string | null;
+    student_id: string | null;
+  }
+  
+
 // // Interfaces for tutor-related endpoints
 // export interface Tutor {
 //     id: number;

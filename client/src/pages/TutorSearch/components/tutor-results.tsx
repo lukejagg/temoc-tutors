@@ -6,6 +6,7 @@ import { checkAppointmentValidityCheck } from '../../../api/endpointRequests';
 
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import { blue } from '@mui/material/colors';
+import { AllTutors } from './tutor-default-result';
 
 interface AppointmentProps{
   appointments: any[] | null;
@@ -88,7 +89,10 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
           ))}
         </List>
       ) : (
-        <p>No Tutors</p>
+        <>
+          <p>No Tutors</p>
+          <AllTutors />
+        </>
         )}
     </Paper>
   );
