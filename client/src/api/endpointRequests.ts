@@ -99,28 +99,6 @@ export const checkTutorUserIdRequest = async (userIdRequest: UserIdRequest) => {
 };
 
 
-export const checkStudentCreationRequest = async (studentCreationRequest: StudentCreationRequest) => {
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(studentCreationRequest),
-  };
-
-  try {
-    const response = await fetch(`${API_BASE_URL}/signup`, requestOptions);
-
-    if (!response.ok) {
-      throw new Error(`Request failed with status code ${response.status}`);
-    }
-
-    localStorage.setItem('userType', 's');
-
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export const checkStudentAppointmentsCheckRequest = async (studentAppointmentsCheckRequest: StudentAppointmentsCheckRequest) => {
   const requestOptions = {
     method: "POST",
@@ -130,11 +108,11 @@ export const checkStudentAppointmentsCheckRequest = async (studentAppointmentsCh
   
   try {
     const response = await fetch(`${API_BASE_URL}/appointment/date`, requestOptions);
-
+    
     if (!response.ok) {
       throw new Error(`Request failed with status code ${response.status}`);
     }
-
+    
     return await response.json();
   } catch (error) {
     console.error(error);
@@ -294,6 +272,35 @@ export const checkAppointmentReservation = async (appointmentReservation: Appoin
     if (!response.ok) {
       throw new Error(`Request failed with status code ${response.status}`);
     }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkStudentCreationRequest = async (studentCreationRequest: StudentCreationRequest) => {
+  const formData = new FormData();
+  formData.append('email', studentCreationRequest.email);
+  formData.append('username', studentCreationRequest.username);
+  formData.append('password', studentCreationRequest.password);
+  if (studentCreationRequest.profile_pic) {
+    formData.append('profile_pic', studentCreationRequest.profile_pic);
+  }
+
+  const requestOptions = {
+    method: 'POST',
+    body: formData,
+  };
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/signup`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    localStorage.setItem('userType', 's');
 
     return await response.json();
   } catch (error) {
