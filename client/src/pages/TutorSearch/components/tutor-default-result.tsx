@@ -28,25 +28,21 @@ export const AllTutors: React.FC = () => {
   const handleFavorite = async (chosenTutor: any) => {
     const newTutor = { ...chosenTutor };
     newTutor.favorite_id = newTutor.favorite_id ? null : 1;
-
+    
     const newTutors = tutor?.map((t) => (t.id === chosenTutor.id ? newTutor : t));
     setTutor(newTutors);
     
     await updateTutor(newTutor);
   };
   
-
-  const loadFavorites = async (chosenTutor: any) => {
-  }
-
   useEffect(() => {
     getAllTutors();
   }, []);
-
+  
   if (loading) {
     return <div>Loading...</div>;
   }
-
+  
   return (
     <List>
       {tutor ? (
@@ -56,7 +52,8 @@ export const AllTutors: React.FC = () => {
               <ListItemAvatar>
                 <Avatar
                   sx={{ height: "85px", width: "85px", margin: "20px" }}
-                />
+                  src={tut.profile_picture}
+                  />
               </ListItemAvatar>
 
               <ListItemText

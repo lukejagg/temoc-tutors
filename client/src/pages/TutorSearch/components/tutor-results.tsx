@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper } from '@mui/material';
-import { AppointmentValidityCheck } from '../../../api/dbEndpointTypes';
-import { checkAppointmentValidityCheck } from '../../../api/endpointRequests';
+import { AppointmentValidityCheck, IdForTutorProfilePicture } from '../../../api/dbEndpointTypes';
+import { checkAppointmentValidityCheck, checkIdForTutorProfilePicture, getTutorAvatarUrl } from '../../../api/endpointRequests';
 
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import { blue } from '@mui/material/colors';
 import { AllTutors } from './tutor-default-result';
+import dayjs from 'dayjs';
+import { alignProperty } from '@mui/material/styles/cssUtils';
 
 interface AppointmentProps{
   appointments: any[] | null;
@@ -19,7 +21,7 @@ interface Appointment {
   start_time: string;
   end_time: string;
   subjects: string;
-  profile_picture: string;
+  profile_picture: any | undefined;
 }
 
 export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
@@ -29,7 +31,6 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
 
   
   const primary = blue[500];
-
   const navigate = useNavigate();
 
   const handleScheduling = async (appointment: Appointment) => {
@@ -58,16 +59,13 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
     
   }, [appointments]);
 
-  useEffect(() => {
-    // getAllTutors()
-  }, []);
-
   return (
-    <Paper sx={{ padding: "20px", maxHeight: "650px", overflowY: "auto", width: "600px",   margin: "50px auto 0"  }}>
-      {studentAppointments && studentAppointments.length > 0 ? (
-        <List>
+    <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "800px", margin: "50px auto 0" }}>
+    {studentAppointments && studentAppointments.length > 0 ? (
+      <>
+        <List sx={{ display: "flex", flexDirection: "column" }}>
           {studentAppointments.map((appointment) => (
-            <ListItem key={appointment.id} sx={{ height: "125px", alignSelf: "flex-start" }}>
+            <ListItem key={appointment.id} sx={{ height: "125px", display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
               <ListItemAvatar>
                 <Avatar
                   sx={{ height: "85px", width: "85px", margin: "20px" }}
@@ -76,11 +74,13 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
               </ListItemAvatar>
               <ListItemText
                 primary={appointment.username}
-                secondary={"Available Times: " + appointment.start_time.slice(0, -3) + " - " + appointment.end_time.slice(0, -3)}
+                secondary={"Available Times: " + dayjs(appointment.start_time, 'HH:mm:ss').format('h:mm A') + " - " + dayjs(appointment.end_time, 'HH:mm:ss').format('h:mm A')}
+                sx={{ width: '100%', textAlign: 'left' }}
               />
               <ListItemText
                 primary={appointment.subjects.replace(/[{}]/g, "")}
                 secondary={new Date(appointment.day).toLocaleDateString()}
+                sx={{ width: '100%', textAlign: 'left' }}
               />
               <IconButton aria-label="make-appointment" onClick={() => handleScheduling(appointment)}>
                 <AddCircleRoundedIcon fontSize="large" sx={{color: primary}} />
@@ -88,12 +88,13 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
             </ListItem>
           ))}
         </List>
-      ) : (
-        <>
-          <p>No Tutors</p>
-          <AllTutors />
-        </>
-        )}
-    </Paper>
+      </>
+    ) : (
+      <>
+        <p>No tutors found, here is a list of our tutors</p>
+        <AllTutors />
+      </>
+    )}
+  </Paper>
   );
 };

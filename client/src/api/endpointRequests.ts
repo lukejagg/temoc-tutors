@@ -1,4 +1,4 @@
-import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck, TutorScheduleAppointment, AppointmentReservation, TutorCreationRequest, TutorAll, TutorFav } from "./dbEndpointTypes";
+import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck, TutorScheduleAppointment, AppointmentReservation, TutorCreationRequest, TutorAll, TutorFav, IdForTutorProfilePicture } from "./dbEndpointTypes";
 
 const API_BASE_URL = "http://localhost:8000";
 
@@ -98,27 +98,6 @@ export const checkTutorUserIdRequest = async (userIdRequest: UserIdRequest) => {
   }
 };
 
-
-export const checkStudentAppointmentsCheckRequest = async (studentAppointmentsCheckRequest: StudentAppointmentsCheckRequest) => {
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(studentAppointmentsCheckRequest),
-  };
-  
-  try {
-    const response = await fetch(`${API_BASE_URL}/appointment/date`, requestOptions);
-    
-    if (!response.ok) {
-      throw new Error(`Request failed with status code ${response.status}`);
-    }
-    
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export const checkTutorAppointmentsCheckRequest = async (tutorAppointmentsCheckRequest: TutorAppointmentsCheckRequest) => {
   const requestOptions = {
     method: "POST",
@@ -173,7 +152,78 @@ export const checkAppointmentRequest = async (appointmentRequest: AppointmentReq
       throw new Error(`Request failed with status code ${response.status}`);
     }
 
-    return await response.json();
+    const appointments = await response.json();
+    for (const appointment of appointments) {
+      const tutorId = appointment.tutor_id;
+      const profilePicture = await getTutorAvatarUrl(tutorId);
+      appointment.profile_picture = profilePicture;
+    }
+
+    console.log(appointments);
+    return appointments;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkAllTutors = async (tutorAll: TutorAll) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(tutorAll),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/alltutors`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    const tutors = await response.json();
+
+    for (const tutor of tutors) {
+      console.log(tutor)
+      const tutorId = tutor.id;
+      console.log(tutorId)
+      let profilePicture = await getTutorAvatarUrl(tutorId);
+      tutor.profile_picture = profilePicture;
+      console.log(tutor)
+    }
+
+    return await tutors;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const checkStudentAppointmentsCheckRequest = async (studentAppointmentsCheckRequest: StudentAppointmentsCheckRequest) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(studentAppointmentsCheckRequest),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/appointment/date`, requestOptions);
+    
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+    
+    const tutors = await response.json();
+
+    for (const tutor of tutors) {
+      console.log(tutor)
+      const tutorId = tutor.id;
+      console.log(tutorId)
+      let profilePicture = await getTutorAvatarUrl(tutorId);
+      tutor.profile_picture = profilePicture;
+      console.log(tutor)
+    }
+
+    return await tutors;
+    
   } catch (error) {
     console.error(error);
   }
@@ -341,26 +391,6 @@ export const checkTutorCreationRequest = async (tutorCreation: TutorCreationRequ
   }
 };
 
-export const checkAllTutors = async (tutorAll: TutorAll) => {
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(tutorAll),
-  };
-  
-  try {
-    const response = await fetch(`${API_BASE_URL}/alltutors`, requestOptions);
-
-    if (!response.ok) {
-      throw new Error(`Request failed with status code ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export const updateTutor = async (tutor: any) => {
   let id = localStorage.getItem('userId')
 
@@ -401,12 +431,50 @@ export const updateTutor = async (tutor: any) => {
 };
 
 
+export const checkIdForTutorProfilePicture= async (idForTutorProfilePicture: IdForTutorProfilePicture) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(idForTutorProfilePicture),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/retrieve/tutor/id`, requestOptions);
+    
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 /*
 const tutorId = 1; // Replace with the actual tutor ID
 const avatarUrl = getTutorAvatarUrl(tutorId);
 
 <img src={avatarUrl} alt="Tutor's avatar" />
 */
-export const getTutorAvatarUrl = (tutorId: number | string) => {
-  return `${API_BASE_URL}/user/tutor/${tutorId}/profile_picture`;
+
+export const getTutorAvatarUrl = async (tutorId: string) => {
+  const requestOptions = {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/user/tutor/${tutorId}/profile_picture`, requestOptions);
+
+    const imageURL = URL.createObjectURL(await response.blob());
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return imageURL;
+  } catch (error) {
+    console.error(error);
+  }
 };

@@ -271,9 +271,9 @@ export const TutorConfirm: React.FC= () => {
         {showErrorMessage && (<Alert variant="filled" severity="error">{error}</Alert>)}
       </div>
 
-      <Paper sx={{ padding: "20px", maxHeight: "650px", overflowY: "auto", width: "600px",   margin: "50px auto 0"  }}>
-        <List>
-          <ListItem key={appointment.id} sx={{ height: "125px", alignSelf: "flex-start" }}>
+      <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "800px",   margin: "50px auto 0"  }}>
+        <List sx={{display: "flex", flexDirection: "column"}}>
+          <ListItem key={appointment.id} sx={{  height: "125px", display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <ListItemAvatar>
               <Avatar
                 sx={{ height: "85px", width: "85px", margin: "20px" }}
@@ -282,11 +282,13 @@ export const TutorConfirm: React.FC= () => {
             </ListItemAvatar>
             <ListItemText
               primary={appointment.username}
-              secondary={"Available Times: " + appointment.start_time.slice(0, -3) + " - " + appointment.end_time.slice(0, -3)}
+              secondary={"Available Times: " + dayjs(appointment.start_time, 'HH:mm:ss').format('h:mm A') + " - " + dayjs(appointment.end_time, 'HH:mm:ss').format('h:mm A')}
+              sx={{ width: '100%', textAlign: 'left' }}
             />
             <ListItemText
               primary={appointment.subjects.replace(/[{}]/g, "")}
               secondary={new Date(appointment.day).toLocaleDateString()}
+              sx={{ width: '100%', textAlign: 'left' }}
             />
           </ListItem>
         </List>

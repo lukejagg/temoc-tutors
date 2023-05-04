@@ -117,9 +117,9 @@ export const Login: React.FC = () => {
               Login
             </Button>
           </div>
+          {showErrorMessage && (<Alert variant="filled" severity="error">{error}</Alert>)}
         </div>
       </Paper>
-      {showErrorMessage && (<Snackbar open><Alert variant="filled" severity="error">{error}</Alert></Snackbar>)}
     </Box>
   );
 };

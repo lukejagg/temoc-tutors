@@ -351,11 +351,6 @@ app.post('/user/new/appointment', async (req: Request, res: Response) => {
   }  
 });
 
-const port = process.env.PORT || 8000;
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-});
 
 // Sign Up Request
 app.post('/signup', upload.single('profile_pic'), async (req: Request, res: Response) => {
@@ -412,17 +407,20 @@ app.post('/user/new/tutor', upload.single('profile_picture'), async (req: Reques
   }
 });
 
-
 app.get('/user/tutor/:id/profile_picture', async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const tutorId = req.params.id;
 
   try {
-    const result = await client.query('SELECT profile_picture FROM tutor WHERE id = $1', [id]);
+    const result = await client.query('SELECT profile_picture FROM tutor WHERE id = $1', [tutorId]);
     if (result.rowCount === 1) {
       const profile_picture_path = result.rows[0].profile_picture;
-      const profile_picture_extension = path.extname(profile_picture_path);
-      res.set('Content-Type', `image/${profile_picture_extension.substring(1)}`);
-      res.sendFile(path.resolve(profile_picture_path));
+      if (profile_picture_path == null) {
+        res.status(404).send('Profile picture not found');
+      } else {
+        const profile_picture_extension = path.extname(profile_picture_path);
+        res.set('Content-Type', `image/${profile_picture_extension.substring(1)}`);
+        res.sendFile(path.resolve(profile_picture_path));
+      }
     } else {
       res.status(404).send('Profile picture not found');
     }
@@ -430,6 +428,27 @@ app.get('/user/tutor/:id/profile_picture', async (req: Request, res: Response) =
     console.error('Error getting profile picture:', err);
     res.status(500).send('Error getting profile picture');
   }
+});
+
+
+app.post('/retrieve/tutor/id', async (req: Request, res: Response) => {
+  const { id } = req.body;
+
+  try {
+    const result = await client.query(
+      'SELECT tutor_id FROM tutor_schedule WHERE id = $1',
+      [id]
+    );    
+
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error inserting new adjustments');
+    }
+  } catch (err) {
+    console.error('Error inserting new adjustments', err);
+    res.status(500).send('Error inserting new adjustments');
+  }  
 });
 
 app.post('/alltutors', async (req: Request, res: Response) => {
@@ -489,98 +508,8 @@ app.post('/delete/favorites', async (req: Request, res: Response) => {
   }  
 });
 
-/*
-TODO:
-0. Update each api endpoint as needed
-1. Make if the insert auto-sets the id value
-*/
-// app.post('/tutors/create', async (req: Request, res: Response) => {
-//   console.log("hey")
-//   const { subjects, aboutMe, availableHours, profilePicture } = req.body;
+const port = process.env.PORT || 8000;
 
-//   try {
-//     const result = await client.query(
-//       'INSERT INTO tutor (subjects, about_me, available_hours, profile_picture) VALUES ($1, $2, $3, $4) RETURNING *',
-//       [subjects, aboutMe, availableHours, profilePicture]
-//     );
-//     res.status(201).json(result.rows[0]);
-//   } catch (err) {
-//     console.error('Error creating tutor:', err);
-//     res.status(500).send('Error creating tutor');
-//   }
-// });
-
-// app.post('/students/create', async (req: Request, res: Response) => {
-//   const { username, email, password } = req.body;
-
-//   try {
-//     const result = await client.query(
-//       'INSERT INTO student (username, email, password) VALUES ($1, $2, $3) RETURNING *',
-//       [username, email, password]
-//     );
-//     res.status(201).json(result.rows[0]);
-//   } catch (err) {
-//     console.error('Error creating student:', err);
-//     res.status(500).send('Error creating student');
-//   }
-// });
-
-// app.post('/favorites', async (req: Request, res: Response) => {
-//   const { studentId, tutorId } = req.body;
-
-//   try {
-//     const result = await client.query(
-//       'INSERT INTO favorite (student_id, tutor_id) VALUES ($1, $2) RETURNING *',
-//       [studentId, tutorId]
-//     );
-//     res.status(201).json(result.rows[0]);
-//   } catch (err) {
-//     console.error('Error creating favorite:', err);
-//     res.status(500).send('Error creating favorite');
-//   }
-// });
-
-// app.get('/favorites/:studentId', async (req: Request, res: Response) => {
-//   const studentId = parseInt(req.params.studentId);
-
-//   try {
-//     const result = await client.query(
-//       'SELECT * FROM favorite WHERE student_id = $1',
-//       [studentId]
-//     );
-//     res.status(200).json(result.rows);
-//   } catch (err) {
-//     console.error('Error getting favorites:', err);
-//     res.status(500).send('Error getting favorites');
-//   }
-// });
-
-// app.get('/appointments/:userId', async (req: Request, res: Response) => {
-//   const userId = parseInt(req.params.userId);
-
-//   try {
-//     const result = await client.query(
-//       'SELECT * FROM appointment WHERE student_id = $1 OR tutor_id = $1',
-//       [userId]
-//     );
-//     res.status(200).json(result.rows);
-//   } catch (err) {
-//     console.error('Error getting appointments:', err);
-//     res.status(500).send('Error getting appointments');
-//   }
-// });
-
-// app.post('/appointments', async (req: Request, res: Response) => {
-//   const { date, time, studentId, tutorId } = req.body;
-
-//   try {
-//     const result = await client.query(
-//       'INSERT INTO appointment (date, time, student_id, tutor_id) VALUES ($1, $2, $3, $4) RETURNING *',
-//       [date, time, studentId, tutorId]
-//     );
-//     res.status(201).json(result.rows[0]);
-//   } catch (err) {
-//     console.error('Error creating appointment:', err);
-//     res.status(500).send('Error creating appointment');
-//   }
-// });
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+});

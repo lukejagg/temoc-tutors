@@ -92,8 +92,11 @@ export interface TutorFav {
     subjects: string;
     favorite_id: string | null;
     student_id: string | null;
-  }
-  
+}
+
+export interface IdForTutorProfilePicture {
+    id: string | null;
+}
 
 // // Interfaces for tutor-related endpoints
 // export interface Tutor {
