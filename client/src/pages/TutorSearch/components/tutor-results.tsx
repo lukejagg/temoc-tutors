@@ -50,6 +50,7 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
     });
   };
 
+
   useEffect(() => {
     if (appointments) {
       setStudentAppointments(appointments);

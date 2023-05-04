@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Avatar, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Paper } from "@mui/material";
+import dayjs from "dayjs";
 
 interface AppointmentProps {
   appointments: any[] | null;
@@ -21,16 +22,17 @@ export const StudentAppointments: React.FC<AppointmentProps> = ({ appointments }
   useEffect(() => {
     if (appointments) {
       setStudentAppointments(appointments);
+      console.log(studentAppointments)
     }
     
   }, [appointments]);
 
   return (
-    <Paper sx={{ padding: "20px", maxHeight: "650px", overflowY: "auto", width: "600px" }}>
+    <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "700px", margin: "50px auto 0" }}>
       {studentAppointments && studentAppointments.length > 0 ? (
-        <List>
+        <List sx={{ display: "flex", flexDirection: "column" }}>
           {studentAppointments.map((appointment) => (
-            <ListItem key={appointment.id} sx={{ height: "125px", alignSelf: "flex-start" }}>
+            <ListItem key={appointment.id} sx={{ height: "125px", display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
               <ListItemAvatar>
                 <Avatar
                   sx={{ height: "85px", width: "85px", margin: "20px" }}
@@ -39,10 +41,11 @@ export const StudentAppointments: React.FC<AppointmentProps> = ({ appointments }
               </ListItemAvatar>
               <ListItemText
                 primary={appointment.username}
-                secondary={appointment.time_start + " - " + appointment.time_end}
+                secondary={`${dayjs(appointment.time_start, 'HH:mm:ss').format('hh:mm A')} - ${dayjs(appointment.time_end, 'HH:mm:ss').format('hh:mm A')}`}
+                sx={{ width: '100%', textAlign: 'left' }}
               />
               <ListItemButton
-                sx={{ height: "100%", width: "100%" }}
+                sx={{ height: "25%", width: "25%" }}
                 component="a"
                 href={`/meet?id1=${localStorage.getItem("userId")}&id2=${appointment.tutor_id}`}
               >

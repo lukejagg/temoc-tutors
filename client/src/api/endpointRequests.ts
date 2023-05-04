@@ -197,6 +197,26 @@ export const checkAllTutors = async (tutorAll: TutorAll) => {
   }
 };
 
+export const checkStudentTutoredHoursRequest = async (id: string) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({id: id}),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/student/hours`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const checkStudentAppointmentsCheckRequest = async (studentAppointmentsCheckRequest: StudentAppointmentsCheckRequest) => {
   const requestOptions = {
     method: "POST",
@@ -215,7 +235,7 @@ export const checkStudentAppointmentsCheckRequest = async (studentAppointmentsCh
 
     for (const tutor of tutors) {
       console.log(tutor)
-      const tutorId = tutor.id;
+      const tutorId = tutor.tutor_id;
       console.log(tutorId)
       let profilePicture = await getTutorAvatarUrl(tutorId);
       tutor.profile_picture = profilePicture;
@@ -228,6 +248,38 @@ export const checkStudentAppointmentsCheckRequest = async (studentAppointmentsCh
     console.error(error);
   }
 };
+
+export const checkAllStudentAppointmentsCheckRequest = async (id: string, today: string) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({id: id, today: today}),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/all/student/appointments`, requestOptions);
+    
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+    
+    const appointments = await response.json();
+
+    for (const appointment of appointments) {
+      console.log(appointment)
+      const tutorId = appointment.tutor_id;
+      let profilePicture = await getTutorAvatarUrl(tutorId);
+      appointment.profile_picture = profilePicture;
+    }
+    
+    console.log(appointments);
+    return await appointments;
+    
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 export const checkAppointmentValidityCheck = async (appointmentValidityCheck: AppointmentValidityCheck) => {
   const requestOptions = {

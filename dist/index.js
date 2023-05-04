@@ -432,6 +432,38 @@ app.post('/delete/favorites', (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.status(500).send('Error inserting new adjustments');
     }
 }));
+app.post('/all/student/appointments', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, today } = req.body;
+    try {
+        const result = yield client.query('SELECT appointment.*, tutor.username, tutor.about_me FROM appointment INNER JOIN tutor ON appointment.tutor_id = tutor.id WHERE appointment.student_id = $1 AND CAST(appointment.date AS DATE) >= CURRENT_DATE', [id]);
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows);
+        }
+        else {
+            res.status(401).send('Error inserting new adjustments');
+        }
+    }
+    catch (err) {
+        console.error('Error inserting new adjustments', err);
+        res.status(500).send('Error inserting new adjustments');
+    }
+}));
+app.post('/student/hours', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    try {
+        const result = yield client.query('SELECT time_start, time_end FROM appointment WHERE student_id = $1 AND ((date = CURRENT_DATE AND time_end < CURRENT_TIME) OR (date < CURRENT_DATE))', [id]);
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows);
+        }
+        else {
+            res.status(401).send('Error inserting new adjustments');
+        }
+    }
+    catch (err) {
+        console.error('Error inserting new adjustments', err);
+        res.status(500).send('Error inserting new adjustments');
+    }
+}));
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
