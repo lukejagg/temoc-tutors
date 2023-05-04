@@ -266,13 +266,11 @@ export const checkAllStudentAppointmentsCheckRequest = async (id: string, today:
     const appointments = await response.json();
 
     for (const appointment of appointments) {
-      console.log(appointment)
       const tutorId = appointment.tutor_id;
       let profilePicture = await getTutorAvatarUrl(tutorId);
       appointment.profile_picture = profilePicture;
     }
     
-    console.log(appointments);
     return await appointments;
     
   } catch (error) {
@@ -502,6 +500,35 @@ export const checkIdForTutorProfilePicture= async (idForTutorProfilePicture: IdF
     console.error(error);
   }
 };
+
+export const checkAllFavoriteTutors = async (id: string) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({id: id}),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/student/all/favorite`, requestOptions);
+    
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    const favorites = await response.json();
+
+    for (const favorite of favorites) {
+      const tutorId = favorite.id;
+      let profilePicture = await getTutorAvatarUrl(tutorId);
+      favorite.profile_picture = profilePicture;
+    }
+    
+    return await favorites;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
 /*
 const tutorId = 1; // Replace with the actual tutor ID

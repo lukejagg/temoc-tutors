@@ -44,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
     navigate('/tutorsearch');
   }
 
-  const handleProfileRedirect = () => {
+  const handleFavoritesRedirect = () => {
     navigate('/account');
   };
 
@@ -55,14 +55,14 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
         <>
           <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleHomeRedirect}>Home</Button>
           <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleTutorSearchRedirect}>Tutor Search</Button>
-          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleProfileRedirect}>Profile</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleFavoritesRedirect}>Favorites</Button>
         </>
       );
     } else if (userType === UserType.TUTOR) {
       return (
         <>
           <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleHomeRedirect}>Home</Button>
-          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleProfileRedirect}>Profile</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleFavoritesRedirect}>Profile</Button>
           
         </>
       );

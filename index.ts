@@ -117,6 +117,25 @@ app.post('/login/userid', async (req: Request, res: Response) => {
   }
 });
 
+app.post('/student/all/favorite', async (req: Request, res: Response) => {
+  const { id } = req.body;
+
+  try {
+    const result = await client.query(
+      'SELECT tutor.*, favorite.id AS favorite_id FROM tutor INNER JOIN favorite ON tutor.id = favorite.tutor_id WHERE favorite.student_id = $1',
+      [id]
+    );
+    if(result.rowCount !== 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error loading subjects');
+    }
+  } catch (err) {
+    console.error('Error retrieving user', err);
+    res.status(500).send('Error retrieving user');
+  }
+});
+
 app.post('/login/tutor/userid', async (req: Request, res: Response) => {
   const { email } = req.body;
 
@@ -200,7 +219,7 @@ app.post('/subjects', async (req: Request, res: Response) => {
 app.post('/appointment/student/request', async (req: Request, res: Response) => {
   const { username, date, start_time, end_time, subject } = req.body;
   
-  let query_base = 'SELECT * FROM tutor JOIN tutor_schedule ON tutor.id = tutor_schedule.tutor_id WHERE'
+  let query_base = 'SELECT * FROM tutor JOIN tutor_schedule ON tutor.id = tutor_schedule.tutor_id WHERE '
   let data_list = [];
   let counter = 1;
 
@@ -211,10 +230,12 @@ app.post('/appointment/student/request', async (req: Request, res: Response) => 
   }
 
   if(date) {
-    query_base += ` tutor_schedule.day = $${counter}  AND`;
+    query_base += ` tutor_schedule.day = $${counter} AND`;
     data_list.push(date);
     counter++;
-  } 
+  } else if(start_time || end_time || username || subject) {
+    query_base += ` CAST(tutor_schedule.day AS DATE) >= CURRENT_DATE AND`;
+  }
   
   if(start_time) {
     query_base += ` tutor_schedule.start_time >= $${counter}  AND`;
@@ -223,13 +244,13 @@ app.post('/appointment/student/request', async (req: Request, res: Response) => 
   }
 
   if(end_time) {
-    query_base += ` tutor_schedule.end_time <= $${counter}  AND`;
+    query_base += ` tutor_schedule.end_time <= $${counter} AND`;
     data_list.push(end_time);
     counter++;
   }
 
   if(subject) {
-    query_base += ` $${counter} = ANY(tutor.subjects)  AND`;
+    query_base += ` $${counter} = ANY(tutor.subjects) AND`;
     data_list.push(subject);
     counter++;
   }
@@ -429,7 +450,6 @@ app.get('/user/tutor/:id/profile_picture', async (req: Request, res: Response) =
     res.status(500).send('Error getting profile picture');
   }
 });
-
 
 app.post('/retrieve/tutor/id', async (req: Request, res: Response) => {
   const { id } = req.body;

@@ -16,10 +16,12 @@ import SendIcon from '@mui/icons-material/Send';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import './tutor-search.css';
+import { formatDate } from '@fullcalendar/core';
 
 export const TutorSearch: React.FC = () => {
   const [tutorName, setTutorName] = useState<string | null>(null);
   const [date, setDate] = useState<string | null>(null);
+  const [dayDate, setDayDate] = useState<Date | null>(null);
   const [startTime, setStartTime] = useState<Dayjs | null>(null);
   const [endTime, setEndTime] = useState<Dayjs | null>(null);
   const [formattedStartTime, setFormattedStartTime] = useState<string | null>(null);
@@ -56,7 +58,9 @@ export const TutorSearch: React.FC = () => {
 
   // Data Handling
   const handleDateChange = (newValue: Date | null) => {
+    setDayDate(newValue);
     const formattedDate = newValue ? dayjs(newValue).format('YYYY-MM-DD') : null;
+    console.log(formattedDate)
     setDate(formattedDate);
   };
 
@@ -68,6 +72,7 @@ export const TutorSearch: React.FC = () => {
   const handleClearFields = () => {
     setTutorName(null);
     setDate(null);
+    setDayDate(null);
     setStartTime(null);
     setEndTime(null);
     setSelectedSubject('');
@@ -110,7 +115,7 @@ export const TutorSearch: React.FC = () => {
         />
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker onChange={handleDateChange} />
+          <DatePicker disablePast={true} value={dayDate} onChange={handleDateChange} />
         </LocalizationProvider>
 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
