@@ -32,7 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
 
   const handleLogOut = () => {
     localStorage.clear();
-    
+    handleHomeRedirect();
     window.location.reload();
   };
 
