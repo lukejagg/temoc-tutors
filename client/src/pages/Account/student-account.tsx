@@ -36,14 +36,13 @@ export const StudentAccount: React.FC = () => {
         if ((username !== null || username !== "") || (email !== null || email !== "") || (password !== null || password !== "") || (profilePic !== null || profilePic !== undefined)) {
             if (password === retypePassword) {
                 if (email === null || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    errorMessage = "Profile successfully updated!";
                     sendProfileUpdateRequest();
                 } else {
                     errorMessage += "Please enter a valid email\n";
-                    //console.log(errorMessage);
                 }
             } else {
                 errorMessage += "Both of the passwords need to match\n";
-                //console.log(errorMessage);
             }
         }
     };
@@ -55,9 +54,6 @@ export const StudentAccount: React.FC = () => {
 
     return(
         <div> 
-            <Typography style={{ color: 'red', fontSize: '24px', textAlign: 'center', marginTop: '10px' }}>
-                {errorMessage}]
-            </Typography>
         <Navbar/>
             <Navbar/>
             <Box className="studentAcc-background">
