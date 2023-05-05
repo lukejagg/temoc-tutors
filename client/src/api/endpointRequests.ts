@@ -112,7 +112,15 @@ export const checkTutorAppointmentsCheckRequest = async (tutorAppointmentsCheckR
       throw new Error(`Request failed with status code ${response.status}`);
     }
 
-    return await response.json();
+    const students = await response.json();
+
+    for (const student of students) {
+      const studentId = student.student_id;
+      let profilePicture = await getStudentAvatarUrl(studentId);
+      student.profile_picture = profilePicture;
+    }
+
+    return await students;
   } catch (error) {
     console.error(error);
   }
@@ -217,6 +225,26 @@ export const checkStudentTutoredHoursRequest = async (id: string) => {
   }
 };
 
+export const checkTutorTutoredHoursRequest = async (id: string) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({id: id}),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/tutor/hours`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const checkStudentAppointmentsCheckRequest = async (studentAppointmentsCheckRequest: StudentAppointmentsCheckRequest) => {
   const requestOptions = {
     method: "POST",
@@ -234,13 +262,36 @@ export const checkStudentAppointmentsCheckRequest = async (studentAppointmentsCh
     const tutors = await response.json();
 
     for (const tutor of tutors) {
-      console.log(tutor)
       const tutorId = tutor.tutor_id;
-      console.log(tutorId)
       let profilePicture = await getTutorAvatarUrl(tutorId);
       tutor.profile_picture = profilePicture;
-      console.log(tutor)
     }
+
+    return await tutors;
+    
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const loadTutorInformation = async (id: string) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({id: id}),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/load/tutor/information`, requestOptions);
+    
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+    
+    const tutors = await response.json();
+    
+    let profilePicture = await getTutorAvatarUrl(id);
+    tutors[0].profile_picture = profilePicture;
 
     return await tutors;
     
@@ -278,6 +329,34 @@ export const checkAllStudentAppointmentsCheckRequest = async (id: string, today:
   }
 };
 
+export const checkAllTutorAppointmentsCheckRequest = async (id: string, today: string) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({id: id, today: today}),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/all/tutor/appointments`, requestOptions);
+    
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+    
+    const appointments = await response.json();
+
+    for (const appointment of appointments) {
+      const studentId = appointment.student_id;
+      let profilePicture = await getStudentAvatarUrl(studentId);
+      appointment.profile_picture = profilePicture;
+    }
+    
+    return await appointments;
+    
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const checkAppointmentValidityCheck = async (appointmentValidityCheck: AppointmentValidityCheck) => {
   const requestOptions = {
@@ -545,6 +624,27 @@ export const getTutorAvatarUrl = async (tutorId: string) => {
   
   try {
     const response = await fetch(`${API_BASE_URL}/user/tutor/${tutorId}/profile_picture`, requestOptions);
+
+    const imageURL = URL.createObjectURL(await response.blob());
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return imageURL;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getStudentAvatarUrl = async (studentId: string) => {
+  const requestOptions = {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/user/student/${studentId}/profile_picture`, requestOptions);
 
     const imageURL = URL.createObjectURL(await response.blob());
 

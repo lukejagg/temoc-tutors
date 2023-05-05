@@ -10,6 +10,7 @@ import { TutorSignUp } from "./pages/TutorSignUp/tutor-sign-up";
 import { TutorConfirm } from "./pages/TutorSearch/components/tutor-confirm";
 import Meeting from './components/meeting/meeting';
 import { Favorites } from "./pages/Favorites/favorites";
+import { ScheduleSubmit } from "./pages/TutorScheduleSubmitter/schedule-submit";
 
 const App: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const App: React.FC = () => {
         <Route path="/account" element={<Favorites />}/>
         <Route path="/meet" element={<Meeting />} />
         <Route path="/confirmation/appointment" element={<TutorConfirm />} />
+        <Route path="/schedule-submit" element={<ScheduleSubmit />} />
       </Routes>
     </Router>
   );

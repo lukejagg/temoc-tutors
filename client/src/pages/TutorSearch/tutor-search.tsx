@@ -16,7 +16,6 @@ import SendIcon from '@mui/icons-material/Send';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import './tutor-search.css';
-import { formatDate } from '@fullcalendar/core';
 
 export const TutorSearch: React.FC = () => {
   const [tutorName, setTutorName] = useState<string | null>(null);

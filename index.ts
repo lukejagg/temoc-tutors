@@ -271,6 +271,27 @@ app.post('/appointment/student/request', async (req: Request, res: Response) => 
 
 });
 
+app.post('/load/tutor/information', async (req: Request, res: Response) => {
+  const { id } = req.body;
+
+  try {
+    const result = await client.query(
+      'SELECT * FROM tutor WHERE id = $1',
+      [id]
+    );
+
+    
+    if(result.rows.length !== 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error loading subjects');
+    }
+  } catch (err) {
+    console.error('Error loading subjects', err);
+    res.status(500).send('Error loading subjects');
+  }  
+});
+
 app.post('/appointment/confirmation', async (req: Request, res: Response) => {
   const { id, start_time, end_time, date} = req.body;
 
@@ -451,6 +472,29 @@ app.get('/user/tutor/:id/profile_picture', async (req: Request, res: Response) =
   }
 });
 
+app.get('/user/student/:id/profile_picture', async (req: Request, res: Response) => {
+  const studentId = req.params.id;
+
+  try {
+    const result = await client.query('SELECT profile_pic FROM student WHERE id = $1', [studentId]);
+    if (result.rowCount === 1) {
+      const profile_picture_path = result.rows[0].profile_pic;
+      if (profile_picture_path == null) {
+        res.status(404).send('Profile picture not found');
+      } else {
+        const profile_picture_extension = path.extname(profile_picture_path);
+        res.set('Content-Type', `image/${profile_picture_extension.substring(1)}`);
+        res.sendFile(path.resolve(profile_picture_path));
+      }
+    } else {
+      res.status(404).send('Profile picture not found');
+    }
+  } catch (err) {
+    console.error('Error getting profile picture:', err);
+    res.status(500).send('Error getting profile picture');
+  }
+});
+
 app.post('/retrieve/tutor/id', async (req: Request, res: Response) => {
   const { id } = req.body;
 
@@ -549,12 +593,49 @@ app.post('/all/student/appointments', async (req: Request, res: Response) => {
   }  
 });
 
+app.post('/all/tutor/appointments', async (req: Request, res: Response) => {
+  const { id, today } = req.body;
+  try {
+    const result = await client.query(
+      'SELECT appointment.*, student.username FROM appointment INNER JOIN student ON appointment.student_id = student.id WHERE appointment.tutor_id = $1 AND CAST(appointment.date AS DATE) >= CURRENT_DATE',
+      [id]
+    );    
+
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error inserting new adjustments');
+    }
+  } catch (err) {
+    console.error('Error inserting new adjustments', err);
+    res.status(500).send('Error inserting new adjustments');
+  }  
+});
 
 app.post('/student/hours', async (req: Request, res: Response) => {
   const { id } = req.body;
   try {
     const result = await client.query(
       'SELECT time_start, time_end FROM appointment WHERE student_id = $1 AND ((date = CURRENT_DATE AND time_end < CURRENT_TIME) OR (date < CURRENT_DATE))',
+      [id]
+    );    
+
+    if(result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error inserting new adjustments');
+    }
+  } catch (err) {
+    console.error('Error inserting new adjustments', err);
+    res.status(500).send('Error inserting new adjustments');
+  }  
+});
+
+app.post('/tutor/hours', async (req: Request, res: Response) => {
+  const { id } = req.body;
+  try {
+    const result = await client.query(
+      'SELECT time_start, time_end FROM appointment WHERE tutor_id = $1 AND ((date = CURRENT_DATE AND time_end < CURRENT_TIME) OR (date < CURRENT_DATE))',
       [id]
     );    
 

@@ -48,6 +48,10 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
     navigate('/account');
   };
 
+  const handleSubmitSchedule = () => {
+    navigate('/schedule-submit');
+  };
+
   // Event Handlers
   const renderUserTypeButtons = () => {
     if (userType === UserType.STUDENT) {
@@ -62,7 +66,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sessionId: sessionIdProp, userTy
       return (
         <>
           <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleHomeRedirect}>Home</Button>
-          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleFavoritesRedirect}>Profile</Button>
+          <Button color="primary" sx={{ marginRight: '10px' }} onClick={handleSubmitSchedule}>Submit Schedule</Button>
           
         </>
       );

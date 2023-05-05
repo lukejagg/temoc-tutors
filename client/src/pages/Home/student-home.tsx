@@ -17,7 +17,7 @@ export const StudentHome: React.FC<Props> = () => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
   const [appointments, setAppointments] = React.useState<any[]>([]);
   const [allAppointments, setAllAppointments] = React.useState<any[]>([]);
-  const [tutoredHours, setTutoredHours] = React.useState<number>();
+  const [tutoredHours, setTutoredHours] = React.useState<number>(0);
   const [open, setOpen] = React.useState(false);
 
   
