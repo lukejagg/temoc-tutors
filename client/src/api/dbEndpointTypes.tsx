@@ -98,6 +98,13 @@ export interface IdForTutorProfilePicture {
     id: string | null;
 }
 
+export interface ConfirmationSubmissionSchedule {
+    id: string | null;
+    start_time: string | null,
+    end_time: string | null,
+    day: string | null
+}
+
 // // Interfaces for tutor-related endpoints
 // export interface Tutor {
 //     id: number;

@@ -1,4 +1,4 @@
-import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck, TutorScheduleAppointment, AppointmentReservation, TutorCreationRequest, TutorAll, TutorFav, IdForTutorProfilePicture } from "./dbEndpointTypes";
+import { LoginRequest, StudentCreationRequest, StudentAppointmentsCheckRequest, UserIdRequest, TutorLoginRequest, TutorAppointmentsCheckRequest, AppointmentRequest, AppointmentValidityCheck, TutorScheduleAppointment, AppointmentReservation, TutorCreationRequest, TutorAll, TutorFav, IdForTutorProfilePicture, ConfirmationSubmissionSchedule } from "./dbEndpointTypes";
 
 const API_BASE_URL = "http://localhost:8000";
 
@@ -608,14 +608,6 @@ export const checkAllFavoriteTutors = async (id: string) => {
   }
 };
 
-
-/*
-const tutorId = 1; // Replace with the actual tutor ID
-const avatarUrl = getTutorAvatarUrl(tutorId);
-
-<img src={avatarUrl} alt="Tutor's avatar" />
-*/
-
 export const getTutorAvatarUrl = async (tutorId: string) => {
   const requestOptions = {
     method: "GET",
@@ -657,3 +649,23 @@ export const getStudentAvatarUrl = async (studentId: string) => {
     console.error(error);
   }
 };
+
+export const checkConfirmationSend = async (newConfirmationSubmissionSchedule: ConfirmationSubmissionSchedule) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newConfirmationSubmissionSchedule),
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/confirm/send/schedule`, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+}

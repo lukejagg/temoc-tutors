@@ -650,6 +650,40 @@ app.post('/tutor/hours', async (req: Request, res: Response) => {
   }  
 });
 
+app.post('/confirm/send/schedule', async (req: Request, res: Response) => {
+  const { id, start_time, end_time, day } = req.body;
+  try {
+    const result = await client.query(
+      `INSERT INTO tutor_schedule (tutor_id, day, start_time, end_time) 
+      SELECT $1, $2, $3, $4
+      WHERE NOT EXISTS (
+        SELECT 1 
+        FROM tutor_schedule 
+        WHERE tutor_id = $1 
+          AND day = $2 
+          AND (($3 BETWEEN start_time AND end_time) OR ($4 BETWEEN start_time AND end_time))
+      ) AND NOT EXISTS (
+        SELECT 1 
+        FROM appointment 
+        WHERE tutor_id = $1 
+          AND date = $2 
+          AND (($3 BETWEEN time_start AND time_end) OR ($4 BETWEEN time_start AND time_end))
+      )
+       RETURNING *;`,
+      [id, day, start_time, end_time]
+    );    
+
+    if(result.rowCount === 1) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(401).send('Error inserting new adjustments');
+    }
+  } catch (err) {
+    console.error('Error inserting new adjustments', err);
+    res.status(500).send('Error inserting new adjustments');
+  }  
+});
+
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => {

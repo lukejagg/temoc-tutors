@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, List, ListItem, ListItemAvatar, ListItemText, MenuItem, Paper, Select, TextField, Tooltip } from '@mui/material';
+import { Alert, Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, List, ListItem, ListItemAvatar, ListItemText, MenuItem, Paper, Select, TextField, Tooltip, Typography } from '@mui/material';
 import { Navbar } from '../../components/navbar/navbar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -11,8 +11,10 @@ import { DatePicker } from '@mui/x-date-pickers';
 
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import './schedule-submit.css';
-import { loadTutorInformation } from '../../api/endpointRequests';
+import { checkConfirmationSend, loadTutorInformation } from '../../api/endpointRequests';
 import InfoIcon from '@mui/icons-material/Info';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import { ConfirmationSubmissionSchedule } from '../../api/dbEndpointTypes';
 
 export const ScheduleSubmit: React.FC = () => {
   const [date, setDate] = useState<string | null>(null);
@@ -24,6 +26,8 @@ export const ScheduleSubmit: React.FC = () => {
   const [formattedEndTime, setFormattedEndTime] = useState<string | null>(null);
   const [tutorInfo, setTutorInfo] = useState<any>();
   const [open, setOpen] = React.useState(false);
+  const [errorAlert, setErrorAlert] = React.useState<boolean>();
+  const [sendSuccess, setSendSucces] = React.useState<boolean>(false);
   
   const dateFormat = 'HH:mm:00';
 
@@ -41,14 +45,32 @@ export const ScheduleSubmit: React.FC = () => {
     }
   }
 
+  const handleConfirmationSend = async () => {
+    const newConfirmationSubmissionSchedule: ConfirmationSubmissionSchedule = {
+      id: localStorage.getItem('userId'),
+      start_time: formattedStartTime,
+      end_time: formattedEndTime,
+      day: date
+    };
+
+    return await checkConfirmationSend(newConfirmationSubmissionSchedule).then((response) => {
+      setErrorAlert(response);
+      if(errorAlert) {
+        setSendSucces(true);
+      }
+    });
+  }
+
   const handleDateChange = (newValue: Date | null) => {
     setDayDate(newValue);
     const formattedDate = newValue ? dayjs(newValue).format('YYYY-MM-DD') : null;
     setDate(formattedDate);
   };
 
+
   const handleSubmission = () => {
     setSubmit(true);
+    setErrorAlert(true);
   }
 
   const handleEdit = () => {
@@ -131,7 +153,7 @@ export const ScheduleSubmit: React.FC = () => {
 
       {submit && date ? (
         <>
-         <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "800px", margin: "50px auto 0" }}>
+          <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "800px", margin: "50px auto 0" }}>
             <List sx={{ display: "flex", flexDirection: "column" }}>
               <ListItem key={localStorage.getItem('userId')} sx={{ height: "125px", display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                 <ListItemAvatar>
@@ -173,7 +195,17 @@ export const ScheduleSubmit: React.FC = () => {
                 )}
               </ListItem>
             </List>
-         </Paper>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <IconButton aria-label="edit" onClick={handleConfirmationSend}>
+                <Typography variant="button" color="inherit">
+                  Confirm
+                </Typography>
+                <SendRoundedIcon />
+              </IconButton>
+            </div>
+            {!errorAlert && (<Alert variant="filled" severity="error">"Selected times interfere with other appointments and/or schedule"</Alert>)}
+            {sendSuccess && (<Alert variant="filled" severity="success">"Schedule has been set"</Alert>)}
+          </Paper>
         </>
       ) : (
         <>
