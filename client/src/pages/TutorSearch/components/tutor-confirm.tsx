@@ -168,8 +168,12 @@ export const TutorConfirm: React.FC= () => {
   useEffect(() => {
     const diffInMinutes = dayjs(studentEndTime).diff(dayjs(studentStartTime), 'minute');
  
-    const errorMessage = diffInMinutes < 30
+    let errorMessage = diffInMinutes < 30
       ? 'Need to schedule for at least 30 minutes'
+      : (formattedStartTime && studentStartTime) && formattedStartTime <= studentStartTime
+      ? 'Choose an appropriate start time'
+      : (formattedEndTime && studentEndTime) && formattedEndTime >= studentEndTime
+      ? 'Choose an appropriate end time'
       : '';
         
     setError(errorMessage);
