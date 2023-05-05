@@ -5,7 +5,7 @@ function Footer() {
   return (
     <div className="content">
       <footer className="footer">
-        <p>This is a floating footer</p>
+        <p>TemocTutors ©2023. Application built using React, PostgreSQL, and Jitsi.</p>
       </footer>
     </div>
   );

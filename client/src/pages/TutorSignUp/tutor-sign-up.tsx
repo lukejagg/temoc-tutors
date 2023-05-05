@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Paper, TextField, Button, Alert, FormControl, MenuItem, Select, InputLabel, OutlinedInput, Avatar, IconButton, Typography, Grid, Container } from '@mui/material';
 import { TutorCreationRequest, UserIdRequest } from '../../api/dbEndpointTypes';
 import { useNavigate } from 'react-router-dom';
-import { checkTutorCreationRequest, checkUserIdRequest, checkGetSubjects } from '../../api/endpointRequests';
+import { checkTutorCreationRequest, checkUserIdRequest, checkGetSubjects, checkTutorUserIdRequest } from '../../api/endpointRequests';
 import { requestSessionID } from '../../api/sessionRequest';
 import backgroundImage from "../../img/background.png";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
@@ -38,7 +38,7 @@ export const TutorSignUp: React.FC = () => {
       email: email
     };
 
-    return await checkUserIdRequest(newUserIdRequest);
+    return await checkTutorUserIdRequest(newUserIdRequest);
   };
 
   const getSubjects = async () => {

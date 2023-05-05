@@ -26,7 +26,7 @@ export const ScheduleSubmit: React.FC = () => {
   const [formattedEndTime, setFormattedEndTime] = useState<string | null>(null);
   const [tutorInfo, setTutorInfo] = useState<any>();
   const [open, setOpen] = React.useState(false);
-  const [errorAlert, setErrorAlert] = React.useState<boolean>();
+  const [errorAlert, setErrorAlert] = React.useState<boolean | null>(null);
   const [sendSuccess, setSendSucces] = React.useState<boolean>(false);
   
   const dateFormat = 'HH:mm:00';
@@ -99,9 +99,23 @@ export const ScheduleSubmit: React.FC = () => {
     loadTutorInfo();
   }, []);
 
+  useEffect(() => {
+    if (!errorAlert) {
+      setSendSucces(false);
+    }
+    // if (sendSuccess) {
+    //   setErrorAlert(false);
+    // }
+  }, [errorAlert, sendSuccess]);
+
   return (
     <>
       <Navbar />
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "85px", fontSize: "48px",
+          fontWeight: "bold", color: "black", textAlign: "center"}}>
+        <h1>Submit Schedule</h1>
+      </Box>
+
       <Box className="tutor-schedule-box">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker disablePast={true} value={dayDate} onChange={handleDateChange} />
@@ -153,7 +167,7 @@ export const ScheduleSubmit: React.FC = () => {
 
       {submit && date ? (
         <>
-          <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "800px", margin: "50px auto 0" }}>
+          <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "950px", margin: "50px auto 0" }}>
             <List sx={{ display: "flex", flexDirection: "column" }}>
               <ListItem key={localStorage.getItem('userId')} sx={{ height: "125px", display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                 <ListItemAvatar>

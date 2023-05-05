@@ -271,7 +271,7 @@ export const TutorConfirm: React.FC= () => {
         {showErrorMessage && (<Alert variant="filled" severity="error">{error}</Alert>)}
       </div>
 
-      <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "800px",   margin: "50px auto 0"  }}>
+      <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "950px",   margin: "50px auto 0"  }}>
         <List sx={{display: "flex", flexDirection: "column"}}>
           <ListItem key={appointment.id} sx={{  height: "125px", display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <ListItemAvatar>

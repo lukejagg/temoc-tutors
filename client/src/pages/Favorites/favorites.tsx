@@ -52,7 +52,7 @@ export const Favorites: React.FC = () => {
           <h1>Favorite Tutors</h1>
         </Box>
 
-        <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "700px", margin: "50px auto 0" }}>
+        <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "900px", margin: "50px auto 0" }}>
           {studentFavorite && studentFavorite.length > 0 ? (
           <List sx={{ display: "flex", flexDirection: "column" }}>
             {studentFavorite.map((favorite) => (

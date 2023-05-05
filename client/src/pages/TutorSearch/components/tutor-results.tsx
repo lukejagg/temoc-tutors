@@ -61,7 +61,7 @@ export const TutorResults: React.FC<AppointmentProps> = ({ appointments }) => {
   }, [appointments]);
 
   return (
-    <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "800px", margin: "50px auto 0" }}>
+    <Paper sx={{ padding: "5px", maxHeight: "650px", overflowY: "auto", width: "950px", margin: "50px auto 0" }}>
     {studentAppointments && studentAppointments.length > 0 ? (
       <>
         <List sx={{ display: "flex", flexDirection: "column" }}>

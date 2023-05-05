@@ -78,7 +78,7 @@ export const TutorHome: React.FC<Props> = () => {
       <div className="top-content">
         <Navbar />
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
-          <h1>Welcome back! You have been tutored for {tutoredHours} hours.</h1>
+          <h1>Welcome back! You have tutored for {tutoredHours} hours.</h1>
         </Box>
 
         <div className="container">
